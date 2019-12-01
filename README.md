@@ -13,7 +13,7 @@ html-duration-picker.js is a very tiny JS library to turn native HTML text input
 ![Default Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-after.jpg)
 
 
-[See Live Demp](https://nadchif.github.io/html-duration-picker.js/)
+[See Live Demo](https://nadchif.github.io/html-duration-picker.js/)
 
 Why use html-duration-picker? 
 
