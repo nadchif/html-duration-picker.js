@@ -17,14 +17,32 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 
 3. Make the fix or add feature to ```src/html-duration-picker.js```
 
+	OPTIONAL:
+	To preview locally on a development server, run
+	```
+	npm run dev
+	```
+
 4. Run tests to make sure there are no lint errors
 
 	```
 	npm test
 	```
 
-5. Submit a pull request.
+5. Sync your fork to make sure you have the latest changes.
+ 	
+	```
+	# Fetch upstream master and merge with your repo's master branch
+	git fetch upstream
+	git checkout master
+	git merge upstream/master
 
-6. Wait for the maintainer to respond. 
+	# If there were any new commits, rebase your development branch
+	git checkout newfeature
+	git rebase master
+	```
+6. Create a pull request.
+
+7. Wait for the maintainer to respond. 
 
 Thank you for you for your awesome contribution :-)
