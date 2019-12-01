@@ -29,8 +29,20 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 	npm test
 	```
 
-5. Submit a pull request.
+5. Sync your fork to make sure you have the latest changes.
+ 	
+	```
+	# Fetch upstream master and merge with your repo's master branch
+	git fetch upstream
+	git checkout master
+	git merge upstream/master
 
-6. Wait for the maintainer to respond. 
+	# If there were any new commits, rebase your development branch
+	git checkout newfeature
+	git rebase master
+	```
+6. Create a pull request.
+
+7. Wait for the maintainer to respond. 
 
 Thank you for you for your awesome contribution :-)
