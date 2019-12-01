@@ -17,6 +17,12 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 
 3. Make the fix or add feature to ```src/html-duration-picker.js```
 
+	OPTIONAL:
+	To preview locally on a development server, run
+	```
+	npm run dev
+	```
+
 4. Run tests to make sure there are no lint errors
 
 	```
