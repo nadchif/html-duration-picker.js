@@ -7,13 +7,13 @@ BEFORE
 ```
 <input type="text">
 ```
-[Default Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-before.jpg)
+![Default Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-before.jpg)
 
 AFTER
 ```
 <input type="text" html-duration-picker>
 ```
-[Default Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-after.jpg)
+![Default Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-after.jpg)
 
 Why use html-duration-picker? 
 
