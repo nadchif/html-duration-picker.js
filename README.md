@@ -5,8 +5,10 @@ html-duration-picker.js is a very tiny JS library to turn native HTML text input
 
 Why use html-duration-picker? 
 
+* Tiny (~5kb)
 * No additional dependencies (css, jquery or whatever). 
 * Compatible with Bootstrap 3 and 4
+* You can modify and improve it :-)
 * Absolutely FREE!
 
 ## License

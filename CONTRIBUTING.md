@@ -15,7 +15,7 @@ cd html-duration-picker.js
 npm install
 ```
 
-3. Make the fix or add feature.
+3. Make the fix or add feature to ```src/html-duration-picker.js```
 
 4. Run tests to make sure there are no lint errors
 
