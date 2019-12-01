@@ -14,6 +14,10 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 	cd html-duration-picker.js
 	npm install
 	```
+	Resources:
+	* https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+	* https://www.taniarascia.com/how-to-install-and-use-node-js-and-npm-mac-and-windows/
+	
 
 3. Make the fix or add feature to ```src/html-duration-picker.js```
 
@@ -41,8 +45,13 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 	git checkout newfeature
 	git rebase master
 	```
+	Resources:
+	* https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
+	* https://gist.github.com/Chaser324/ce0505fbed06b947d962#cleaning-up-your-work
 6. Create a pull request.
-
+	Resources:
+	* https://opensource.com/article/19/7/create-pull-request-github
+	
 7. Wait for the maintainer to respond. 
 
 Thank you for you for your awesome contribution :-)
