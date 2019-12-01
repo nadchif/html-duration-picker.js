@@ -4,7 +4,7 @@
   "description": "Turn an html input box to a duration picker, without jQuery",
   "main": "html-duration-picker.js",
   "scripts": {
-    "test": "eslint html-duration-picker.js",
+    "test": "eslint src/html-duration-picker.js",
     "build": "webpack --mode=production"
   },
   "keywords": [
