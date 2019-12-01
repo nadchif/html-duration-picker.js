@@ -1,0 +1,15 @@
+{
+    "extends": ["eslint:recommended", "google"],
+    "rules": {
+        "max-len": [1, 140, 4]
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    }
+}
