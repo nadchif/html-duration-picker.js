@@ -8,7 +8,7 @@ Documentation - html-duration-picker.js
 2. include it in your HTML file, just before the ```</body>``` tag. like this: 
 
 ```
-<script src="html-duration-picker.js"></script>
+<script src="html-duration-picker.min.js"></script>
 </body>
 ```
 
