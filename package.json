@@ -5,7 +5,8 @@
   "main": "html-duration-picker.js",
   "scripts": {
     "test": "eslint src/html-duration-picker.js",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "dev": "lite-server --baseDir=\"src\""
   },
   "keywords": [
     "html5",
@@ -21,6 +22,7 @@
     "babel-loader": "^8.0.6",
     "eslint": "^6.7.2",
     "eslint-config-google": "^0.14.0",
+    "lite-server": "^2.5.4",
     "path": "^0.12.7",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
