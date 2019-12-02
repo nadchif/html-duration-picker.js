@@ -49,6 +49,7 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 	* https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
 	* https://gist.github.com/Chaser324/ce0505fbed06b947d962#cleaning-up-your-work
 6. Create a pull request.
+
 	Resources:
 	* https://opensource.com/article/19/7/create-pull-request-github
 	
