@@ -14,8 +14,8 @@
     "native",
     "input"
   ],
-  "author": "nadchif",
-  "license": "MIT",
+  "author": "Chif (nadchif@gmail.com)",
+  "license": "GPL v3",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.7.4",
