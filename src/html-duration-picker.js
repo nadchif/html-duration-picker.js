@@ -254,7 +254,7 @@
           clearInterval(intervalId);
         });
 
-        window.addEventListener('mouseup', (event) => {
+        btn.addEventListener('mouseleave', (event) => {
           clearInterval(intervalId);
         });
       });
