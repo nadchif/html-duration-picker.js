@@ -20,5 +20,5 @@ Add a ```html-duration-picker``` attribute on any ```<input>``` box. Like this:
 <input html-duration-picker>
 ```
 
-That's it! let the magic happen!
+That's it! Let the magic happen!
 
