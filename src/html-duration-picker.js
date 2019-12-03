@@ -253,6 +253,10 @@
         btn.addEventListener('mouseup', (event) => {
           clearInterval(intervalId);
         });
+
+        window.addEventListener('mouseup', (event) => {
+          clearInterval(intervalId);
+        });
       });
 
       // this div houses the increase/decrease buttons
