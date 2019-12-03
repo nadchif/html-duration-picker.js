@@ -23,38 +23,38 @@
   // and selects the entire block
 
   const selectFocus = (event) => {
-    // get cursor position and select nearest block;
+    // Get cursor position and select nearest block;
     const cursorPosition = event.target.selectionStart;
     const hourMarker = event.target.value.indexOf(':');
     const minuteMarker = event.target.value.lastIndexOf(':');
 
     if (hourMarker < 0 || minuteMarker < 0) {
-      // something wrong with the format. just return;
+      // Something wrong with the format. just return;
       return;
     }
-    // cursor is in the hours region
+    // Cursor is in the hours region
     if (cursorPosition < hourMarker) {
       event.target.setAttribute('data-adjustment-mode', 60 * 60);
-      event.target.selectionStart = 0; // hours mode
+      event.target.selectionStart = 0; // Hours mode
       event.target.selectionEnd = hourMarker;
       return;
     }
-    // cursor is in the minutes region
+    // Cursor is in the minutes region
     if (cursorPosition > hourMarker && cursorPosition < minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 60);
-      event.target.selectionStart = hourMarker + 1; // minutes mode
+      event.target.selectionStart = hourMarker + 1; // Minutes mode
       event.target.selectionEnd = minuteMarker;
       return;
     }
-    // cursor is in the seconds region
+    // Cursor is in the seconds region
     if (cursorPosition > minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 1);
-      event.target.selectionStart = minuteMarker + 1; // seconds mode
+      event.target.selectionStart = minuteMarker + 1; // Seconds mode
       event.target.selectionEnd = minuteMarker + 3;
       return;
     }
     event.target.setAttribute('data-adjustment-mode', 'ss');
-    event.target.selectionStart = minuteMarker + 1; // fall to seconds mode for anything else
+    event.target.selectionStart = minuteMarker + 1; // Fall to seconds mode for anything else
     event.target.selectionEnd = minuteMarker + 3;
     return;
   };
@@ -76,21 +76,21 @@
     inputBox.focus();
     inputBox.select();
     if (adjustmentFactor >= 60 * 60) {
-      inputBox.selectionStart = 0; // hours mode
+      inputBox.selectionStart = 0; // Hours mode
       inputBox.selectionEnd = hourMarker;
       return;
     }
     if (adjustmentFactor >= 60) {
-      inputBox.selectionStart = hourMarker + 1; // minutes mode
+      inputBox.selectionStart = hourMarker + 1; // Minutes mode
       inputBox.selectionEnd = minuteMarker;
       return;
     }
-    inputBox.selectionStart = minuteMarker + 1; // seconds mode
+    inputBox.selectionStart = minuteMarker + 1; // Seconds mode
     inputBox.selectionEnd = minuteMarker + 3;
     return;
   };
 
-  // increase time value;
+  // Increase time value;
   const increaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
@@ -111,7 +111,7 @@
     highlightIncrementArea(inputBox, adjustmentFactor);
   };
 
-  // decrease time value;
+  // Decrease time value;
   const decreaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
@@ -134,11 +134,11 @@
     highlightIncrementArea(inputBox, adjustmentFactor);
   };
 
-  // validate any input in the box;
+  // Validate any input in the box;
   const validateInput = (event) => {
     const sectioned = event.target.value.split(':');
     if (sectioned.length !== 3) {
-      event.target.value = '00:00:00'; // fallback to default
+      event.target.value = '00:00:00'; // Fallback to default
       return;
     }
     if (isNaN(sectioned[0])) {
@@ -160,7 +160,7 @@
   };
 
   const handleKeydown = (event) => {
-    // use arrow keys to increase value;
+    // Use arrow keys to increase value;
     if (event.key == 'ArrowDown' || event.key == 'ArrowUp') {
       if (event.key == 'ArrowDown') {
         decreaseValue(event.target);
@@ -168,24 +168,24 @@
       if (event.key == 'ArrowUp') {
         increaseValue(event.target);
       }
-      event.preventDefault(); // prevent default
+      event.preventDefault(); // Prevent default
     }
 
     if (isNaN(event.key) && !acceptedKeys.includes(event.key)) {
-      event.preventDefault(); // prevent default
+      event.preventDefault(); // Prevent default
       return false;
     }
   };
 
   // Ugrading the pickers
 
-  // listen for document ready
+  // Listen for document ready
   window.addEventListener('DOMContentLoaded', () => {
-    // select all input fields with the attribute "html-duration-picker"
+    // Select all input fields with the attribute "html-duration-picker"
     document.querySelectorAll('input[html-duration-picker]').forEach((picker) => {
       // Set default text and Apply some basic styling to the picker
       if (picker.getAttribute('data-upgraded') == 'true') {
-        return; // in case some developer calls this or includes it twice
+        return; // In case some developer calls this or includes it twice
       }
 
       const totalPickerWidth = picker.offsetWidth;
@@ -197,8 +197,8 @@
       picker.style.paddingRight = '20px';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
-      picker.addEventListener('select', selectFocus); // selects a block of hours, minutes etc
-      picker.addEventListener('click', selectFocus); // selects a block of hours, minutes etc
+      picker.addEventListener('select', selectFocus); // Selects a block of hours, minutes etc
+      picker.addEventListener('click', selectFocus); // Selects a block of hours, minutes etc
       picker.addEventListener('change', validateInput);
       picker.addEventListener('blur', validateInput);
       picker.addEventListener('keyup', validateInput);
@@ -229,11 +229,11 @@
       scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none;
       height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)}px;`);
 
-      // insert carets into buttons
+      // Insert carets into buttons
       scrollDownBtn.appendChild(caretDown);
       scrollUpBtn.appendChild(caretUp);
 
-      // add event listeners to buttons
+      // Add event listeners to buttons
       let intervalId;
 
       scrollButtons.forEach((btn) => {
@@ -257,17 +257,17 @@
         });
       });
 
-      // this div houses the increase/decrease buttons
+      // This div houses the increase/decrease buttons
       const controlsDiv = document.createElement('div');
 
       controlsDiv.setAttribute('style', `display:inline-block; position: absolute;top:0px;right: 18px;
       height:${picker.offsetHeight}px; padding:2px 0`);
 
-      // add buttons to controls div;
+      // Add buttons to controls div;
       controlsDiv.appendChild(scrollUpBtn);
       controlsDiv.appendChild(scrollDownBtn);
 
-      // this div wraps around existing input, then appends control div
+      // This div wraps around existing input, then appends control div
       const controlWrapper = document.createElement('div');
       controlWrapper.style.padding = '0px';
       controlWrapper.style.display = 'inline-block';
