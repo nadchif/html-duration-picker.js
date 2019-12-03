@@ -3,7 +3,7 @@
  * html-duration-picker.js
  *
  * @description Turn an html input box to a duration picker, without jQuery
- * @version 1.0.0
+ * @version 1.0.1
  * @author Chif <nadchif@gmail.com>
  * @license GPL v3
  *
@@ -18,7 +18,6 @@
     'ArrowUp',
     'Tab',
   ];
-
 
   // Gets the current select block hhh or mm or ss
   // and selects the entire block
@@ -61,7 +60,6 @@
   };
 
   // Inserts a formatted value into the input box
-
   const insertFormatted = (inputBox, secondsValue) => {
     let hours = Math.floor(secondsValue / 3600);
     secondsValue %= 3600;
@@ -77,12 +75,12 @@
     const minuteMarker = inputBox.value.lastIndexOf(':');
     inputBox.focus();
     inputBox.select();
-    if (adjustmentFactor >= (60 * 60)) {
+    if (adjustmentFactor >= 60 * 60) {
       inputBox.selectionStart = 0; // hours mode
       inputBox.selectionEnd = hourMarker;
       return;
     }
-    if (adjustmentFactor >= (60)) {
+    if (adjustmentFactor >= 60) {
       inputBox.selectionStart = hourMarker + 1; // minutes mode
       inputBox.selectionEnd = minuteMarker;
       return;
@@ -103,7 +101,10 @@
     }
     let secondsValue = 0;
     if (sectioned.length === 3) {
-      secondsValue = Number(sectioned[2]) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+      secondsValue =
+                Number(sectioned[2]) +
+                Number(sectioned[1] * 60) +
+                Number(sectioned[0] * 60 * 60);
     }
     secondsValue += adjustmentFactor;
     insertFormatted(inputBox, secondsValue);
@@ -120,7 +121,10 @@
     }
     let secondsValue = 0;
     if (sectioned.length === 3) {
-      secondsValue = Number(sectioned[2]) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+      secondsValue =
+                Number(sectioned[2]) +
+                Number(sectioned[1] * 60) +
+                Number(sectioned[0] * 60 * 60);
     }
     secondsValue -= adjustmentFactor;
     if (secondsValue < 0) {
@@ -173,16 +177,13 @@
     }
   };
 
-
   // Ugrading the pickers
-
 
   // listen for document ready
   window.addEventListener('DOMContentLoaded', () => {
     // select all input fields with the attribute "html-duration-picker"
     document.querySelectorAll('input[html-duration-picker]').forEach((picker) => {
       // Set default text and Apply some basic styling to the picker
-
       if (picker.getAttribute('data-upgraded') == 'true') {
         return; // in case some developer calls this or includes it twice
       }
@@ -203,6 +204,7 @@
       picker.addEventListener('keyup', validateInput);
       picker.addEventListener('drop', (event) => event.preventDefault());
 
+
       // These are the carets in the buttons.
       // Can be replaced by images/font icons or text
 
@@ -215,9 +217,10 @@
       border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`);
 
       // These are action buttons for scrolling values up or down
-
       const scrollUpBtn = document.createElement('button');
       const scrollDownBtn = document.createElement('button');
+      const scrollButtons = [scrollUpBtn, scrollDownBtn];
+
       scrollUpBtn.setAttribute('aria-label', 'Increase duration');
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
 
@@ -231,17 +234,32 @@
       scrollUpBtn.appendChild(caretUp);
 
       // add event listeners to buttons
-      scrollUpBtn.addEventListener('mousedown', (event) => {
-        event.preventDefault();
-        increaseValue(picker);
-      });
-      scrollDownBtn.addEventListener('mousedown', (event) => {
-        event.preventDefault();
-        decreaseValue(picker);
+      let intervalId;
+
+      scrollButtons.forEach((btn) => {
+        btn.addEventListener('mousedown', (event) => {
+          event.preventDefault();
+          if (btn == scrollUpBtn) {
+            increaseValue(picker);
+            intervalId = setInterval(increaseValue, 200, picker);
+          } else {
+            decreaseValue(picker);
+            intervalId = setInterval(decreaseValue, 200, picker);
+          }
+        });
+
+        btn.addEventListener('mouseup', (event) => {
+          clearInterval(intervalId);
+        });
+
+        btn.addEventListener('mouseleave', (event) => {
+          clearInterval(intervalId);
+        });
       });
 
       // this div houses the increase/decrease buttons
       const controlsDiv = document.createElement('div');
+
       controlsDiv.setAttribute('style', `display:inline-block; position: absolute;top:0px;right: 18px;
       height:${picker.offsetHeight}px; padding:2px 0`);
 
