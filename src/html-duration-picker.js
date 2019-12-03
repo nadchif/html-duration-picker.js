@@ -3,14 +3,13 @@
  * html-duration-picker.js
  *
  * @description Turn an html input box to a duration picker, without jQuery
- * @version 1.0.0
+ * @version 1.0.1
  * @author Chif <nadchif@gmail.com>
  * @license GPL v3
  *
  */
 
 (function(window, document) {
-
   // The following keys will not be blocked from working within the input field
 
   const acceptedKeys = [
@@ -184,7 +183,6 @@
   window.addEventListener('DOMContentLoaded', () => {
     // select all input fields with the attribute "html-duration-picker"
     document.querySelectorAll('input[html-duration-picker]').forEach((picker) => {
-
       // Set default text and Apply some basic styling to the picker
       if (picker.getAttribute('data-upgraded') == 'true') {
         return; // in case some developer calls this or includes it twice
