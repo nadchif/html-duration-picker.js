@@ -35,27 +35,23 @@
     // Cursor is in the hours region
     if (cursorPosition < hourMarker) {
       event.target.setAttribute('data-adjustment-mode', 60 * 60);
-      event.target.selectionStart = 0; // Hours mode
-      event.target.selectionEnd = hourMarker;
+      event.target.setSelectionRange(0, hourMarker);
       return;
     }
     // Cursor is in the minutes region
     if (cursorPosition > hourMarker && cursorPosition < minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 60);
-      event.target.selectionStart = hourMarker + 1; // Minutes mode
-      event.target.selectionEnd = minuteMarker;
+      event.target.setSelectionRange(hourMarker + 1, minuteMarker);
       return;
     }
     // Cursor is in the seconds region
     if (cursorPosition > minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 1);
-      event.target.selectionStart = minuteMarker + 1; // Seconds mode
-      event.target.selectionEnd = minuteMarker + 3;
+      event.target.setSelectionRange(minuteMarker + 1, minuteMarker + 3);
       return;
     }
     event.target.setAttribute('data-adjustment-mode', 'ss');
-    event.target.selectionStart = minuteMarker + 1; // Fall to seconds mode for anything else
-    event.target.selectionEnd = minuteMarker + 3;
+    event.target.setSelectionRange(minuteMarker + 1, minuteMarker + 3);
     return;
   };
 
@@ -102,9 +98,9 @@
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
-                Number(sectioned[2]) +
-                Number(sectioned[1] * 60) +
-                Number(sectioned[0] * 60 * 60);
+        Number(sectioned[2]) +
+        Number(sectioned[1] * 60) +
+        Number(sectioned[0] * 60 * 60);
     }
     secondsValue += adjustmentFactor;
     insertFormatted(inputBox, secondsValue);
@@ -122,9 +118,9 @@
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
-                Number(sectioned[2]) +
-                Number(sectioned[1] * 60) +
-                Number(sectioned[0] * 60 * 60);
+        Number(sectioned[2]) +
+        Number(sectioned[1] * 60) +
+        Number(sectioned[0] * 60 * 60);
     }
     secondsValue -= adjustmentFactor;
     if (secondsValue < 0) {
@@ -238,7 +234,7 @@
 
       scrollButtons.forEach((btn) => {
         btn.addEventListener('mousedown', (event) => {
-          event.preventDefault();
+          //          event.preventDefault();
           if (btn == scrollUpBtn) {
             increaseValue(picker);
             intervalId = setInterval(increaseValue, 200, picker);
