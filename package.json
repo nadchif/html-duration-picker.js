@@ -15,7 +15,11 @@
     "input"
   ],
   "author": "Chif (nadchif@gmail.com)",
-  "license": "GPL v3",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nadchif/html-duration-picker.js.git"
+  },
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.7.4",
@@ -25,6 +29,7 @@
     "lite-server": "^2.5.4",
     "path": "^0.12.7",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-auto-inject-version": "^1.2.2"
   }
 }
