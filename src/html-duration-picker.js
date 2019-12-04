@@ -9,7 +9,7 @@
  *
  */
 
-(function(window, document) {
+(function (window, document) {
   // The following keys will not be blocked from working within the input field
 
   const acceptedKeys = [
@@ -35,27 +35,23 @@
     // cursor is in the hours region
     if (cursorPosition < hourMarker) {
       event.target.setAttribute('data-adjustment-mode', 60 * 60);
-      event.target.selectionStart = 0; // hours mode
-      event.target.selectionEnd = hourMarker;
+      event.target.setSselectionRange(0, hourMarker);
       return;
     }
     // cursor is in the minutes region
     if (cursorPosition > hourMarker && cursorPosition < minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 60);
-      event.target.selectionStart = hourMarker + 1; // minutes mode
-      event.target.selectionEnd = minuteMarker;
+      event.target.setSselectionRange(hourMarker + 1, minuteMarker);
       return;
     }
     // cursor is in the seconds region
     if (cursorPosition > minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 1);
-      event.target.selectionStart = minuteMarker + 1; // seconds mode
-      event.target.selectionEnd = minuteMarker + 3;
+      event.target.setSselectionRange(minuteMarker + 1, minuteMarker + 3);
       return;
     }
     event.target.setAttribute('data-adjustment-mode', 'ss');
-    event.target.selectionStart = minuteMarker + 1; // fall to seconds mode for anything else
-    event.target.selectionEnd = minuteMarker + 3;
+    event.target.setSselectionRange(minuteMarker + 1, minuteMarker + 3);
     return;
   };
 
@@ -102,9 +98,9 @@
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
-                Number(sectioned[2]) +
-                Number(sectioned[1] * 60) +
-                Number(sectioned[0] * 60 * 60);
+        Number(sectioned[2]) +
+        Number(sectioned[1] * 60) +
+        Number(sectioned[0] * 60 * 60);
     }
     secondsValue += adjustmentFactor;
     insertFormatted(inputBox, secondsValue);
@@ -122,9 +118,9 @@
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
-                Number(sectioned[2]) +
-                Number(sectioned[1] * 60) +
-                Number(sectioned[0] * 60 * 60);
+        Number(sectioned[2]) +
+        Number(sectioned[1] * 60) +
+        Number(sectioned[0] * 60 * 60);
     }
     secondsValue -= adjustmentFactor;
     if (secondsValue < 0) {
@@ -238,10 +234,11 @@
 
       scrollButtons.forEach((btn) => {
         btn.addEventListener('mousedown', (event) => {
-          event.preventDefault();
+          //          event.preventDefault();
           if (btn == scrollUpBtn) {
             increaseValue(picker);
             intervalId = setInterval(increaseValue, 200, picker);
+
           } else {
             decreaseValue(picker);
             intervalId = setInterval(decreaseValue, 200, picker);
