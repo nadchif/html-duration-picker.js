@@ -3,16 +3,15 @@
  * html-duration-picker.js
  *
  * @description Turn an html input box to a duration picker, without jQuery
- * @version 1.0.0
+ * @version 1.0.1
  * @author Chif <nadchif@gmail.com>
- * @license MIT
+ * @license GPL v3
  *
  */
 
 (function(window, document) {
-  /**
-   * The following keys will not be blocked from working within the input field
-   */
+  // The following keys will not be blocked from working within the input field
+
   const acceptedKeys = [
     'Backspace',
     'ArrowDown',
@@ -20,10 +19,9 @@
     'Tab',
   ];
 
-  /*
-   * Gets the current select block hhh or mm or ss
-   * and selects the entire block
-   */
+  // Gets the current select block hhh or mm or ss
+  // and selects the entire block
+
   const selectFocus = (event) => {
     // get cursor position and select nearest block;
     const cursorPosition = event.target.selectionStart;
@@ -61,9 +59,7 @@
     return;
   };
 
-  /*
-   * Inserts a formatted value into the input box
-   */
+  // Inserts a formatted value into the input box
   const insertFormatted = (inputBox, secondsValue) => {
     let hours = Math.floor(secondsValue / 3600);
     secondsValue %= 3600;
@@ -79,12 +75,12 @@
     const minuteMarker = inputBox.value.lastIndexOf(':');
     inputBox.focus();
     inputBox.select();
-    if (adjustmentFactor >= (60 * 60)) {
+    if (adjustmentFactor >= 60 * 60) {
       inputBox.selectionStart = 0; // hours mode
       inputBox.selectionEnd = hourMarker;
       return;
     }
-    if (adjustmentFactor >= (60)) {
+    if (adjustmentFactor >= 60) {
       inputBox.selectionStart = hourMarker + 1; // minutes mode
       inputBox.selectionEnd = minuteMarker;
       return;
@@ -105,7 +101,10 @@
     }
     let secondsValue = 0;
     if (sectioned.length === 3) {
-      secondsValue = Number(sectioned[2]) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+      secondsValue =
+                Number(sectioned[2]) +
+                Number(sectioned[1] * 60) +
+                Number(sectioned[0] * 60 * 60);
     }
     secondsValue += adjustmentFactor;
     insertFormatted(inputBox, secondsValue);
@@ -122,7 +121,10 @@
     }
     let secondsValue = 0;
     if (sectioned.length === 3) {
-      secondsValue = Number(sectioned[2]) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+      secondsValue =
+                Number(sectioned[2]) +
+                Number(sectioned[1] * 60) +
+                Number(sectioned[0] * 60 * 60);
     }
     secondsValue -= adjustmentFactor;
     if (secondsValue < 0) {
@@ -175,25 +177,23 @@
     }
   };
 
-  /**
-   * Ugrading the pickers
-   */
+  // Ugrading the pickers
 
   // listen for document ready
   window.addEventListener('DOMContentLoaded', () => {
     // select all input fields with the attribute "html-duration-picker"
     document.querySelectorAll('input[html-duration-picker]').forEach((picker) => {
-      /**
-       * Set default text and Apply some basic styling to the picker
-       */
+      // Set default text and Apply some basic styling to the picker
       if (picker.getAttribute('data-upgraded') == 'true') {
         return; // in case some developer calls this or includes it twice
       }
+
       const totalPickerWidth = picker.offsetWidth;
       picker.setAttribute('data-upgraded', true);
       picker.value = '00:00:00';
       picker.style.textAlign = 'right';
       picker.style.width = `${totalPickerWidth}px`;
+      picker.style.margin = 0;
       picker.style.paddingRight = '20px';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
@@ -204,49 +204,64 @@
       picker.addEventListener('keyup', validateInput);
       picker.addEventListener('drop', (event) => event.preventDefault());
 
-      /**
-       * These are the carets in the buttons.
-       * Can be replaced by images/font icons or text
-       */
+
+      // These are the carets in the buttons.
+      // Can be replaced by images/font icons or text
+
       const caretUp = document.createElement('div');
       const caretDown = document.createElement('div');
 
-      caretUp.style.cssText = `width:0;height:0;
-      border-style:solid;border-width:0 4px 5px 4px; border-color:transparent transparent #000 transparent`;
-      caretDown.style.cssText = `width:0;height:0;
-      border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`;
+      caretUp.setAttribute('style', `width:0;height:0;
+      border-style:solid;border-width:0 4px 5px 4px; border-color:transparent transparent #000 transparent`);
+      caretDown.setAttribute('style', `width:0;height:0;
+      border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`);
 
-      /**
-       * These are action buttons for scrolling values up or down
-       */
+      // These are action buttons for scrolling values up or down
       const scrollUpBtn = document.createElement('button');
       const scrollDownBtn = document.createElement('button');
+      const scrollButtons = [scrollUpBtn, scrollDownBtn];
+
       scrollUpBtn.setAttribute('aria-label', 'Increase duration');
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
 
-      scrollUpBtn.style.cssText = `text-align:center; width: 16px;padding: 0px 4px; border:none;
-      height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`;
-      scrollDownBtn.style.cssText = `text-align:center; width: 16px;padding: 0px 4px; border:none;
-      height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)}px; `;
+      scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none;
+      height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
+      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none;
+      height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)}px;`);
 
       // insert carets into buttons
       scrollDownBtn.appendChild(caretDown);
       scrollUpBtn.appendChild(caretUp);
 
       // add event listeners to buttons
-      scrollUpBtn.addEventListener('mousedown', (event) => {
-        event.preventDefault();
-        increaseValue(picker);
-      });
-      scrollDownBtn.addEventListener('mousedown', (event) => {
-        event.preventDefault();
-        decreaseValue(picker);
+      let intervalId;
+
+      scrollButtons.forEach((btn) => {
+        btn.addEventListener('mousedown', (event) => {
+          event.preventDefault();
+          if (btn == scrollUpBtn) {
+            increaseValue(picker);
+            intervalId = setInterval(increaseValue, 200, picker);
+          } else {
+            decreaseValue(picker);
+            intervalId = setInterval(decreaseValue, 200, picker);
+          }
+        });
+
+        btn.addEventListener('mouseup', (event) => {
+          clearInterval(intervalId);
+        });
+
+        btn.addEventListener('mouseleave', (event) => {
+          clearInterval(intervalId);
+        });
       });
 
       // this div houses the increase/decrease buttons
       const controlsDiv = document.createElement('div');
-      controlsDiv.style.cssText = `display:inline-block; position: absolute;top:0px;right: 18px;
-      height:${picker.offsetHeight}px; padding:2px 0`;
+
+      controlsDiv.setAttribute('style', `display:inline-block; position: absolute;top:0px;right: 18px;
+      height:${picker.offsetHeight}px; padding:2px 0`);
 
       // add buttons to controls div;
       controlsDiv.appendChild(scrollUpBtn);
@@ -260,9 +275,9 @@
       controlWrapper.style.width = `${totalPickerWidth}px`;
       controlWrapper.style.position = 'relative';
 
+      controlWrapper.appendChild(controlsDiv);
       picker.parentNode.insertBefore(controlWrapper, picker);
       controlWrapper.appendChild(picker);
-      controlWrapper.append(controlsDiv);
       return;
     });
   });
