@@ -35,23 +35,23 @@
     // cursor is in the hours region
     if (cursorPosition < hourMarker) {
       event.target.setAttribute('data-adjustment-mode', 60 * 60);
-      event.target.setSselectionRange(0, hourMarker);
+      event.target.setSelectionRange(0, hourMarker);
       return;
     }
     // cursor is in the minutes region
     if (cursorPosition > hourMarker && cursorPosition < minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 60);
-      event.target.setSselectionRange(hourMarker + 1, minuteMarker);
+      event.target.setSelectionRange(hourMarker + 1, minuteMarker);
       return;
     }
     // cursor is in the seconds region
     if (cursorPosition > minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 1);
-      event.target.setSselectionRange(minuteMarker + 1, minuteMarker + 3);
+      event.target.setSelectionRange(minuteMarker + 1, minuteMarker + 3);
       return;
     }
     event.target.setAttribute('data-adjustment-mode', 'ss');
-    event.target.setSselectionRange(minuteMarker + 1, minuteMarker + 3);
+    event.target.setSelectionRange(minuteMarker + 1, minuteMarker + 3);
     return;
   };
 
