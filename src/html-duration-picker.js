@@ -191,10 +191,11 @@
       picker.style.width = `${totalPickerWidth}px`;
       picker.style.margin = 0;
       picker.style.paddingRight = '20px';
+      picker.style.cursor = 'text';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
       picker.addEventListener('select', selectFocus); // selects a block of hours, minutes etc
-      picker.addEventListener('click', selectFocus); // selects a block of hours, minutes etc
+      picker.addEventListener('mouseup', selectFocus); // selects a block of hours, minutes etc
       picker.addEventListener('change', validateInput);
       picker.addEventListener('blur', validateInput);
       picker.addEventListener('keyup', validateInput);
@@ -234,7 +235,7 @@
 
       scrollButtons.forEach((btn) => {
         btn.addEventListener('mousedown', (event) => {
-          //          event.preventDefault();
+          event.preventDefault();
           if (btn == scrollUpBtn) {
             increaseValue(picker);
             intervalId = setInterval(increaseValue, 200, picker);
