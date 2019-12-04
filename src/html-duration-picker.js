@@ -9,7 +9,7 @@
  *
  */
 
-(function (window, document) {
+(function(window, document) {
   // The following keys will not be blocked from working within the input field
 
   const acceptedKeys = [
@@ -238,7 +238,6 @@
           if (btn == scrollUpBtn) {
             increaseValue(picker);
             intervalId = setInterval(increaseValue, 200, picker);
-
           } else {
             decreaseValue(picker);
             intervalId = setInterval(decreaseValue, 200, picker);
