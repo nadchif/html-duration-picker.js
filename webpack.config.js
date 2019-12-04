@@ -1,4 +1,5 @@
 // webpack.config.js
+const WebpackAutoInject = require('webpack-auto-inject-version');
 const path = require( 'path' );
 module.exports = {
   context: __dirname,
@@ -16,4 +17,13 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new WebpackAutoInject( {
+      components: {
+        AutoIncreaseVersion: true,
+        InjectAsComment: false,
+        InjectByTag: true,
+      },
+    }),
+  ],
 };

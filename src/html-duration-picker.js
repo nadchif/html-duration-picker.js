@@ -3,7 +3,7 @@
  * html-duration-picker.js
  *
  * @description Turn an html input box to a duration picker, without jQuery
- * @version 1.0.1
+ * @version [AIV]{version}[/AIV]
  * @author Chif <nadchif@gmail.com>
  * @license GPL v3
  *
@@ -245,11 +245,11 @@
           }
         });
 
-        btn.addEventListener('mouseup', (event) => {
+        btn.addEventListener('mouseup', () => {
           clearInterval(intervalId);
         });
 
-        btn.addEventListener('mouseleave', (event) => {
+        btn.addEventListener('mouseleave', () => {
           clearInterval(intervalId);
         });
       });
