@@ -85,16 +85,20 @@
     inputBox.selectionEnd = minuteMarker + 3;
     return;
   };
+    // gets the adjustment factor for a picker
+  const getAdjustmentFactor = (picker) => {
+    let adjustmentFactor = 1;
+    if (Number(picker.getAttribute('data-adjustment-mode')) > 0) {
+      adjustmentFactor = Number(picker.getAttribute('data-adjustment-mode'));
+    }
+    return adjustmentFactor;
+  };
 
   // increase time value;
   const increaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
-
-    let adjustmentFactor = 1;
-    if (Number(inputBox.getAttribute('data-adjustment-mode')) > 0) {
-      adjustmentFactor = Number(inputBox.getAttribute('data-adjustment-mode'));
-    }
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
@@ -111,10 +115,7 @@
   const decreaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
-    let adjustmentFactor = 1;
-    if (Number(inputBox.getAttribute('data-adjustment-mode')) > 0) {
-      adjustmentFactor = Number(inputBox.getAttribute('data-adjustment-mode'));
-    }
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
@@ -132,10 +133,7 @@
 
   // shift focus from one unit to another;
   const shiftFocus = (inputBox, toSide) => {
-    let adjustmentFactor = 1;
-    if (Number(inputBox.getAttribute('data-adjustment-mode')) > 0) {
-      adjustmentFactor = Number(inputBox.getAttribute('data-adjustment-mode'));
-    }
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
     switch (toSide) {
       case 'left':
         highlightIncrementArea(inputBox, adjustmentFactor * 60);
