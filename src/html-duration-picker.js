@@ -3,7 +3,7 @@
  * html-duration-picker.js
  *
  * @description Turn an html input box to a duration picker, without jQuery
- * @version 1.0.1
+ * @version [AIV]{version}[/AIV]
  * @author Chif <nadchif@gmail.com>
  * @license GPL v3
  *
@@ -35,27 +35,23 @@
     // Cursor is in the hours region
     if (cursorPosition < hourMarker) {
       event.target.setAttribute('data-adjustment-mode', 60 * 60);
-      event.target.selectionStart = 0; // Hours mode
-      event.target.selectionEnd = hourMarker;
+      event.target.setSelectionRange(0, hourMarker);
       return;
     }
     // Cursor is in the minutes region
     if (cursorPosition > hourMarker && cursorPosition < minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 60);
-      event.target.selectionStart = hourMarker + 1; // Minutes mode
-      event.target.selectionEnd = minuteMarker;
+      event.target.setSelectionRange(hourMarker + 1, minuteMarker);
       return;
     }
     // Cursor is in the seconds region
     if (cursorPosition > minuteMarker) {
       event.target.setAttribute('data-adjustment-mode', 1);
-      event.target.selectionStart = minuteMarker + 1; // Seconds mode
-      event.target.selectionEnd = minuteMarker + 3;
+      event.target.setSelectionRange(minuteMarker + 1, minuteMarker + 3);
       return;
     }
     event.target.setAttribute('data-adjustment-mode', 'ss');
-    event.target.selectionStart = minuteMarker + 1; // Fall to seconds mode for anything else
-    event.target.selectionEnd = minuteMarker + 3;
+    event.target.setSelectionRange(minuteMarker + 1, minuteMarker + 3);
     return;
   };
 
@@ -89,22 +85,26 @@
     inputBox.selectionEnd = minuteMarker + 3;
     return;
   };
+    // gets the adjustment factor for a picker
+  const getAdjustmentFactor = (picker) => {
+    let adjustmentFactor = 1;
+    if (Number(picker.getAttribute('data-adjustment-mode')) > 0) {
+      adjustmentFactor = Number(picker.getAttribute('data-adjustment-mode'));
+    }
+    return adjustmentFactor;
+  };
 
   // Increase time value;
   const increaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
-
-    let adjustmentFactor = 1;
-    if (Number(inputBox.getAttribute('data-adjustment-mode')) > 0) {
-      adjustmentFactor = Number(inputBox.getAttribute('data-adjustment-mode'));
-    }
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
-                Number(sectioned[2]) +
-                Number(sectioned[1] * 60) +
-                Number(sectioned[0] * 60 * 60);
+        Number(sectioned[2]) +
+        Number(sectioned[1] * 60) +
+        Number(sectioned[0] * 60 * 60);
     }
     secondsValue += adjustmentFactor;
     insertFormatted(inputBox, secondsValue);
@@ -115,16 +115,13 @@
   const decreaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
-    let adjustmentFactor = 1;
-    if (Number(inputBox.getAttribute('data-adjustment-mode')) > 0) {
-      adjustmentFactor = Number(inputBox.getAttribute('data-adjustment-mode'));
-    }
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
-                Number(sectioned[2]) +
-                Number(sectioned[1] * 60) +
-                Number(sectioned[0] * 60 * 60);
+        Number(sectioned[2]) +
+        Number(sectioned[1] * 60) +
+        Number(sectioned[0] * 60 * 60);
     }
     secondsValue -= adjustmentFactor;
     if (secondsValue < 0) {
@@ -134,7 +131,20 @@
     highlightIncrementArea(inputBox, adjustmentFactor);
   };
 
-  // Validate any input in the box;
+  // shift focus from one unit to another;
+  const shiftFocus = (inputBox, toSide) => {
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
+    switch (toSide) {
+      case 'left':
+        highlightIncrementArea(inputBox, adjustmentFactor * 60);
+        break;
+      case 'right':
+        highlightIncrementArea(inputBox, adjustmentFactor / 60);
+        break;
+    }
+  };
+
+  // validate any input in the box;
   const validateInput = (event) => {
     const sectioned = event.target.value.split(':');
     if (sectioned.length !== 3) {
@@ -160,13 +170,22 @@
   };
 
   const handleKeydown = (event) => {
-    // Use arrow keys to increase value;
-    if (event.key == 'ArrowDown' || event.key == 'ArrowUp') {
-      if (event.key == 'ArrowDown') {
-        decreaseValue(event.target);
-      }
-      if (event.key == 'ArrowUp') {
-        increaseValue(event.target);
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      switch (event.key) {
+        // use up and down arrow keys to increase value;
+        case 'ArrowDown':
+          decreaseValue(event.target);
+          break;
+        case 'ArrowUp':
+          increaseValue(event.target);
+          break;
+        // use left and right arrow keys to shift focus;
+        case 'ArrowLeft':
+          shiftFocus(event.target, 'left');
+          break;
+        case 'ArrowRight':
+          shiftFocus(event.target, 'right');
+          break;
       }
       event.preventDefault(); // Prevent default
     }
@@ -195,10 +214,11 @@
       picker.style.width = `${totalPickerWidth}px`;
       picker.style.margin = 0;
       picker.style.paddingRight = '20px';
+      picker.style.cursor = 'text';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
-      picker.addEventListener('select', selectFocus); // Selects a block of hours, minutes etc
-      picker.addEventListener('click', selectFocus); // Selects a block of hours, minutes etc
+      picker.addEventListener('select', selectFocus); // selects a block of hours, minutes etc
+      picker.addEventListener('mouseup', selectFocus); // selects a block of hours, minutes etc
       picker.addEventListener('change', validateInput);
       picker.addEventListener('blur', validateInput);
       picker.addEventListener('keyup', validateInput);
@@ -224,7 +244,7 @@
       scrollUpBtn.setAttribute('aria-label', 'Increase duration');
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
 
-      scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none;
+      scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
       height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
       scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none;
       height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)}px;`);
@@ -248,11 +268,11 @@
           }
         });
 
-        btn.addEventListener('mouseup', (event) => {
+        btn.addEventListener('mouseup', () => {
           clearInterval(intervalId);
         });
 
-        btn.addEventListener('mouseleave', (event) => {
+        btn.addEventListener('mouseleave', () => {
           clearInterval(intervalId);
         });
       });
