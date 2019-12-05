@@ -246,7 +246,7 @@
 
       scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
       height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
-      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none;
+      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none cursor:default; 
       height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)}px;`);
 
       // insert carets into buttons
