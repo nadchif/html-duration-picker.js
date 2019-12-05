@@ -1,0 +1,11 @@
+src/*
+webpack.config.js
+index.html
+CONTRIBUTING.md
+DOCUMENTATION.md
+.gitignore
+.eslintignore
+.editorconfig
+.eslintrc.json
+screenshots/*
+.github
