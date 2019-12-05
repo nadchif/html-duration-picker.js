@@ -85,16 +85,20 @@
     inputBox.selectionEnd = minuteMarker + 3;
     return;
   };
+    // gets the adjustment factor for a picker
+  const getAdjustmentFactor = (picker) => {
+    let adjustmentFactor = 1;
+    if (Number(picker.getAttribute('data-adjustment-mode')) > 0) {
+      adjustmentFactor = Number(picker.getAttribute('data-adjustment-mode'));
+    }
+    return adjustmentFactor;
+  };
 
   // increase time value;
   const increaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
-
-    let adjustmentFactor = 1;
-    if (Number(inputBox.getAttribute('data-adjustment-mode')) > 0) {
-      adjustmentFactor = Number(inputBox.getAttribute('data-adjustment-mode'));
-    }
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
@@ -111,10 +115,7 @@
   const decreaseValue = (inputBox) => {
     const rawValue = inputBox.value;
     const sectioned = rawValue.split(':');
-    let adjustmentFactor = 1;
-    if (Number(inputBox.getAttribute('data-adjustment-mode')) > 0) {
-      adjustmentFactor = Number(inputBox.getAttribute('data-adjustment-mode'));
-    }
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
     let secondsValue = 0;
     if (sectioned.length === 3) {
       secondsValue =
@@ -128,6 +129,19 @@
     }
     insertFormatted(inputBox, secondsValue);
     highlightIncrementArea(inputBox, adjustmentFactor);
+  };
+
+  // shift focus from one unit to another;
+  const shiftFocus = (inputBox, toSide) => {
+    const adjustmentFactor = getAdjustmentFactor(inputBox);
+    switch (toSide) {
+      case 'left':
+        highlightIncrementArea(inputBox, adjustmentFactor * 60);
+        break;
+      case 'right':
+        highlightIncrementArea(inputBox, adjustmentFactor / 60);
+        break;
+    }
   };
 
   // validate any input in the box;
@@ -156,13 +170,22 @@
   };
 
   const handleKeydown = (event) => {
-    // use arrow keys to increase value;
-    if (event.key == 'ArrowDown' || event.key == 'ArrowUp') {
-      if (event.key == 'ArrowDown') {
-        decreaseValue(event.target);
-      }
-      if (event.key == 'ArrowUp') {
-        increaseValue(event.target);
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      switch (event.key) {
+        // use up and down arrow keys to increase value;
+        case 'ArrowDown':
+          decreaseValue(event.target);
+          break;
+        case 'ArrowUp':
+          increaseValue(event.target);
+          break;
+        // use left and right arrow keys to shift focus;
+        case 'ArrowLeft':
+          shiftFocus(event.target, 'left');
+          break;
+        case 'ArrowRight':
+          shiftFocus(event.target, 'right');
+          break;
       }
       event.preventDefault(); // prevent default
     }
