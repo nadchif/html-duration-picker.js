@@ -1,5 +1,5 @@
 {
-  "name": "html-duration-picker.js",
+  "name": "html-duration-picker",
   "version": "1.0.4",
   "description": "Turn an html input box to a duration picker, without jQuery",
   "main": "dist/html-duration-picker.min.js",
