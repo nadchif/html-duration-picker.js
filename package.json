@@ -1,12 +1,13 @@
 {
-  "name": "html-duration-picker.js",
-  "version": "1.0.1",
+  "name": "html-duration-picker",
+  "version": "1.0.5",
   "description": "Turn an html input box to a duration picker, without jQuery",
-  "main": "html-duration-picker.js",
+  "main": "dist/html-duration-picker.min.js",
   "scripts": {
     "test": "eslint src/html-duration-picker.js",
     "build": "eslint src/html-duration-picker.js && webpack --mode=production",
-    "dev": "lite-server --baseDir=\"src\""
+    "dev": "lite-server --baseDir=\"src\"",
+    "buildpatch": "npm version patch && eslint src/html-duration-picker.js && webpack --mode=production"
   },
   "keywords": [
     "html5",
@@ -29,7 +30,7 @@
     "lite-server": "^2.5.4",
     "path": "^0.12.7",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10",
-    "webpack-auto-inject-version": "^1.2.2"
+    "webpack-auto-inject-version": "^1.2.2",
+    "webpack-cli": "^3.3.10"
   }
 }
