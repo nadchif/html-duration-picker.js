@@ -217,8 +217,8 @@
       picker.style.cursor = 'text';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
-      picker.addEventListener('select', selectFocus); // selects a block of hours, minutes etc
-      picker.addEventListener('mouseup', selectFocus); // selects a block of hours, minutes etc
+      picker.addEventListener('select', selectFocus); // Selects a block of hours, minutes etc
+      picker.addEventListener('mouseup', selectFocus); // Selects a block of hours, minutes etc
       picker.addEventListener('change', validateInput);
       picker.addEventListener('blur', validateInput);
       picker.addEventListener('keyup', validateInput);
