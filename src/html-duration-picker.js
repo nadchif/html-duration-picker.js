@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 /**
  * @preserve
  * html-duration-picker.js
@@ -211,7 +210,6 @@ export default (function() {
       picker.value = '00:00:00';
       picker.style.textAlign = 'right';
       picker.style.paddingRight = '20px';
-      // picker.style.width = totalPickerWidth;
       picker.style.boxSizing = 'border-box';
       picker.style.width = '100%';
       picker.style.margin = 0;
