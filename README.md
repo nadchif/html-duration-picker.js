@@ -19,7 +19,7 @@ html-duration-picker.js is a very tiny JS library to turn native HTML text input
 
 **AFTER** ```<input type="text" html-duration-picker>```
 
-![Default Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-after.jpg)
+![Duration Picker Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-after.jpg)
 
 
 [See Live Demo](https://nadchif.github.io/html-duration-picker.js/)
