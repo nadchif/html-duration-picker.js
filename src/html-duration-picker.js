@@ -9,9 +9,8 @@
  *
  */
 
-(function(window, document) {
+export default (function() {
   // The following keys will not be blocked from working within the input field
-
   const acceptedKeys = [
     'Backspace',
     'ArrowDown',
@@ -197,23 +196,23 @@
   };
 
   // Ugrading the pickers
-
-  // listen for document ready
-  window.addEventListener('DOMContentLoaded', () => {
-    // select all input fields with the attribute "html-duration-picker"
+  const _init = () => { // select all input fields with the attribute "html-duration-picker"
     document.querySelectorAll('input[html-duration-picker]').forEach((picker) => {
-      // Set default text and Apply some basic styling to the picker
+    // Set default text and Apply some basic styling to the picker
       if (picker.getAttribute('data-upgraded') == 'true') {
         return; // in case some developer calls this or includes it twice
       }
-
-      const totalPickerWidth = picker.offsetWidth;
+      const currentPickerStyle = picker.currentStyle || window.getComputedStyle(picker);
+      const pickerRightMargin = currentPickerStyle.marginRight;
+      const pickerLeftMargin = currentPickerStyle.marginLeft;
+      const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
       picker.value = '00:00:00';
       picker.style.textAlign = 'right';
-      picker.style.width = `${totalPickerWidth}px`;
-      picker.style.margin = 0;
       picker.style.paddingRight = '20px';
+      picker.style.boxSizing = 'border-box';
+      picker.style.width = '100%';
+      picker.style.margin = 0;
       picker.style.cursor = 'text';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
@@ -232,9 +231,9 @@
       const caretDown = document.createElement('div');
 
       caretUp.setAttribute('style', `width:0;height:0;
-      border-style:solid;border-width:0 4px 5px 4px; border-color:transparent transparent #000 transparent`);
+    border-style:solid;border-width:0 4px 5px 4px; border-color:transparent transparent #000 transparent`);
       caretDown.setAttribute('style', `width:0;height:0;
-      border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`);
+    border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`);
 
       // These are action buttons for scrolling values up or down
       const scrollUpBtn = document.createElement('button');
@@ -247,7 +246,7 @@
       scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
       height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
       scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none cursor:default; 
-      height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)}px;`);
+      height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)-1}px;`);
 
       // insert carets into buttons
       scrollDownBtn.appendChild(caretDown);
@@ -280,8 +279,8 @@
       // this div houses the increase/decrease buttons
       const controlsDiv = document.createElement('div');
 
-      controlsDiv.setAttribute('style', `display:inline-block; position: absolute;top:0px;right: 18px;
-      height:${picker.offsetHeight}px; padding:2px 0`);
+      controlsDiv.setAttribute('style', `display:inline-block; position: absolute;top:1px;left: ${parseFloat(totalPickerWidth) - 20}px;
+    height:${picker.offsetHeight}px; padding:2px 0`);
 
       // add buttons to controls div;
       controlsDiv.appendChild(scrollUpBtn);
@@ -292,13 +291,27 @@
       controlWrapper.style.padding = '0px';
       controlWrapper.style.display = 'inline-block';
       controlWrapper.style.background = 'transparent';
-      controlWrapper.style.width = `${totalPickerWidth}px`;
+      controlWrapper.style.width = totalPickerWidth;
       controlWrapper.style.position = 'relative';
+      controlWrapper.style.marginLeft = pickerLeftMargin;
+      controlWrapper.style.marginRight = pickerRightMargin;
 
-      controlWrapper.appendChild(controlsDiv);
+
       picker.parentNode.insertBefore(controlWrapper, picker);
       controlWrapper.appendChild(picker);
+      controlWrapper.appendChild(controlsDiv);
       return;
     });
+    return true;
+  };
+
+  // listen for document ready
+  window.addEventListener('DOMContentLoaded', () => {
+    _init();
   });
-})(window, document);
+  return {
+    init: _init,
+    refresh: _init,
+  };
+})();
+
