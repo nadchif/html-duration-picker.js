@@ -1,3 +1,4 @@
 node_modules
 .DS_Store
 bootstrap.css
+html-duration-picker.min.d.ts
