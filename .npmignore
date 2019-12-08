@@ -9,3 +9,4 @@ DOCUMENTATION.md
 .eslintrc.json
 screenshots/*
 .github
+_config.yml

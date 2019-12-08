@@ -7,6 +7,11 @@ module.exports = {
   output: {
     path: path.resolve( __dirname, 'dist' ),
     filename: 'html-duration-picker.min.js',
+    library: 'HtmlDurationPicker',
+    libraryTarget: 'umd',
+    libraryExport: 'default',
+    // umdNamedDefine: true,
+    globalObject: 'typeof self !== "undefined" ? self : this',
   },
   module: {
     rules: [

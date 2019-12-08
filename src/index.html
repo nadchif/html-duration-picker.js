@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,12 +15,28 @@
     <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
 
 <body style="padding:20px">
-    <h2>Development Live Preview MODE</h2><hr>
+    <h2>Development Live Preview MODE</h2>
+    <hr>
+    <script>
+        function addMore() {
+            document.getElementsByTagName('body')[0].innerHTML += '<input type="text" html-duration-picker><br>'
+        }
+    </script>
+    <button onclick="addMore()">Add More...</button>
+<br><br>
     Regular Input box<br>
     <input type="text">
     <br>
     Duration Input box<br>
     <input type="text" html-duration-picker>
+    <br>
+    <input type="text" style="font-size:16pt; margin:20px">
+    <br>
+    <input type="text" html-duration-picker style="font-size:16pt; margin:20px">
+    <br>
+    <input type="text" size="12">
+    <br>
+    <input type="text" html-duration-picker size="12">
     <br>
     <br>
     <br>
@@ -33,6 +50,9 @@
             <br><br>
         </div>
     </div>
-    <script src="html-duration-picker.js"></script>
+    <br>
+
+    <script src="../dist/html-duration-picker.min.js"></script>
 </body>
+
 </html>
