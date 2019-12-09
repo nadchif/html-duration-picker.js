@@ -188,7 +188,12 @@ export default (function() {
       const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
       picker.value = '00:00:00';
-      picker.setAttribute('style', 'text-align: right; padding-right: 20px; box-sizing: border-box; width: 100%; margin: 0; cursor: text;');
+      picker.style.textAlign = 'right';
+      picker.style.paddingRight = '20px';
+      picker.style.boxSizing = 'border-box';
+      picker.style.width = '100%';
+      picker.style.margin = 0;
+      picker.style.cursor = 'text';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
       picker.addEventListener('select', selectFocus); // selects a block of hours, minutes etc
