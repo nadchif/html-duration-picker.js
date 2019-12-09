@@ -120,9 +120,20 @@ export default (function() {
     }
   };
 
+  // Check data-duration for proper format
+  const checkDuration = (selector) => {
+    const regex = RegExp('^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
+    const testResult = regex.test(selector.dataset.duration);
+    return testResult;
+  };
+
   // validate any input in the box;
   const validateInput = (event) => {
     const sectioned = event.target.value.split(':');
+    if (event.target.dataset.duration && checkDuration(event.target) && sectioned.length !== 3) {
+      event.target.value = event.target.dataset.duration; // fallback to data-duration value
+      return;
+    }
     if (sectioned.length !== 3) {
       event.target.value = '00:00:00'; // fallback to default
       return;
@@ -187,7 +198,7 @@ export default (function() {
       const pickerLeftMargin = currentPickerStyle.marginLeft;
       const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
-      picker.value = '00:00:00';
+      picker.value = picker.dataset.duration && checkDuration(picker) ? picker.dataset.duration : '00:00:00';
       picker.style.textAlign = 'right';
       picker.style.paddingRight = '20px';
       picker.style.boxSizing = 'border-box';
