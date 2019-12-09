@@ -187,7 +187,7 @@ export default (function() {
       const pickerLeftMargin = currentPickerStyle.marginLeft;
       const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
-      picker.value = '00:00:00';
+      picker.value = picker.dataset.duration || '00:00:00';
       picker.style.textAlign = 'right';
       picker.style.paddingRight = '20px';
       picker.style.boxSizing = 'border-box';
