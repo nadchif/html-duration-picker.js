@@ -122,9 +122,10 @@ export default (function() {
 
   // validate any input in the box;
   const validateInput = (event) => {
+    console.log(event.target.dataset.duration);
     const sectioned = event.target.value.split(':');
     if (sectioned.length !== 3) {
-      event.target.value = '00:00:00'; // fallback to default
+      event.target.value = event.target.dataset.duration || '00:00:00'; // fallback to default
       return;
     }
     if (isNaN(sectioned[0])) {
