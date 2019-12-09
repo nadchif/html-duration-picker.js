@@ -5,34 +5,52 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>DEV - html-duration-picker.js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css" crossorigin="anonymous">
 
 <body style="padding:20px">
-    <h2>Development Live Preview MODE</h2><hr>
-    Regular Input box<br>
+    <h2>Development Live Preview MODE</h2>
+    <hr>
+    Regular Input box <code>&#x3C;input type=&#x22;text&#x22;&#x3E;</code><br>
     <input type="text">
-    <br>
-    Duration Input box<br>
+    <br><br>
+    Duration Input box <code>&#x3C;input type=&#x22;text&#x22; html-duration-picker&#x3E;</code><br>
     <input type="text" html-duration-picker>
     <br>
     <br>
     <br>
     <div class="row">
+        <div class="col-12">
+                Bootstrap Input box <code>&#x3C;input type=&#x22;text&#x22; class=&#x22;form-control&#x22;&#x3E;</code><br>
+        </div>
         <div class="col-md-2">
-            Bootstrap Input box<br>
-            <input type="text" class="form-control" style="width:100%">
-            <br>
-            Duration Input box<br>
-            <input type="text" class="form-control" style="width:100%" html-duration-picker>
+                <input type="text" class="form-control"><br>
+        </div>
+
+        <div class="col-12">
+                Bootstrap Duration Input box <code>&#x3C;input type=&#x22;text&#x22; class=&#x22;form-control&#x22;  html-duration-picker&#x3E;</code><br>
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" html-duration-picker>
             <br><br>
         </div>
     </div>
-    <script src="html-duration-picker.js"></script>
+    <br>
+    
+    Sized Input box <code>&#x3C;input type=&#x22;text&#x22;  size=&#x22;12&#x22; &#x3E;</code><br>
+    <input type="text" size="12"><br>
+    Sized Duration Input box  <code>&#x3C;input type=&#x22;text&#x22;  size=&#x22;12&#x22; html-duration-picker&#x3E;</code><br>
+    <input type="text" html-duration-picker size="12">
+    <br>
+    <script type="module">
+        import HtmlDurationPicker from './html-duration-picker.js';
+    </script>
 </body>
+
 </html>
