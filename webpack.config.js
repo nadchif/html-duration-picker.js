@@ -14,7 +14,7 @@ module.exports =(env, args)=> {
       libraryTarget: 'umd',
       libraryExport: 'default',
       // umdNamedDefine: true,
-      globalObject: 'typeof self !== "undefined" ? self : this',
+      globalObject: 'this',
     },
     module: {
       rules: [

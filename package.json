@@ -5,7 +5,9 @@
   "main": "dist/html-duration-picker.min.js",
   "types": "dist/html-duration-picker.min.d.ts",
   "scripts": {
-    "test": "eslint src/html-duration-picker.js",
+    "test": "jasmine",
+    "test-eslint": "eslint src/html-duration-picker.js",
+    "test-jasmine": "jasmine",
     "build": "eslint src/html-duration-picker.js && webpack --mode=production --progress --colors",
     "dev": "lite-server --baseDir=\"src\"",
     "buildpatch": "npm version patch && eslint src/html-duration-picker.js && webpack --mode=production"
@@ -30,6 +32,9 @@
     "babel-loader": "^8.0.6",
     "eslint": "^6.7.2",
     "eslint-config-google": "^0.14.0",
+    "jasmine": "^3.5.0",
+    "jasmine-core": "^3.5.0",
+    "jsdom": "^15.2.1",
     "lite-server": "^2.5.4",
     "path": "^0.12.7",
     "webpack": "^4.41.2",
