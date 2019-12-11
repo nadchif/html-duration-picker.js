@@ -8,6 +8,17 @@ HTML/JS
   
 ### Installation
 
+**Option 1 (CDN)**
+
+Include it in your HTML file, just before the ```</body>``` tag. Like this:
+
+```
+<script src="https://cdn.jsdelivr.net/npm/html-duration-picker/dist/html-duration-picker.min.js"></script>
+</body>
+```
+
+**Option 2 (Download and Include)**
+
 1. To start using html-duration-picker, just download [html-duration-picker.min.js](https://github.com/nadchif/html-duration-picker.js/dist/html-duration-picker.min.js) from the [dist/](https://github.com/nadchif/html-duration-picker.js/dist/) folder.
 
 2. Include it in your HTML file, just before the ```</body>``` tag. Like this:
