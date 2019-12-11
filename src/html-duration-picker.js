@@ -187,7 +187,7 @@ export default (function() {
 
   const _init = () => {
     // Select all of the input fields with the attribute "html-duration-picker"
-    const getInputFields = document.querySelectorAll('input[html-duration-picker]');
+    const getInputFields = document.querySelectorAll('input.html-duration-picker');
     getInputFields.forEach((picker) => {
     // Set the default text and apply some basic styling to the duration picker
       if (picker.getAttribute('data-upgraded') == 'true') {

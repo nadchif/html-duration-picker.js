@@ -30,10 +30,10 @@ Include it in your HTML file, just before the ```</body>``` tag. Like this:
 
 ### Usage
 
-Add a ```html-duration-picker``` attribute on any ```<input>``` box. Like this:
+Add a ```html-duration-picker``` class on any ```<input>``` box. Like this:
 
 ```
-<input html-duration-picker>
+<input class="html-duration-picker">
 ```
 
 To update dynamically loaded input boxes, you execute
@@ -62,9 +62,9 @@ npm i html-duration-picker
 ```
 import * as HtmlDurationPicker from 'html-duration-picker';
 ```
-2. Add a ```html-duration-picker``` attribute on any ```<input>``` box. Like this:
+2. Add a ```html-duration-picker``` class on any ```<input>``` box. Like this:
 ```
-<input type="text" [attr.html-duration-picker]="'true'">
+<input type="text" [className]="'html-duration-picker'">
 ```
 3. Initialize the HtmlDurationPicker for the Component
 ```
