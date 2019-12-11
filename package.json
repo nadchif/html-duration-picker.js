@@ -8,7 +8,7 @@
     "test": "eslint src/html-duration-picker.js && jasmine",
     "test-eslint": "eslint src/html-duration-picker.js",
     "test-jasmine": "jasmine",
-    "build": "eslint src/html-duration-picker.js && webpack --mode=production --progress --colors",
+    "build": "webpack --mode=production --progress --colors",
     "dev": "lite-server --baseDir=\"src\"",
     "buildpatch": "npm version patch && eslint src/html-duration-picker.js && webpack --mode=production"
   },
@@ -25,9 +25,9 @@
     "url": "https://github.com/nadchif/html-duration-picker.js.git"
   },
   "dependencies": {
-    "create-file-webpack": "^1.0.2"
   },
   "devDependencies": {
+    "create-file-webpack": "^1.0.2",
     "@babel/core": "^7.7.4",
     "babel-loader": "^8.0.6",
     "eslint": "^6.7.2",
