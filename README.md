@@ -28,7 +28,8 @@ Why use html-duration-picker?
 
 * Tiny (~5kb)
 * No additional dependencies (css, jquery or whatever). 
-* Compatible with Bootstrap 3 and 4
+* Bootstrap 3 and Bootstrap 4 Compatible
+* Angular Compatible
 * You can modify and improve it :-)
 * Absolutely FREE!
 
