@@ -1,4 +1,5 @@
 src/*
+spec/*
 webpack.config.js
 index.html
 CONTRIBUTING.md
