@@ -5,7 +5,7 @@
  * @description Turn an html input box to a duration picker, without jQuery
  * @version [AIV]{version}[/AIV]
  * @author Chif <nadchif@gmail.com>
- * @license GPL v3
+ * @license GPL-3.0
  *
  */
 
@@ -122,7 +122,7 @@ export default (function() {
 
   // Check data-duration for proper format
   const checkDuration = (selector) => {
-    const regex = RegExp('^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
+    const regex = RegExp('^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$');
     const testResult = regex.test(selector.dataset.duration);
     return testResult;
   };
@@ -276,7 +276,7 @@ export default (function() {
     return true;
   };
 
-  window.addEventListener('DOMContentLoaded', () => _init());
+  window.addEventListener('onload', () => _init());
   return {
     init: _init,
     refresh: _init,
