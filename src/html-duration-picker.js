@@ -276,7 +276,7 @@ export default (function() {
     return true;
   };
 
-  window.addEventListener('onload', () => _init());
+  window.addEventListener('DOMContentLoaded', () => _init());
   return {
     init: _init,
     refresh: _init,
