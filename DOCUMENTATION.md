@@ -25,6 +25,10 @@ Add a ```html-duration-picker``` attribute on any ```<input>``` box. Like this:
 <input html-duration-picker>
 ```
 
+To update dynamically loaded input boxes, you execute
+```
+HtmlDurationPicker.refresh();
+```
 
 That's it! Let the magic happen!
 </details>
@@ -36,22 +40,27 @@ Angular
   <summary>Click to expand!</summary>
     
 ### Installation
-1. Install the package via npm
+Install the package via npm
 ```
 npm i html-duration-picker
 ```
 
 ### Usage
 
-2. Import the package in your Component
+1. Import the package in your Component
 ```
 import * as HtmlDurationPicker from 'html-duration-picker';
 ```
-3. Initialize the HtmlDurationPicker for the Component
+2. Initialize the HtmlDurationPicker for the Component
 ```
   ngAfterViewInit() {
     HtmlDurationPicker.init();
   }
+```
+
+To update dynamically loaded input boxes, you execute
+```
+HtmlDurationPicker.refresh();
 ```
   
 That's it! Let the magic happen!
