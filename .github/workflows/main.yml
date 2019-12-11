@@ -20,7 +20,8 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install
+        npm run test-eslint
+        npm run build
         npm test
-        npm run build --if-present
       env:
         CI: true
