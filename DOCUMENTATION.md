@@ -30,10 +30,10 @@ Include it in your HTML file, just before the ```</body>``` tag. Like this:
 
 ### Usage
 
-Add a ```html-duration-picker``` attribute on any ```<input>``` box. Like this:
+Add a ```html-duration-picker``` class on any ```<input>``` box. Like this:
 
 ```
-<input html-duration-picker>
+<input class="html-duration-picker">
 ```
 
 To update dynamically loaded input boxes, you execute
