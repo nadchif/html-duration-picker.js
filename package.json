@@ -5,7 +5,7 @@
   "main": "dist/html-duration-picker.min.js",
   "types": "dist/html-duration-picker.min.d.ts",
   "scripts": {
-    "test": "jasmine",
+    "test": "eslint src/html-duration-picker.js && jasmine",
     "test-eslint": "eslint src/html-duration-picker.js",
     "test-jasmine": "jasmine",
     "build": "eslint src/html-duration-picker.js && webpack --mode=production --progress --colors",
