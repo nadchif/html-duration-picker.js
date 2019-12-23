@@ -147,6 +147,9 @@ export default (function() {
     if (sectioned[1] > 59 || sectioned[1].length > 2) {
       sectioned[1] = '59';
     }
+    if (sectioned[1].length === 2 && sectioned[1].slice(-1) === event.key) {
+      shiftFocus(event.target, 'right');
+    }
     if (isNaN(sectioned[2]) || sectioned[2] < 0) {
       sectioned[2] = '00';
     }
