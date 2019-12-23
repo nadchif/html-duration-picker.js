@@ -10,7 +10,8 @@
     "test-jasmine": "jasmine",
     "build": "webpack --mode=production --progress --colors",
     "dev": "lite-server --baseDir=\"src\"",
-    "buildpatch": "npm version patch && eslint src/html-duration-picker.js && webpack --mode=production"
+    "buildpatch": "npm version patch && eslint src/html-duration-picker.js && webpack --mode=production",
+    "deploy": "npm run build && npm publish"
   },
   "keywords": [
     "html5",
