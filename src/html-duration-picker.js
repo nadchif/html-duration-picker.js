@@ -10,31 +10,49 @@
  */
 
 export default (function() {
+  // Gets the cursor selection
+  const getCursorSelection = ({target: {selectionStart, value}}) => {
+    const hourMarker = value.indexOf(':');
+    const minuteMarker = value.lastIndexOf(':');
+    let cursorSelection;
+
+    // The cursor selection is: hours
+    if (selectionStart < hourMarker) {
+      cursorSelection = 'hours';
+    }
+    // The cursor selection is: minutes
+    if (selectionStart > hourMarker && selectionStart - 1 < minuteMarker) {
+      cursorSelection = 'minutes';
+    }
+    // The cursor selection is: seconds
+    if (selectionStart > minuteMarker) {
+      cursorSelection = 'seconds';
+    }
+    return {cursorSelection, hourMarker, minuteMarker};
+  };
   // Gets the time interval (hh or mm or ss) and selects the entire block
   const selectFocus = (event) => {
     // Gets the cursor position and select the nearest time interval
-    const cursorPosition = event.target.selectionStart;
-    const hourMarker = event.target.value.indexOf(':');
-    const minuteMarker = event.target.value.lastIndexOf(':');
+    const {cursorSelection, hourMarker, minuteMarker} = getCursorSelection(event);
 
     // Something is wrong with the duration format.
-    if (hourMarker < 0 || minuteMarker < 0) {
+    if (!cursorSelection) {
       return;
     }
     // The cursor selection is: hours
-    if (cursorPosition < hourMarker) {
+    if (cursorSelection === 'hours') {
       event.target.setAttribute('data-adjustment-mode', 60 * 60);
       event.target.setSelectionRange(0, hourMarker);
       return;
     }
     // The cursor selection is: minutes
-    if (cursorPosition > hourMarker && cursorPosition < minuteMarker) {
+    if (cursorSelection === 'minutes') {
       event.target.setAttribute('data-adjustment-mode', 60);
       event.target.setSelectionRange(hourMarker + 1, minuteMarker);
       return;
     }
     // The cursor selection is: seconds
-    if (cursorPosition > minuteMarker) {
+    if (cursorSelection === 'seconds') {
       event.target.setAttribute('data-adjustment-mode', 1);
       event.target.setSelectionRange(minuteMarker + 1, minuteMarker + 3);
       return;
@@ -56,8 +74,7 @@ export default (function() {
     inputBox.value = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
   const highlightIncrementArea = (inputBox, adjustmentFactor) => {
-    const hourMarker = inputBox.value.indexOf(':');
-    const minuteMarker = inputBox.value.lastIndexOf(':');
+    const {hourMarker, minuteMarker} = getCursorSelection(event);
     inputBox.focus();
     inputBox.select();
     if (adjustmentFactor >= 60 * 60) {
@@ -129,7 +146,9 @@ export default (function() {
 
   // validate any input in the box;
   const validateInput = (event) => {
+    const {cursorSelection} = getCursorSelection(event);
     const sectioned = event.target.value.split(':');
+
     if (event.target.dataset.duration && checkDuration(event.target) && sectioned.length !== 3) {
       event.target.value = event.target.dataset.duration; // fallback to data-duration value
       return;
@@ -147,7 +166,7 @@ export default (function() {
     if (sectioned[1] > 59 || sectioned[1].length > 2) {
       sectioned[1] = '59';
     }
-    if (sectioned[1].length === 2 && sectioned[1].slice(-1) === event.key) {
+    if (sectioned[1].length === 2 && sectioned[1].slice(-1) === event.key && cursorSelection === 'minutes') {
       shiftFocus(event.target, 'right');
     }
     if (isNaN(sectioned[2]) || sectioned[2] < 0) {
