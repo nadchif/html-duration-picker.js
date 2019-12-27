@@ -5,7 +5,7 @@
  * @description Turn an html input box to a duration picker, without jQuery
  * @version [AIV]{version}[/AIV]
  * @author Chif <nadchif@gmail.com>
- * @license GPL-3.0
+ * @license Apache-2.0
  *
  */
 
