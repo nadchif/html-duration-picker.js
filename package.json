@@ -20,7 +20,7 @@
     "input"
   ],
   "author": "Chif (nadchif@gmail.com)",
-  "license": "GPL-3.0",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/nadchif/html-duration-picker.js.git"
