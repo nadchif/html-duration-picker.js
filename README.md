@@ -1,12 +1,12 @@
 html-duration-picker.js
 =========
+![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/nadchif/html-duration-picker.js/Node%20CI)
 ![GitHub file size in bytes](https://img.shields.io/github/size/nadchif/html-duration-picker.js/dist/html-duration-picker.min.js)
 ![GitHub top language](https://img.shields.io/github/languages/top/nadchif/html-duration-picker.js)
 ![GitHub](https://img.shields.io/github/license/nadchif/html-duration-picker.js)
 
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/nadchif/html-duration-picker.js)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/nadchif/html-duration-picker.js)
 ![GitHub issues](https://img.shields.io/github/issues/nadchif/html-duration-picker.js)
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/)
 
