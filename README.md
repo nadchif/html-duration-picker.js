@@ -35,7 +35,7 @@ Why use html-duration-picker?
 
 ## License
 
-GPL-3.0
+Apache-2.0
 
 ## Contributions
 Contributions and suggestions are very welcome and wanted. I try to respond to pull requests within 48 hours. For more information see [CONTRIBUTING.md](https://github.com/nadchif/html-duration-picker.js/blob/master/CONTRIBUTING.md).
