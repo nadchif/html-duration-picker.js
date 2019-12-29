@@ -11,7 +11,7 @@ html-duration-picker.js
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/)
 
 
-html-duration-picker.js is a very tiny JS library used for converting native HTML text inputs into duration pickers. The aim is for the picker to feel like a native element as much as possible.
+html-duration-picker.js is a very tiny JS library used for transforming a native HTML text input into a duration picker. The aim is for the picker to feel like a native element as much as possible.
 
 **BEFORE** ```<input type="text"> ```
 
