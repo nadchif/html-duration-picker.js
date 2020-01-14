@@ -56,4 +56,4 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 	
 7. Wait for the maintainer to respond. 
 
-Thank you for you for your awesome contribution :-)
+Thank you for your awesome contribution  :smiley:
