@@ -74,7 +74,8 @@ export default (function() {
     inputBox.value = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
   const highlightIncrementArea = (inputBox, adjustmentFactor) => {
-    const {hourMarker, minuteMarker} = getCursorSelection(event);
+    const hourMarker = inputBox.value.indexOf(':');
+    const minuteMarker = inputBox.value.lastIndexOf(':');
     inputBox.focus();
     inputBox.select();
     if (adjustmentFactor >= 60 * 60) {
