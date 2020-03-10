@@ -1,6 +1,9 @@
 name: Push Basic Tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
