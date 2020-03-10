@@ -1,7 +1,7 @@
 html-duration-picker.js
 =========
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/nadchif/html-duration-picker.js/Node%20CI)
+![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
 ![GitHub file size in bytes](https://img.shields.io/github/size/nadchif/html-duration-picker.js/dist/html-duration-picker.min.js)
 ![GitHub top language](https://img.shields.io/github/languages/top/nadchif/html-duration-picker.js)
 ![GitHub](https://img.shields.io/github/license/nadchif/html-duration-picker.js)
