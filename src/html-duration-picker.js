@@ -263,6 +263,7 @@ export default (function() {
       scrollButtons.forEach((btn) => {
         let intervalId;
         btn.addEventListener('mousedown', (event) => {
+          event.target.style.transform = 'translateY(1px)';
           event.preventDefault();
           if (btn == scrollUpBtn) {
             changeValue(picker, 'up');
@@ -272,8 +273,15 @@ export default (function() {
             intervalId = setInterval(changeValue, 200, picker, 'down');
           }
         });
-        btn.addEventListener('mouseup', () => clearInterval(intervalId));
-        btn.addEventListener('mouseleave', () => clearInterval(intervalId));
+        btn.addEventListener('mouseup', (event) => {
+          event.target.style.transform = 'translateY(0)';
+          clearInterval(intervalId);
+        });
+        btn.addEventListener('mouseleave', (event) => {
+          event.target.style.transform = 'translateY(0)';
+
+          clearInterval(intervalId)
+        });
       });
 
       // this div houses the increase/decrease buttons
