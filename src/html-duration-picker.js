@@ -246,7 +246,7 @@ export default (function() {
       scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
-      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default; 
+      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)-1}px;`);
 
       // Create the carets in the buttons. These can be replaced by images, font icons, or text.
@@ -267,11 +267,11 @@ export default (function() {
           event.target.style.transform = 'translateY(1px)';
           event.preventDefault();
           if (btn == scrollUpBtn) {
-            changeValue(picker, 'up');
-            intervalId = setInterval(changeValue, 200, picker, 'up');
+            setTimeout(10000, changeValue, picker, 'up');
+            intervalId = setInterval(changeValue, 100, picker, 'up');
           } else {
-            changeValue(picker, 'down');
-            intervalId = setInterval(changeValue, 200, picker, 'down');
+            setTimeout(10000, changeValue, picker, 'down');
+            intervalId = setInterval(changeValue, 100, picker, 'down');
           }
         });
         btn.addEventListener('mouseup', (event) => {
@@ -296,7 +296,7 @@ export default (function() {
 
       // this div wraps around existing input, then appends control div
       const controlWrapper = document.createElement('div');
-      controlWrapper.setAttribute('style', `display: inline-block; position: relative; background: transparent; 
+      controlWrapper.setAttribute('style', `display: inline-block; position: relative; background: transparent;
         padding: 0px; width: ${totalPickerWidth}; margin-left: ${pickerLeftMargin}; margin-right: ${pickerRightMargin};`);
 
       picker.parentNode.insertBefore(controlWrapper, picker);
