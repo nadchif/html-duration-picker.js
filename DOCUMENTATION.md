@@ -1,12 +1,15 @@
 Documentation - html-duration-picker.js
 =========
 
-HTML/JS
+Installation
 ------
+
+### HTML/JS
 <details>
   <summary>Click to expand!</summary>
   
-### Installation
+#### Installation
+
 
 **Option 1 (CDN)**
 
@@ -28,7 +31,7 @@ Include it in your HTML file, just before the ```</body>``` tag. Like this:
 </body>
 ```
 
-### Usage
+#### Usage
 
 Add a ```html-duration-picker``` class on any ```<input>``` box. Like this:
 
@@ -45,18 +48,18 @@ That's it! Let the magic happen!
 </details>
 
 
-Angular
+### Angular
 ------
 <details>
   <summary>Click to expand!</summary>
     
-### Installation
+#### Installation
 Install the package via npm
 ```
 npm i html-duration-picker
 ```
 
-### Usage
+#### Usage
 
 1. Import the package in your Component
 ```
@@ -80,4 +83,23 @@ HtmlDurationPicker.refresh();
   
 That's it! Let the magic happen!
 </details>
+
+Options
+------
+
+Set default value to 15 minutes 
+```
+<input type="text" class="html-duration-picker" data-duration="00:15:00">
+```
+
+Set maximum value to 35 minutes
+```
+<input type="text" class="html-duration-picker" data-duration-max="00:35:00">
+```
+
+Set minimum value to 5 minutes 
+```
+<input type="text" class="html-duration-picker" data-duration-min="00:05:00">
+```
+
 
