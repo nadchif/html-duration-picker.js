@@ -103,13 +103,8 @@ export default (function() {
 
   // Change the time value;
   const changeValue = (inputBox, direction) => {
-    const rawValue = inputBox.value;
-    const sectioned = rawValue.split(':');
     const adjustmentFactor = getAdjustmentFactor(inputBox);
-    let secondsValue = 0;
-    if (sectioned.length === 3) {
-      secondsValue = Number(sectioned[2]) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
-    }
+    let secondsValue = durationToSeconds(inputBox.value);
     switch (direction) {
       case 'up':
         secondsValue += adjustmentFactor;
@@ -121,7 +116,8 @@ export default (function() {
         }
         break;
     }
-    insertFormatted(inputBox, secondsValue);
+    const fixedValue = matchConstraints(inputBox, secondsValue);
+    insertFormatted(inputBox, fixedValue);
     highlightIncrementArea(inputBox, adjustmentFactor);
   };
 
@@ -139,10 +135,22 @@ export default (function() {
   };
 
   // Check data-duration for proper format
-  const checkDuration = (selector) => {
+  const checkDuration = (duration) => {
     const regex = RegExp('^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$');
-    const testResult = regex.test(selector.dataset.duration);
-    return testResult;
+    return regex.test(duration);
+  };
+
+  const matchConstraints = (picker, duration) => {
+    const {maxDuration, minDuration} = getConstraints(picker);
+    return Math.min(Math.max(duration, minDuration), maxDuration);
+  };
+  const durationToSeconds = (value) => {
+    const sectioned = value.split(':');
+    if (sectioned.length !== 3) {
+      return 0;
+    } else {
+      return Number(sectioned[2]) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+    }
   };
 
   // validate any input in the box;
@@ -150,7 +158,7 @@ export default (function() {
     const {cursorSelection} = getCursorSelection(event);
     const sectioned = event.target.value.split(':');
 
-    if (event.target.dataset.duration && checkDuration(event.target) && sectioned.length !== 3) {
+    if (event.target.dataset.duration && checkDuration(event.target.dataset.duration) && sectioned.length !== 3) {
       event.target.value = event.target.dataset.duration; // fallback to data-duration value
       return;
     }
@@ -179,8 +187,16 @@ export default (function() {
     event.target.value = sectioned.join(':');
   };
 
+  const insertWithConstraints = (event) => {
+    const picker = event.target;
+    const duration = picker.value || picker.dataset.duration;
+    const secondsValue = durationToSeconds(duration);
+    insertFormatted(picker, matchConstraints(picker, secondsValue));
+  };
+
   const handleKeydown = (event) => {
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    const changeValueKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter'];
+    if (changeValueKeys.includes(event.key)) {
       switch (event.key) {
         // use up and down arrow keys to increase value;
         case 'ArrowDown':
@@ -196,6 +212,10 @@ export default (function() {
         case 'ArrowRight':
           shiftFocus(event.target, 'right');
           break;
+        case 'Enter':
+          insertWithConstraints(event);
+          event.target.blur();
+          break;
       }
       event.preventDefault();
     }
@@ -208,6 +228,28 @@ export default (function() {
     }
   };
 
+  const getDurationValue = (picker, name, defaultValue) => {
+    const value = picker.dataset[name];
+    if (checkDuration(value)) {
+      return durationToSeconds(value);
+    } else {
+      return defaultValue;
+    }
+  };
+
+  const getConstraints = (picker) => {
+    const minDuration = getDurationValue(picker, 'durationMin', 0);
+    const maxDuration = getDurationValue(picker, 'durationMax', Infinity);
+    return {
+      minDuration,
+      maxDuration,
+    };
+  };
+
+  const getInitialDuration = (picker) => {
+    const duration = getDurationValue(picker, 'duration', 0);
+    return matchConstraints(picker, duration);
+  };
   const _init = () => {
     // Select all of the input fields with the attribute "html-duration-picker"
     const getInputFields = document.querySelectorAll('input.html-duration-picker');
@@ -221,7 +263,7 @@ export default (function() {
       const pickerLeftMargin = currentPickerStyle.marginLeft;
       const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
-      picker.value = picker.dataset.duration && checkDuration(picker) ? picker.dataset.duration : '00:00:00';
+      insertFormatted(picker, getInitialDuration(picker));
       picker.style.textAlign = 'right';
       picker.style.paddingRight = '20px';
       picker.style.boxSizing = 'border-box';
@@ -233,7 +275,7 @@ export default (function() {
       picker.addEventListener('select', selectFocus); // selects a block of hours, minutes etc
       picker.addEventListener('mouseup', selectFocus); // selects a block of hours, minutes etc
       picker.addEventListener('change', validateInput);
-      picker.addEventListener('blur', validateInput);
+      picker.addEventListener('blur', insertWithConstraints);
       picker.addEventListener('keyup', validateInput);
       picker.addEventListener('drop', (event) => event.preventDefault());
 
@@ -246,7 +288,7 @@ export default (function() {
       scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
-      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default; 
+      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)-1}px;`);
 
       // Create the carets in the buttons. These can be replaced by images, font icons, or text.
@@ -296,7 +338,7 @@ export default (function() {
 
       // this div wraps around existing input, then appends control div
       const controlWrapper = document.createElement('div');
-      controlWrapper.setAttribute('style', `display: inline-block; position: relative; background: transparent; 
+      controlWrapper.setAttribute('style', `display: inline-block; position: relative; background: transparent;
         padding: 0px; width: ${totalPickerWidth}; margin-left: ${pickerLeftMargin}; margin-right: ${pickerRightMargin};`);
 
       picker.parentNode.insertBefore(controlWrapper, picker);

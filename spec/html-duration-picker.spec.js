@@ -53,4 +53,45 @@ describe('Duration Picker', () => {
       expect(testPicker.value).toMatch('^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$');
     });
   });
+
+  describe('with min value and duration', ()=> {
+    let testPicker;
+    beforeEach(() => {
+      const dom = new JSDOM(`<html><body><input type="text"><input type="text" class="html-duration-picker" data-duration="00:29:00" data-duration-min="00:30:00"></body></html>`);
+      global.document = dom.window.document;
+      testPicker = document.querySelector('.html-duration-picker');
+      HtmlDurationPicker.init();
+    });
+    it('should set min value if duration is less than min value', () => {
+      expect(testPicker.value).toEqual('00:30:00');
+    });
+  });
+
+  describe('with min value and max value', ()=> {
+    let testPicker;
+    beforeEach(() => {
+      const dom = new JSDOM(`<html><body><input type="text"><input type="text" class="html-duration-picker" data-duration-max="00:31:00" data-duration-min="00:30:00"></body></html>`);
+      global.document = dom.window.document;
+      testPicker = document.querySelector('.html-duration-picker');
+      HtmlDurationPicker.init();
+    });
+
+    it('should set min value to duration if duration not defined', () => {
+      expect(testPicker.value).toEqual('00:30:00');
+    });
+
+    it('should set min value if value is lower min value', () => {
+      testPicker.focus();
+      testPicker.value = '00:29:00';
+      testPicker.blur();
+      expect(testPicker.value).toEqual('00:30:00');
+    });
+
+    it('should set max value if value is greater max value', () => {
+      testPicker.focus();
+      testPicker.value = '00:35:00';
+      testPicker.blur();
+      expect(testPicker.value).toEqual('00:31:00');
+    });
+  });
 });
