@@ -49,7 +49,6 @@ That's it! Let the magic happen!
 
 
 ### Angular
-------
 <details>
   <summary>Click to expand!</summary>
     
