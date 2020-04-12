@@ -5,9 +5,9 @@
   "main": "dist/html-duration-picker.min.js",
   "types": "dist/html-duration-picker.min.d.ts",
   "scripts": {
-    "test": "eslint src/html-duration-picker.js && jasmine",
+    "test": "eslint src/html-duration-picker.js && ./node_modules/.bin/jasmine",
     "test-eslint": "eslint src/html-duration-picker.js",
-    "test-jasmine": "jasmine",
+    "test-jasmine": "./node_modules/.bin/jasmine",
     "build": "webpack --mode=production --progress --colors",
     "dev": "lite-server --baseDir=\"src\"",
     "buildpatch": "npm version patch && eslint src/html-duration-picker.js && webpack --mode=production",
