@@ -42,6 +42,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "ikayz",
+      "name": "Isaac Miti",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/31007212?v=4",
+      "profile": "https://ikayz.github.io/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
