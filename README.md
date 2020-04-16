@@ -1,8 +1,8 @@
 html-duration-picker.js
+=========
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-=========
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
 ![GitHub file size in bytes](https://img.shields.io/github/size/nadchif/html-duration-picker.js/dist/html-duration-picker.min.js)
