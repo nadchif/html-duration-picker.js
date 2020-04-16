@@ -57,7 +57,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://aboutchif.com"><img src="https://avatars0.githubusercontent.com/u/47924887?v=4" width="100px;" alt=""/><br /><sub><b>Dan Chif</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=nadchif" title="Code">💻</a> <a href="#maintenance-nadchif" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://aboutchif.com"><img src="https://avatars0.githubusercontent.com/u/47924887?v=4" width="100px;" alt=""/><br /><sub><b>Dan Chif</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=nadchif" title="Code">💻</a> <a href="#maintenance-nadchif" title="Maintenance">🚧</a> <a href="https://github.com/nadchif/html-duration-picker.js/commits?author=nadchif" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
