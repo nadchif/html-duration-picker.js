@@ -145,6 +145,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "laoiseearle",
+      "name": "Laoise Earle",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19372021?v=4",
+      "profile": "https://github.com/laoiseearle",
+      "contributions": [
+        "doc",
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
