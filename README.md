@@ -1,7 +1,7 @@
 html-duration-picker.js
 =========
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
@@ -71,6 +71,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://twitter.com/gbsolomon1"><img src="https://avatars0.githubusercontent.com/u/55158465?v=4" width="100px;" alt=""/><br /><sub><b>Solomon</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=Solomon403" title="Documentation">📖</a></td>
     <td align="center"><a href="https://twitter.com/ramaspeaksdev"><img src="https://avatars1.githubusercontent.com/u/50571688?v=4" width="100px;" alt=""/><br /><sub><b>orama254</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=orama254" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/GabrielUmbelino"><img src="https://avatars3.githubusercontent.com/u/22249994?v=4" width="100px;" alt=""/><br /><sub><b>Gabriel Ferreira Umbelino</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=GabrielUmbelino" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/meisty"><img src="https://avatars1.githubusercontent.com/u/7602996?v=4" width="100px;" alt=""/><br /><sub><b>Shaun Dixon</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=meisty" title="Documentation">📖</a></td>
   </tr>
 </table>
 
