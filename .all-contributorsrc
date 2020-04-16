@@ -32,6 +32,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "PeterMorganGH",
+      "name": "Peter Morgan",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/22879182?v=4",
+      "profile": "https://1080peter.com",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
