@@ -1,6 +1,6 @@
 html-duration-picker.js
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 =========
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
@@ -59,6 +59,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://aboutchif.com"><img src="https://avatars0.githubusercontent.com/u/47924887?v=4" width="100px;" alt=""/><br /><sub><b>Dan Chif</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=nadchif" title="Code">💻</a> <a href="#maintenance-nadchif" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/GeorgeChambi"><img src="https://avatars0.githubusercontent.com/u/11294874?v=4" width="100px;" alt=""/><br /><sub><b>GeorgeChambi</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=GeorgeChambi" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/fsuffieldcode"><img src="https://avatars2.githubusercontent.com/u/46655131?v=4" width="100px;" alt=""/><br /><sub><b>Fabian</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=fsuffieldcode" title="Code">💻</a></td>
   </tr>
 </table>
 
