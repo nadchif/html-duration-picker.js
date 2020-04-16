@@ -2,7 +2,7 @@
   "files": [
     "README.md"
   ],
-  "imageSize": 100,
+  "imageSize": 80,
   "commit": false,
   "contributors": [
     {
@@ -157,7 +157,7 @@
       ]
     }
   ],
-  "contributorsPerLine": 10,
+  "contributorsPerLine": 8,
   "projectName": "html-duration-picker.js",
   "projectOwner": "nadchif",
   "repoType": "github",
