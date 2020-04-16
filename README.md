@@ -1,7 +1,7 @@
 html-duration-picker.js
 =========
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
@@ -68,6 +68,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://emailto: ckmutezva@gmail.com"><img src="https://avatars2.githubusercontent.com/u/40114498?v=4" width="100px;" alt=""/><br /><sub><b>Chamunorwa Mutezva</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=ChamuMutezva" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Aryan-Garg"><img src="https://avatars3.githubusercontent.com/u/54898594?v=4" width="100px;" alt=""/><br /><sub><b>Aryan-Garg</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=Aryan-Garg" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://twitter.com/gbsolomon1"><img src="https://avatars0.githubusercontent.com/u/55158465?v=4" width="100px;" alt=""/><br /><sub><b>Solomon</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=Solomon403" title="Documentation">📖</a></td>
   </tr>
 </table>
 
