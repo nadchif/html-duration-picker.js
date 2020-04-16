@@ -116,6 +116,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "meisty",
+      "name": "Shaun Dixon",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7602996?v=4",
+      "profile": "https://github.com/meisty",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
