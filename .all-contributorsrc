@@ -107,6 +107,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "GabrielUmbelino",
+      "name": "Gabriel Ferreira Umbelino",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/22249994?v=4",
+      "profile": "https://github.com/GabrielUmbelino",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
