@@ -1,7 +1,7 @@
 html-duration-picker.js
 =========
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
@@ -62,6 +62,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/fsuffieldcode"><img src="https://avatars2.githubusercontent.com/u/46655131?v=4" width="100px;" alt=""/><br /><sub><b>Fabian</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=fsuffieldcode" title="Code">💻</a></td>
     <td align="center"><a href="https://1080peter.com"><img src="https://avatars1.githubusercontent.com/u/22879182?v=4" width="100px;" alt=""/><br /><sub><b>Peter Morgan</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=PeterMorganGH" title="Code">💻</a> <a href="https://github.com/nadchif/html-duration-picker.js/commits?author=PeterMorganGH" title="Documentation">📖</a></td>
     <td align="center"><a href="https://ikayz.github.io/"><img src="https://avatars1.githubusercontent.com/u/31007212?v=4" width="100px;" alt=""/><br /><sub><b>Isaac Miti</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=ikayz" title="Code">💻</a> <a href="https://github.com/nadchif/html-duration-picker.js/commits?author=ikayz" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/daganomri"><img src="https://avatars1.githubusercontent.com/u/23617146?v=4" width="100px;" alt=""/><br /><sub><b>Omri Dagan</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=daganomri" title="Code">💻</a></td>
   </tr>
 </table>
 
