@@ -66,7 +66,7 @@ export default (function() {
   };
 
   const shouldHideSeconds = (inputBox) => {
-    return inputBox.dataset.hideSeconds && inputBox.dataset.hideSeconds !== 'false';
+    return inputBox.dataset.hideSeconds !== undefined && inputBox.dataset.hideSeconds !== 'false';
   };
 
   const createEvent = (type, option = {bubbles: false, cancelable: false}) => {
@@ -95,7 +95,6 @@ export default (function() {
     inputBox.value = !shouldHideSeconds(inputBox) ? `${value}:${formattedSeconds}` : value;
 
     inputBox.dispatchEvent(createEvent('input'));
-    inputBox.dispatchEvent(createEvent('change'));
   };
   const highlightIncrementArea = (inputBox, adjustmentFactor) => {
     const hourMarker = inputBox.value.indexOf(':');
@@ -161,8 +160,9 @@ export default (function() {
   };
 
   // Check data-duration for proper format
-  const checkDuration = (duration) => {
-    const regex = RegExp('^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$');
+  const checkDuration = (duration, hideSeconds) => {
+    const pattern = hideSeconds ? '^[0-9][0-9]:[0-5][0-9]$' : '^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$';
+    const regex = RegExp(pattern);
     return regex.test(duration);
   };
 
@@ -184,10 +184,9 @@ export default (function() {
     const hideSeconds = shouldHideSeconds(event.target);
     const {cursorSelection} = getCursorSelection(event, hideSeconds);
     const sectioned = event.target.value.split(':');
-
     if (
       event.target.dataset.duration &&
-      checkDuration(event.target.dataset.duration) &&
+      checkDuration(event.target.dataset.duration, hideSeconds) &&
       ((hideSeconds && sectioned.length !== 2) ||
         (!hideSeconds && sectioned.length !== 3))
     ) {
@@ -267,7 +266,7 @@ export default (function() {
 
   const getDurationValue = (picker, name, defaultValue) => {
     const value = picker.dataset[name];
-    if (checkDuration(value)) {
+    if (checkDuration(value, shouldHideSeconds(picker))) {
       return durationToSeconds(value);
     } else {
       return defaultValue;
@@ -284,7 +283,11 @@ export default (function() {
   };
 
   const getInitialDuration = (picker) => {
-    const duration = getDurationValue(picker, 'duration', 0);
+    let duration = getDurationValue(picker, 'duration', 0);
+    // In case the value has the right value
+    if (duration === 0 && picker.value && checkDuration(picker.value, shouldHideSeconds(picker))) {
+      duration = durationToSeconds(picker.value);
+    }
     return matchConstraints(picker, duration);
   };
   const _init = () => {
