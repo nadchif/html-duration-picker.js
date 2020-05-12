@@ -101,4 +101,8 @@ Set minimum value to 5 minutes
 <input type="text" class="html-duration-picker" data-duration-min="00:05:00">
 ```
 
+Hide seconds 
+```
+<input type="text" class="html-duration-picker" data-hide-seconds>
+```
 
