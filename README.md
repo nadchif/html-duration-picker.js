@@ -23,6 +23,8 @@ html-duration-picker.js is a very tiny JS library used for transforming a native
 
 ```<input type="text" class="html-duration-picker" data-hide-seconds>```
 
+![Duration Picker Input With Hidden Seconds](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/hide-seconds.png)
+
 [See Live Demo](https://nadchif.github.io/html-duration-picker.js/)
 
 Why use html-duration-picker? 
