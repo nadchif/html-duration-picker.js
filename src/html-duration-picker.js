@@ -11,7 +11,7 @@
 
 export default (function() {
   // Gets the cursor selection
-  const getCursorSelection = ({target: {selectionStart, value}}) => {
+  const getCursorSelection = ({target: {selectionStart, value}}, hideSeconds) => {
     const hourMarker = value.indexOf(':');
     const minuteMarker = value.lastIndexOf(':');
     let cursorSelection;
@@ -21,19 +21,20 @@ export default (function() {
       cursorSelection = 'hours';
     }
     // The cursor selection is: minutes
-    if (selectionStart > hourMarker && selectionStart - 1 < minuteMarker) {
+    if (selectionStart > hourMarker && (hideSeconds || selectionStart - 1 < minuteMarker)) {
       cursorSelection = 'minutes';
     }
     // The cursor selection is: seconds
-    if (selectionStart > minuteMarker) {
+    if (!hideSeconds && selectionStart > minuteMarker) {
       cursorSelection = 'seconds';
     }
-    return {cursorSelection, hourMarker, minuteMarker};
+    return {cursorSelection, hideSeconds, hourMarker, minuteMarker};
   };
   // Gets the time interval (hh or mm or ss) and selects the entire block
   const selectFocus = (event) => {
+    const hideSeconds = shouldHideSeconds(event.target)
     // Gets the cursor position and select the nearest time interval
-    const {cursorSelection, hourMarker, minuteMarker} = getCursorSelection(event);
+    const {cursorSelection, hourMarker, minuteMarker} = getCursorSelection(event, hideSeconds);
 
     // Something is wrong with the duration format.
     if (!cursorSelection) {
@@ -47,8 +48,10 @@ export default (function() {
     }
     // The cursor selection is: minutes
     if (cursorSelection === 'minutes') {
+      const increment = hideSeconds ? 3 : 0
+
       event.target.setAttribute('data-adjustment-mode', 60);
-      event.target.setSelectionRange(hourMarker + 1, minuteMarker);
+      event.target.setSelectionRange(hourMarker + 1, minuteMarker + increment);
       return;
     }
     // The cursor selection is: seconds
@@ -62,6 +65,11 @@ export default (function() {
     return;
   };
 
+  const shouldHideSeconds = inputBox => {
+    return inputBox.dataset.hasOwnProperty('hideSeconds') &&
+        inputBox.dataset.hideSeconds !== 'false'
+  }
+
   // Inserts a formatted value into the input box
   const insertFormatted = (inputBox, secondsValue) => {
     const hours = Math.floor(secondsValue / 3600);
@@ -71,11 +79,19 @@ export default (function() {
     const formattedHours = String(hours).padStart(2, '0');
     const formattedMinutes = String(minutes).padStart(2, '0');
     const formattedSeconds = String(seconds).padStart(2, '0');
-    inputBox.value = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+    const value = `${formattedHours}:${formattedMinutes}`
+
+    inputBox.value = !shouldHideSeconds(inputBox) ? `${value}:${formattedSeconds}` : value;
+
+    inputBox.dispatchEvent(new Event('input'))
+    inputBox.dispatchEvent(new Event('change'))
   };
   const highlightIncrementArea = (inputBox, adjustmentFactor) => {
     const hourMarker = inputBox.value.indexOf(':');
     const minuteMarker = inputBox.value.lastIndexOf(':');
+    const hideSeconds = shouldHideSeconds(inputBox)
+
     inputBox.focus();
     inputBox.select();
     if (adjustmentFactor >= 60 * 60) {
@@ -83,7 +99,7 @@ export default (function() {
       inputBox.selectionEnd = hourMarker;
       return;
     }
-    if (adjustmentFactor >= 60) {
+    if (adjustmentFactor >= 60 && !hideSeconds) {
       inputBox.selectionStart = hourMarker + 1; // minutes mode
       inputBox.selectionEnd = minuteMarker;
       return;
@@ -92,7 +108,7 @@ export default (function() {
     inputBox.selectionEnd = minuteMarker + 3;
     return;
   };
-    // gets the adjustment factor for a picker
+  // gets the adjustment factor for a picker
   const getAdjustmentFactor = (picker) => {
     let adjustmentFactor = 1;
     if (Number(picker.getAttribute('data-adjustment-mode')) > 0) {
@@ -146,24 +162,34 @@ export default (function() {
   };
   const durationToSeconds = (value) => {
     const sectioned = value.split(':');
-    if (sectioned.length !== 3) {
+    if (sectioned.length < 2) {
       return 0;
     } else {
-      return Number(sectioned[2]) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+      return Number(sectioned[2] || 0) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
     }
   };
 
   // validate any input in the box;
   const validateInput = (event) => {
-    const {cursorSelection} = getCursorSelection(event);
+    const hideSeconds = shouldHideSeconds(event.target)
+    const {cursorSelection} = getCursorSelection(event, hideSeconds);
     const sectioned = event.target.value.split(':');
 
-    if (event.target.dataset.duration && checkDuration(event.target.dataset.duration) && sectioned.length !== 3) {
+    if (
+        event.target.dataset.duration &&
+        checkDuration(event.target.dataset.duration) &&
+        ((hideSeconds && sectioned.length !== 2) ||
+            (!hideSeconds && sectioned.length !== 3))
+    ) {
       event.target.value = event.target.dataset.duration; // fallback to data-duration value
       return;
     }
-    if (sectioned.length !== 3) {
+    if (!hideSeconds && sectioned.length !== 3) {
       event.target.value = '00:00:00'; // fallback to default
+      return;
+    }
+    else if (hideSeconds && sectioned.length !== 2) {
+      event.target.value = '00:00'; // fallback to default
       return;
     }
     if (isNaN(sectioned[0])) {
@@ -178,11 +204,13 @@ export default (function() {
     if (sectioned[1].length === 2 && sectioned[1].slice(-1) === event.key && cursorSelection === 'minutes') {
       shiftFocus(event.target, 'right');
     }
-    if (isNaN(sectioned[2]) || sectioned[2] < 0) {
-      sectioned[2] = '00';
-    }
-    if (sectioned[2] > 59 || sectioned[2].length > 2) {
-      sectioned[2] = '59';
+    if (!hideSeconds) {
+      if (isNaN(sectioned[2]) || sectioned[2] < 0) {
+        sectioned[2] = '00';
+      }
+      if (sectioned[2] > 59 || sectioned[2].length > 2) {
+        sectioned[2] = '59';
+      }
     }
     event.target.value = sectioned.join(':');
   };
@@ -198,14 +226,14 @@ export default (function() {
     const changeValueKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter'];
     if (changeValueKeys.includes(event.key)) {
       switch (event.key) {
-        // use up and down arrow keys to increase value;
+          // use up and down arrow keys to increase value;
         case 'ArrowDown':
           changeValue(event.target, 'down');
           break;
         case 'ArrowUp':
           changeValue(event.target, 'up');
           break;
-        // use left and right arrow keys to shift focus;
+          // use left and right arrow keys to shift focus;
         case 'ArrowLeft':
           shiftFocus(event.target, 'left');
           break;
@@ -254,7 +282,7 @@ export default (function() {
     // Select all of the input fields with the attribute "html-duration-picker"
     const getInputFields = document.querySelectorAll('input.html-duration-picker');
     getInputFields.forEach((picker) => {
-    // Set the default text and apply some basic styling to the duration picker
+      // Set the default text and apply some basic styling to the duration picker
       if (picker.getAttribute('data-upgraded') == 'true') {
         return; // in case some developer calls this or includes it twice
       }
@@ -340,6 +368,7 @@ export default (function() {
       const controlWrapper = document.createElement('div');
       controlWrapper.setAttribute('style', `display: inline-block; position: relative; background: transparent;
         padding: 0px; width: ${totalPickerWidth}; margin-left: ${pickerLeftMargin}; margin-right: ${pickerRightMargin};`);
+      controlWrapper.classList.add('html-duration-picker-wrapper')
 
       picker.parentNode.insertBefore(controlWrapper, picker);
       controlWrapper.appendChild(picker);
