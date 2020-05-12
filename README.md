@@ -6,7 +6,7 @@ html-duration-picker.js
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/)
-[<img src="https://img.shields.io/badge/slack-@ossenthusiasts-brown.svg?logo=slack">](https://ossenthusiasts.slack.com/)
+[<img src="https://img.shields.io/badge/slack-@ossenthusiasts-brown.svg?logo=slack">](https://join.slack.com/t/ossenthusiasts/shared_invite/zt-eh9g0u7k-l2uUmCCBhUTHY8EWZFShIw)
 
 
 html-duration-picker.js is a very tiny JS library used for transforming a native HTML text input into a duration picker. The aim is for the picker to feel like a native element as much as possible.
