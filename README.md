@@ -42,7 +42,6 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 See [DOCUMENTATION.md](https://github.com/nadchif/html-duration-picker.js/blob/master/DOCUMENTATION.md) for instructions on how to install and use it in your project.
 
 
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
