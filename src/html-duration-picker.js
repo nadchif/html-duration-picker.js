@@ -143,7 +143,7 @@ export default (function() {
     }
     const fixedValue = matchConstraints(inputBox, secondsValue);
     insertFormatted(inputBox, fixedValue);
-    highlightIncrementArea(inputBox, adjustmentFactor);
+    // highlightIncrementArea(inputBox, adjustmentFactor);
   };
 
   // shift focus from one unit to another;
@@ -356,13 +356,34 @@ export default (function() {
             intervalId = setInterval(changeValue, 200, picker, 'down');
           }
         });
+        // handle enter key to increase value, for better accessibility ux
+        btn.addEventListener('keypress', (event) => {
+          event.target.style.transform = 'translateY(1px)';
+          if (event.key == 'Enter') {
+            event.preventDefault();
+            if (btn == scrollUpBtn) {
+              changeValue(picker, 'up');
+            } else {
+              changeValue(picker, 'down');
+            }
+          }
+        });
+        btn.addEventListener('keyup', (event) => {
+          if (event.key == 'Enter') {
+            const adjustmentFactor = getAdjustmentFactor(picker);
+            highlightIncrementArea(picker, adjustmentFactor);
+          }
+        });
         btn.addEventListener('mouseup', (event) => {
           event.target.style.transform = 'translateY(0)';
+          const adjustmentFactor = getAdjustmentFactor(picker);
+          highlightIncrementArea(picker, adjustmentFactor);
           clearInterval(intervalId);
         });
         btn.addEventListener('mouseleave', (event) => {
           event.target.style.transform = 'translateY(0)';
-
+          const adjustmentFactor = getAdjustmentFactor(picker);
+          highlightIncrementArea(picker, adjustmentFactor);
           clearInterval(intervalId);
         });
       });

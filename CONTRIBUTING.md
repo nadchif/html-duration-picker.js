@@ -24,7 +24,7 @@ Contributions and suggestions are very welcome and wanted. I try to respond to p
 	OPTIONAL:
 	To preview locally on a development server, run
 	```
-	npm run dev
+	npm run-script dev
 	```
 
 4. Run tests to make sure there are no lint errors
