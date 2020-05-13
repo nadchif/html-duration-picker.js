@@ -327,11 +327,11 @@ export default (function() {
       scrollUpBtn.setAttribute('aria-label', 'Increase duration');
       scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
-      scrollUpBtn.classList.add('scroll-up')
+      scrollUpBtn.classList.add('scroll-up');
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
       scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)-1}px;`);
-      scrollDownBtn.classList.add('scroll-down')
+      scrollDownBtn.classList.add('scroll-down');
 
       // Create the carets in the buttons. These can be replaced by images, font icons, or text.
       const caretUp = document.createElement('div');
@@ -373,7 +373,7 @@ export default (function() {
       const controlsDiv = document.createElement('div');
       controlsDiv.setAttribute('style', `display:inline-block; position: absolute;top:1px;left: ${parseFloat(totalPickerWidth) - 20}px;
         height:${picker.offsetHeight}px; padding:2px 0`);
-      controlsDiv.classList.add('controls')
+      controlsDiv.classList.add('controls');
 
       // Add buttons to controls div
       controlsDiv.appendChild(scrollUpBtn);
