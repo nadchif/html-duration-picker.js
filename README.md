@@ -36,7 +36,7 @@ Why use html-duration-picker?
 Apache-2.0
 
 ## Contributions
-Contributions and suggestions are very welcome and wanted. I try to respond to pull requests within 48 hours. For more information see [CONTRIBUTING.md](https://github.com/nadchif/html-duration-picker.js/blob/master/CONTRIBUTING.md).
+Contributions and suggestions are very welcome and wanted. We try to respond to pull requests within 48 hours. For more information see [CONTRIBUTING.md](https://github.com/nadchif/html-duration-picker.js/blob/master/CONTRIBUTING.md).
 
 ## Documentation
 See [DOCUMENTATION.md](https://github.com/nadchif/html-duration-picker.js/blob/master/DOCUMENTATION.md) for instructions on how to install and use it in your project.
