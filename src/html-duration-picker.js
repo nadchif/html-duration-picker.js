@@ -284,10 +284,6 @@ export default (function() {
 
   const getInitialDuration = (picker) => {
     let duration = getDurationValue(picker, 'duration', 0);
-    // In case the value has the right value
-    if (duration === 0 && picker.value && checkDuration(picker.value, shouldHideSeconds(picker))) {
-      duration = durationToSeconds(picker.value);
-    }
     return matchConstraints(picker, duration);
   };
   const _init = () => {
@@ -303,7 +299,9 @@ export default (function() {
       const pickerLeftMargin = currentPickerStyle.marginLeft;
       const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
-      insertFormatted(picker, getInitialDuration(picker));
+      if (!picker.value) {
+        insertFormatted(picker, getInitialDuration(picker));
+      }
       picker.style.textAlign = 'right';
       picker.style.paddingRight = '20px';
       picker.style.boxSizing = 'border-box';
