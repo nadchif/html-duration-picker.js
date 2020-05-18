@@ -283,7 +283,7 @@ export default (function() {
   };
 
   const getInitialDuration = (picker) => {
-    let duration = getDurationValue(picker, 'duration', 0);
+    const duration = getDurationValue(picker, 'duration', 0);
     return matchConstraints(picker, duration);
   };
   const _init = () => {
