@@ -299,7 +299,7 @@ export default (function() {
       const pickerLeftMargin = currentPickerStyle.marginLeft;
       const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
-      if (!picker.value) {
+      if (!picker.value || !checkDuration(picker.value, shouldHideSeconds(picker))) {
         insertFormatted(picker, getInitialDuration(picker));
       }
       picker.style.textAlign = 'right';
