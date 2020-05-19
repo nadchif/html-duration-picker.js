@@ -1,14 +1,15 @@
 // webpack.config.js
 const WebpackAutoInject = require('webpack-auto-inject-version');
-const path = require( 'path' );
+const path = require('path');
 const CreateFileWebpack = require('create-file-webpack');
 
-module.exports =(env, args)=> {
+module.exports = (env, args) => {
   console.log(args.mode);
-  return {context: __dirname,
+  return {
+    context: __dirname,
     entry: './src/html-duration-picker.js',
     output: {
-      path: args.mode == 'development' ? path.resolve( __dirname, 'src/compiled' ) : path.resolve( __dirname, 'dist' ),
+      path: args.mode == 'development' ? path.resolve(__dirname, 'src/compiled') : path.resolve(__dirname, 'dist'),
       filename: args.mode == 'development' ? 'html-duration-picker.js' : 'html-duration-picker.min.js',
       library: 'HtmlDurationPicker',
       libraryTarget: 'umd',
@@ -17,16 +18,19 @@ module.exports =(env, args)=> {
       globalObject: 'this',
     },
     module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: 'babel-loader',
-        },
-      ],
+      rules: [{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: ['babel-plugin-remove-template-literals-whitespace'],
+          }
+        }
+      }, ],
     },
     plugins: [
-      new WebpackAutoInject( {
+      new WebpackAutoInject({
         components: {
           AutoIncreaseVersion: true,
           InjectAsComment: false,

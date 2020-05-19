@@ -5,12 +5,12 @@
   "main": "dist/html-duration-picker.min.js",
   "types": "dist/html-duration-picker.min.d.ts",
   "scripts": {
-    "build": "webpack --mode=production --progress --colors",
-    "buildfast": "webpack --mode=development --progress --colors",
-    "buildpatch": "npm version patch && eslint src/html-duration-picker.js && webpack --mode=production --progress --colors",
-    "dev": "lite-server --baseDir=\"src\"",
-    "test": "eslint src/html-duration-picker.js && npm run-script buildfast && ./node_modules/.bin/jasmine",
-    "test-eslint": "eslint src/html-duration-picker.js",
+    "build": "./node_modules/.bin/webpack --mode=production --progress --colors",
+    "buildfast": "./node_modules/.bin/webpack --mode=development --progress --colors",
+    "buildpatch": "npm version patch && ./node_modules/.bin/eslint src/html-duration-picker.js && webpack --mode=production --progress --colors",
+    "dev": "./node_modules/.bin/http-server ./src/ -o",
+    "test": "./node_modules/.bin/eslint src/html-duration-picker.js && npm run-script buildfast && ./node_modules/.bin/jasmine",
+    "test-eslint": "./node_modules/.bin/eslint src/html-duration-picker.js",
     "test-jasmine": "./node_modules/.bin/jasmine",
     "deploy": "npm run-script build && npm publish"
   },
@@ -26,20 +26,23 @@
     "type": "git",
     "url": "https://github.com/nadchif/html-duration-picker.js.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "babel-plugin-remove-template-literals-whitespace": "^1.0.2"
+  },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "babel-loader": "^8.0.6",
+    "@babel/core": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "babel-minify-webpack-plugin": "^0.3.1",
     "create-file-webpack": "^1.0.2",
     "eslint": "^6.7.2",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-jasmine": "^4.1.0",
+    "http-server": "^0.12.3",
     "jasmine": "^3.5.0",
     "jasmine-core": "^3.5.0",
     "jsdom": "^15.2.1",
-    "lite-server": "^2.5.4",
     "path": "^0.12.7",
-    "webpack": "^4.41.2",
+    "webpack": "^4.43.0",
     "webpack-auto-inject-version": "^1.2.2",
     "webpack-cli": "^3.3.10"
   }
