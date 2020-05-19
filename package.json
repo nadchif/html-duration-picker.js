@@ -26,8 +26,7 @@
     "type": "git",
     "url": "https://github.com/nadchif/html-duration-picker.js.git"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "babel-loader": "^8.1.0",
