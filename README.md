@@ -13,11 +13,11 @@ html-duration-picker.js is a very tiny JS library used for transforming a native
 
 **BEFORE** ```<input type="text"> ```
 
-![Default Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-before.jpg)
+![Default Input](https://i.imgur.com/paB6Biy.jpg)
 
 **AFTER** ```<input type="text" class="html-duration-picker">```
 
-![Duration Picker Input](https://github.com/nadchif/html-duration-picker.js/blob/master/screenshots/default-after.jpg)
+![Duration Picker Input](https://i.imgur.com/vewRUA6.jpg)
 
 
 [See Live Demo](https://nadchif.github.io/html-duration-picker.js/)
