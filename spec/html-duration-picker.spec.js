@@ -5,7 +5,7 @@ global.window = dom.window;
 global.document = dom.window.document;
 
 describe('Duration Picker', () => {
-  const HtmlDurationPicker = require('../dist/html-duration-picker.min.js');
+  const HtmlDurationPicker = require('../src/compiled/html-duration-picker.js');
   const testPicker = document.querySelector('.html-duration-picker');
   HtmlDurationPicker.init();
 
@@ -94,4 +94,19 @@ describe('Duration Picker', () => {
       expect(testPicker.value).toEqual('00:31:00');
     });
   });
+
+
+  describe('with invalid value', ()=> {
+    let testPicker;
+    beforeEach(() => {
+      const dom = new JSDOM(`<html><body><input type="text"><input type="text" class="html-duration-picker" value="abcd"></body></html>`);
+      global.document = dom.window.document;
+      testPicker = document.querySelector('.html-duration-picker');
+      HtmlDurationPicker.init();
+    });
+    it('should set 00:00:00 or data-duration when provided an invalid value', () => {
+      expect(testPicker.value).toEqual('00:00:00');
+    });
+  });
+
 });
