@@ -382,8 +382,6 @@ export default (function() {
         });
         btn.addEventListener('mouseleave', (event) => {
           event.target.style.transform = 'translateY(0)';
-          const adjustmentFactor = getAdjustmentFactor(picker);
-   
           clearInterval(intervalId);
         });
       });
