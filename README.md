@@ -1,7 +1,7 @@
 html-duration-picker.js
 =========
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
@@ -72,6 +72,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Vlad160"><img src="https://avatars0.githubusercontent.com/u/21972165?v=4" width="80px;" alt=""/><br /><sub><b>Nestser, Uladzislau</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=Vlad160" title="Code">💻</a> <a href="https://github.com/nadchif/html-duration-picker.js/commits?author=Vlad160" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/laoiseearle"><img src="https://avatars2.githubusercontent.com/u/19372021?v=4" width="80px;" alt=""/><br /><sub><b>Laoise Earle</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=laoiseearle" title="Documentation">📖</a> <a href="#example-laoiseearle" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/ezra-obiwale"><img src="https://avatars1.githubusercontent.com/u/2762623?v=4" width="80px;" alt=""/><br /><sub><b>Ezra Obiwale</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=ezra-obiwale" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Kharanshu31"><img src="https://avatars3.githubusercontent.com/u/63278591?v=4" width="80px;" alt=""/><br /><sub><b>Kharanshu31</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=Kharanshu31" title="Code">💻</a></td>
   </tr>
 </table>
 
