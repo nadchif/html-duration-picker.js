@@ -161,7 +161,7 @@ export default (function() {
 
   // Check data-duration for proper format
   const checkDuration = (duration, hideSeconds) => {
-    const pattern = hideSeconds ? '^[0-9][0-9]:[0-5][0-9]$' : '^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$';
+    const pattern = hideSeconds ? '^[0-9]{2,3}:[0-5][0-9]$' : '^[0-9]{2,3}:[0-5][0-9]:[0-5][0-9]$';
     const regex = RegExp(pattern);
     return regex.test(duration);
   };
