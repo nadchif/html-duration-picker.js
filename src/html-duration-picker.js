@@ -17,11 +17,11 @@ export default (function() {
     let cursorSelection;
 
     // The cursor selection is: hours
-    if (selectionStart < hourMarker) {
+    if (selectionStart <= hourMarker) {
       cursorSelection = 'hours';
     }
     // The cursor selection is: minutes
-    if (selectionStart > hourMarker && (hideSeconds || selectionStart - 1 < minuteMarker)) {
+    if (selectionStart > hourMarker && (hideSeconds || selectionStart - 1 <= minuteMarker)) {
       cursorSelection = 'minutes';
     }
     // The cursor selection is: seconds
@@ -103,19 +103,21 @@ export default (function() {
 
     inputBox.focus();
     inputBox.select();
+
     if (adjustmentFactor >= 60 * 60) {
       inputBox.selectionStart = 0; // hours mode
       inputBox.selectionEnd = hourMarker;
-      return;
-    }
-    if (adjustmentFactor >= 60 && !hideSeconds) {
+    } else if (adjustmentFactor >= 60) {
       inputBox.selectionStart = hourMarker + 1; // minutes mode
       inputBox.selectionEnd = minuteMarker;
-      return;
+    } else if (!hideSeconds) {
+      inputBox.selectionStart = minuteMarker + 1; // seconds mode
+      inputBox.selectionEnd = minuteMarker + 3;
     }
-    inputBox.selectionStart = minuteMarker + 1; // seconds mode
-    inputBox.selectionEnd = minuteMarker + 3;
-    return;
+
+    if (adjustmentFactor >= 1 && adjustmentFactor <= 3600) {
+      inputBox.setAttribute('data-adjustment-mode', adjustmentFactor);
+    }
   };
   // gets the adjustment factor for a picker
   const getAdjustmentFactor = (picker) => {
@@ -149,6 +151,7 @@ export default (function() {
   // shift focus from one unit to another;
   const shiftFocus = (inputBox, toSide) => {
     const adjustmentFactor = getAdjustmentFactor(inputBox);
+
     switch (toSide) {
       case 'left':
         highlightIncrementArea(inputBox, adjustmentFactor * 60);
@@ -161,7 +164,7 @@ export default (function() {
 
   // Check data-duration for proper format
   const checkDuration = (duration, hideSeconds) => {
-    const pattern = hideSeconds ? '^[0-9][0-9]:[0-5][0-9]$' : '^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$';
+    const pattern = hideSeconds ? '^[0-9]{2,3}:[0-5][0-9]$' : '^[0-9]{2,3}:[0-5][0-9]:[0-5][0-9]$';
     const regex = RegExp(pattern);
     return regex.test(duration);
   };
@@ -184,6 +187,7 @@ export default (function() {
     const hideSeconds = shouldHideSeconds(event.target);
     const {cursorSelection} = getCursorSelection(event, hideSeconds);
     const sectioned = event.target.value.split(':');
+
     if (
       event.target.dataset.duration &&
       checkDuration(event.target.dataset.duration, hideSeconds) &&
@@ -220,6 +224,7 @@ export default (function() {
         sectioned[2] = '59';
       }
     }
+
     event.target.value = sectioned.join(':');
   };
 
@@ -310,7 +315,7 @@ export default (function() {
       picker.style.cursor = 'text';
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
-      picker.addEventListener('select', selectFocus); // selects a block of hours, minutes etc
+      picker.addEventListener('focus', selectFocus); // selects a block of hours, minutes etc
       picker.addEventListener('mouseup', selectFocus); // selects a block of hours, minutes etc
       picker.addEventListener('change', validateInput);
       picker.addEventListener('blur', insertWithConstraints);
