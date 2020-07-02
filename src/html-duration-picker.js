@@ -21,13 +21,14 @@ export default (function() {
       cursorSelection = 'hours';
     }
     // The cursor selection is: minutes
-    if (selectionStart > hourMarker && (hideSeconds || selectionStart - 1 <= minuteMarker)) {
+    else if (hideSeconds || selectionStart <= minuteMarker) {
       cursorSelection = 'minutes';
     }
     // The cursor selection is: seconds
-    if (!hideSeconds && selectionStart > minuteMarker) {
+    else if (!hideSeconds && selectionStart > minuteMarker) {
       cursorSelection = 'seconds';
     }
+
     return {cursorSelection, hideSeconds, hourMarker, minuteMarker};
   };
   // Gets the time interval (hh or mm or ss) and selects the entire block
@@ -107,12 +108,13 @@ export default (function() {
     if (adjustmentFactor >= 60 * 60) {
       inputBox.selectionStart = 0; // hours mode
       inputBox.selectionEnd = hourMarker;
-    } else if (adjustmentFactor >= 60) {
-      inputBox.selectionStart = hourMarker + 1; // minutes mode
-      inputBox.selectionEnd = minuteMarker;
-    } else if (!hideSeconds) {
+    } else if (!hideSeconds && adjustmentFactor < 60) {
       inputBox.selectionStart = minuteMarker + 1; // seconds mode
       inputBox.selectionEnd = minuteMarker + 3;
+    } else {
+      inputBox.selectionStart = hourMarker + 1; // minutes mode
+      inputBox.selectionEnd = hourMarker + 3;
+      adjustmentFactor = 60;
     }
 
     if (adjustmentFactor >= 1 && adjustmentFactor <= 3600) {
