@@ -19,13 +19,9 @@ export default (function() {
     // The cursor selection is: hours
     if (selectionStart <= hourMarker) {
       cursorSelection = 'hours';
-    }
-    // The cursor selection is: minutes
-    else if (hideSeconds || selectionStart <= minuteMarker) {
+    } else if (hideSeconds || selectionStart <= minuteMarker) { // The cursor selection is: minutes
       cursorSelection = 'minutes';
-    }
-    // The cursor selection is: seconds
-    else if (!hideSeconds && selectionStart > minuteMarker) {
+    } else if (!hideSeconds && selectionStart > minuteMarker) { // The cursor selection is: seconds
       cursorSelection = 'seconds';
     }
 
