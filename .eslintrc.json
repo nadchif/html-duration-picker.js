@@ -1,8 +1,7 @@
 {
     "extends": ["eslint:recommended", "google"],
     "rules": {
-        "max-len": [1, 140, 4],
-        "brace-style": "off"
+        "max-len": [1, 140, 4]
     },
     "parserOptions": {
         "ecmaVersion": 2017,
