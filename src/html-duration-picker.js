@@ -325,10 +325,12 @@ export default (function() {
       const scrollDownBtn = document.createElement('button');
       const scrollButtons = [scrollUpBtn, scrollDownBtn];
 
+      scrollUpBtn.setAttribute('type', 'button');
       scrollUpBtn.setAttribute('aria-label', 'Increase duration');
       scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
       scrollUpBtn.classList.add('scroll-up');
+      scrollDownBtn.setAttribute('type', 'button');
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
       scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
         height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)-1}px;`);
