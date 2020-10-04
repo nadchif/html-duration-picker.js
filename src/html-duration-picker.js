@@ -289,6 +289,70 @@ export default (function() {
     const duration = getDurationValue(picker, 'duration', 0);
     return matchConstraints(picker, duration);
   };
+
+  const initMobileWrapper = (picker, controlWrapper, scrollUpBtn, scrollDownBtn) => {
+    const mobileControlWrapper = document.createElement('section');
+    mobileControlWrapper.setAttribute('style', `position: absolute; left: 0; right: 0; bottom: 0; background-color: white; height: 80px; transform: translateY(110%); border: 1px solid rgba(118, 118, 118, 1); border-radius: 4px; z-index: 1;`);
+    mobileControlWrapper.style.display = 'none'
+
+    const timeVariable = [
+      {
+        name: 'hour',
+        value: 3600
+      },
+      {
+        name: 'minute',
+        value: 60
+      }
+    ]
+    if (!picker.dataset.hideSeconds) {
+      timeVariable.push({
+        name: 'second',
+        value: 1
+      })
+    }
+
+    timeVariable.forEach((timeEl, timeElIndex) => {
+      const timeControlWrapper = document.createElement('div')
+      timeControlWrapper.setAttribute('style', `display: flex; flex: 1; flex-direction: column; align-items: center; padding: 8px;`)
+
+      const timeElValue = document.createElement('span')
+      timeElValue.setAttribute('style', `border-radius: 4px; border: 1px solid rgba(118, 118, 118, 1); flex: 1; margin: 8px 0; width: 30px; text-align: center;`)
+      timeElValue.innerHTML = picker.value.split(':')[timeElIndex]
+
+      const timeElButtonUp = scrollUpBtn.cloneNode(true)
+      timeElButtonUp.style.position = 'relative'
+      timeElButtonUp.style.top = 0
+      timeElButtonUp.style.flex = 1
+      const timeElButtonDown = scrollDownBtn.cloneNode(true)
+      timeElButtonDown.style.position = 'relative'
+      timeElButtonDown.style.top = 0
+      timeElButtonDown.style.flex = 1
+
+      timeElButtonUp.addEventListener('click', () => {
+        highlightIncrementArea(picker, timeEl.value);
+        picker.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowUp' }))
+        timeElValue.innerHTML = picker.value.split(':')[timeElIndex]
+      })
+
+      timeElButtonDown.addEventListener('click', () => {
+        highlightIncrementArea(picker, timeEl.value);
+        picker.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowDown' }))
+        timeElValue.innerHTML = picker.value.split(':')[timeElIndex]
+      })
+          
+      timeControlWrapper.appendChild(timeElButtonUp)
+      timeControlWrapper.appendChild(timeElValue)
+      timeControlWrapper.appendChild(timeElButtonDown)
+      mobileControlWrapper.appendChild(timeControlWrapper)
+    })
+        
+    controlWrapper.appendChild(mobileControlWrapper)
+    picker.addEventListener('focus', () => {
+      mobileControlWrapper.style.display = 'flex'
+    })
+  }
+
   const _init = () => {
     // Select all of the input fields with the attribute "html-duration-picker"
     const getInputFields = document.querySelectorAll('input.html-duration-picker');
@@ -414,6 +478,7 @@ export default (function() {
       picker.parentNode.insertBefore(controlWrapper, picker);
       controlWrapper.appendChild(picker);
       controlWrapper.appendChild(controlsDiv);
+      initMobileWrapper(picker, controlWrapper, scrollUpBtn, scrollDownBtn)
       return;
     });
     return true;
