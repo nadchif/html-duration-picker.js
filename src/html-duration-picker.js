@@ -259,6 +259,21 @@ export default (function() {
       event.preventDefault();
     }
 
+    // Allow tab to change selection and escape the input
+    if (event.key === 'Tab') {
+      const preAdjustmentFactor = getAdjustmentFactor(event.target);
+      const direction = event.shiftKey ? 'left' : 'right';
+
+      shiftFocus(event.target, direction);
+
+      if (
+        (direction === 'left' && preAdjustmentFactor < 3600) ||
+        (direction === 'right' && preAdjustmentFactor >= 60)
+      ) {
+        event.preventDefault();
+      }
+    }
+
     // The following keys will be accepted when the input field is selected
     const acceptedKeys = ['Backspace', 'ArrowDown', 'ArrowUp', 'Tab'];
     if (isNaN(event.key) && !acceptedKeys.includes(event.key)) {
