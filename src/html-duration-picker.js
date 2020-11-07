@@ -388,6 +388,16 @@ export default (function() {
             }
           }
         });
+
+        if (btn === scrollUpBtn) {
+          btn.addEventListener('keydown', (event) => {
+            if (event.key === 'Tab' && event.shiftKey) {
+              highlightIncrementArea(picker, 1);
+              event.preventDefault();
+            }
+          });
+        }
+
         btn.addEventListener('keyup', (event) => {
           if (event.key == 'Enter') {
             const adjustmentFactor = getAdjustmentFactor(picker);
