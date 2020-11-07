@@ -262,13 +262,14 @@ export default (function() {
     // Allow tab to change selection and escape the input
     if (event.key === 'Tab') {
       const preAdjustmentFactor = getAdjustmentFactor(event.target);
+      const rightAdjustValue = shouldHideSeconds(event.target) ? 3600 : 60;
       const direction = event.shiftKey ? 'left' : 'right';
 
       shiftFocus(event.target, direction);
 
       if (
         (direction === 'left' && preAdjustmentFactor < 3600) ||
-        (direction === 'right' && preAdjustmentFactor >= 60)
+        (direction === 'right' && preAdjustmentFactor >= rightAdjustValue)
       ) {
         event.preventDefault();
       }
