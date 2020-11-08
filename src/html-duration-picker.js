@@ -83,9 +83,17 @@ export default (function() {
     secondsValue %= 3600;
     const minutes = Math.floor(secondsValue / 60);
     const seconds = secondsValue % 60;
-    const formattedHours = String(hours).padStart(2, '0');
+
+    let formattedHours;
     const formattedMinutes = String(minutes).padStart(2, '0');
     const formattedSeconds = String(seconds).padStart(2, '0');
+
+    const hourDigitLimit = parseInt(inputBox.dataset.hourDigitLimit);
+    if (!isNaN(hourDigitLimit) && hourDigitLimit !== Infinity) {
+      formattedHours = String(hours).slice(0, hourDigitLimit);
+    } else {
+      formattedHours = String(hours).padStart(2, '0');
+    }
 
     const value = `${formattedHours}:${formattedMinutes}`;
 
@@ -168,9 +176,16 @@ export default (function() {
   };
 
   const matchConstraints = (picker, duration) => {
-    const {maxDuration, minDuration} = getConstraints(picker);
-    return Math.min(Math.max(duration, minDuration), maxDuration);
+    const {maxDuration, minDuration, hourDigitLimit} = getConstraints(picker);
+
+    const time = Math.min(Math.max(duration, minDuration), maxDuration);
+
+    if (hourDigitLimit === Infinity) return time;
+
+    const hours = Math.floor(time / 3600) % (10 ** hourDigitLimit);
+    return (time % 3600) + (hours * 3600);
   };
+
   const durationToSeconds = (value) => {
     const sectioned = value.split(':');
     if (sectioned.length < 2) {
@@ -211,9 +226,15 @@ export default (function() {
     if (sectioned[1] > 59 || sectioned[1].length > 2) {
       sectioned[1] = '59';
     }
-    if (!hideSeconds && sectioned[1].length === 2 && sectioned[1].slice(-1) === event.key && cursorSelection === 'minutes') {
-      shiftFocus(event.target, 'right');
+
+    const section = {hours: 0, minutes: 1, seconds: 2}[cursorSelection];
+    if (section === 0 || (section === 1 && !hideSeconds)) {
+      const maxLength = section ? 2 : getConstraints(event.target).hourDigitLimit;
+      if (sectioned[section].slice(-1) === event.key && sectioned[section].length >= maxLength) {
+        shiftFocus(event.target, 'right');
+      }
     }
+
     if (!hideSeconds) {
       if (isNaN(sectioned[2]) || sectioned[2] < 0) {
         sectioned[2] = '00';
@@ -295,9 +316,14 @@ export default (function() {
   const getConstraints = (picker) => {
     const minDuration = getDurationValue(picker, 'durationMin', 0);
     const maxDuration = getDurationValue(picker, 'durationMax', Infinity);
+
+    let hourDigitLimit = Number(picker.dataset.hourDigitLimit);
+    if (isNaN(hourDigitLimit) || hourDigitLimit < 1) hourDigitLimit = Infinity;
+
     return {
       minDuration,
       maxDuration,
+      hourDigitLimit,
     };
   };
 
