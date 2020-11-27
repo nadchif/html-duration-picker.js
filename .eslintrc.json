@@ -1,17 +1,22 @@
 {
-    "extends": ["eslint:recommended", "google"],
-    "rules": {
-        "max-len": [1, 140, 4]
-    },
-    "parserOptions": {
-        "ecmaVersion": 2017,
-        "sourceType": "module"
-    },
+  "extends": ["eslint:recommended", "google"],
+  "rules": {
+    "max-len": [1, 140, 4],
 
-    "env": {
-        "es6": true,
-        "browser": true,
-        "node": true,
-        "jasmine": true
-    }
+    // These rules are not compatible with Prettier.
+    "indent": 0,
+    "operator-linebreak": 0,
+    "space-before-function-paren": 0
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  }
 }

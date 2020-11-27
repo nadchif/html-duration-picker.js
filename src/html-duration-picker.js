@@ -9,9 +9,12 @@
  *
  */
 
-export default (function() {
+export default (function () {
   // Gets the cursor selection
-  const getCursorSelection = ({target: {selectionStart, value}}, hideSeconds) => {
+  const getCursorSelection = (
+    {target: {selectionStart, value}},
+    hideSeconds,
+  ) => {
     const hourMarker = value.indexOf(':');
     const minuteMarker = value.lastIndexOf(':');
     let cursorSelection;
@@ -19,9 +22,11 @@ export default (function() {
     // The cursor selection is: hours
     if (selectionStart <= hourMarker) {
       cursorSelection = 'hours';
-    } else if (hideSeconds || selectionStart <= minuteMarker) { // The cursor selection is: minutes
+    } else if (hideSeconds || selectionStart <= minuteMarker) {
+      // The cursor selection is: minutes
       cursorSelection = 'minutes';
-    } else if (!hideSeconds && selectionStart > minuteMarker) { // The cursor selection is: seconds
+    } else if (!hideSeconds && selectionStart > minuteMarker) {
+      // The cursor selection is: seconds
       cursorSelection = 'seconds';
     }
 
@@ -31,7 +36,10 @@ export default (function() {
   const selectFocus = (event) => {
     const hideSeconds = shouldHideSeconds(event.target);
     // Gets the cursor position and select the nearest time interval
-    const {cursorSelection, hourMarker, minuteMarker} = getCursorSelection(event, hideSeconds);
+    const {cursorSelection, hourMarker, minuteMarker} = getCursorSelection(
+      event,
+      hideSeconds,
+    );
 
     // Something is wrong with the duration format.
     if (!cursorSelection) {
@@ -63,11 +71,14 @@ export default (function() {
   };
 
   const shouldHideSeconds = (inputBox) => {
-    return inputBox.dataset.hideSeconds !== undefined && inputBox.dataset.hideSeconds !== 'false';
+    return (
+      inputBox.dataset.hideSeconds !== undefined &&
+      inputBox.dataset.hideSeconds !== 'false'
+    );
   };
 
   const createEvent = (type, option = {bubbles: false, cancelable: false}) => {
-    if (typeof(Event) === 'function') {
+    if (typeof Event === 'function') {
       return new Event(type);
     } else {
       const event = document.createEvent('Event');
@@ -89,7 +100,9 @@ export default (function() {
 
     const value = `${formattedHours}:${formattedMinutes}`;
 
-    inputBox.value = !shouldHideSeconds(inputBox) ? `${value}:${formattedSeconds}` : value;
+    inputBox.value = !shouldHideSeconds(inputBox)
+      ? `${value}:${formattedSeconds}`
+      : value;
 
     inputBox.dispatchEvent(createEvent('input'));
   };
@@ -162,7 +175,9 @@ export default (function() {
 
   // Check data-duration for proper format
   const checkDuration = (duration, hideSeconds) => {
-    const pattern = hideSeconds ? '^[0-9]{2,3}:[0-5][0-9]$' : '^[0-9]{2,3}:[0-5][0-9]:[0-5][0-9]$';
+    const pattern = hideSeconds
+      ? '^[0-9]{2,3}:[0-5][0-9]$'
+      : '^[0-9]{2,3}:[0-5][0-9]:[0-5][0-9]$';
     const regex = RegExp(pattern);
     return regex.test(duration);
   };
@@ -176,7 +191,11 @@ export default (function() {
     if (sectioned.length < 2) {
       return 0;
     } else {
-      return Number(sectioned[2] || 0) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+      return (
+        Number(sectioned[2] || 0) +
+        Number(sectioned[1] * 60) +
+        Number(sectioned[0] * 60 * 60)
+      );
     }
   };
 
@@ -211,7 +230,12 @@ export default (function() {
     if (sectioned[1] > 59 || sectioned[1].length > 2) {
       sectioned[1] = '59';
     }
-    if (!hideSeconds && sectioned[1].length === 2 && sectioned[1].slice(-1) === event.key && cursorSelection === 'minutes') {
+    if (
+      !hideSeconds &&
+      sectioned[1].length === 2 &&
+      sectioned[1].slice(-1) === event.key &&
+      cursorSelection === 'minutes'
+    ) {
       shiftFocus(event.target, 'right');
     }
     if (!hideSeconds) {
@@ -234,7 +258,13 @@ export default (function() {
   };
 
   const handleKeydown = (event) => {
-    const changeValueKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter'];
+    const changeValueKeys = [
+      'ArrowDown',
+      'ArrowUp',
+      'ArrowLeft',
+      'ArrowRight',
+      'Enter',
+    ];
     if (changeValueKeys.includes(event.key)) {
       switch (event.key) {
         // use up and down arrow keys to increase value;
@@ -244,7 +274,7 @@ export default (function() {
         case 'ArrowUp':
           changeValue(event.target, 'up');
           break;
-          // use left and right arrow keys to shift focus;
+        // use left and right arrow keys to shift focus;
         case 'ArrowLeft':
           shiftFocus(event.target, 'left');
           break;
@@ -307,18 +337,24 @@ export default (function() {
   };
   const _init = () => {
     // Select all of the input fields with the attribute "html-duration-picker"
-    const getInputFields = document.querySelectorAll('input.html-duration-picker');
+    const getInputFields = document.querySelectorAll(
+      'input.html-duration-picker',
+    );
     getInputFields.forEach((picker) => {
       // Set the default text and apply some basic styling to the duration picker
       if (picker.getAttribute('data-upgraded') == 'true') {
         return; // in case some developer calls this or includes it twice
       }
-      const currentPickerStyle = picker.currentStyle || window.getComputedStyle(picker);
+      const currentPickerStyle =
+        picker.currentStyle || window.getComputedStyle(picker);
       const pickerRightMargin = currentPickerStyle.marginRight;
       const pickerLeftMargin = currentPickerStyle.marginLeft;
       const totalPickerWidth = currentPickerStyle.width;
       picker.setAttribute('data-upgraded', true);
-      if (!picker.value || !checkDuration(picker.value, shouldHideSeconds(picker))) {
+      if (
+        !picker.value ||
+        !checkDuration(picker.value, shouldHideSeconds(picker))
+      ) {
         insertFormatted(picker, getInitialDuration(picker));
       }
       picker.style.textAlign = 'right';
@@ -343,22 +379,40 @@ export default (function() {
 
       scrollUpBtn.setAttribute('type', 'button');
       scrollUpBtn.setAttribute('aria-label', 'Increase duration');
-      scrollUpBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
-        height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: 1px;`);
+      scrollUpBtn.setAttribute(
+        'style',
+        `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
+        height:${
+          picker.offsetHeight / 2 - 1
+        }px !important; position:absolute; top: 1px;`,
+      );
       scrollUpBtn.classList.add('scroll-up');
       scrollDownBtn.setAttribute('type', 'button');
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
-      scrollDownBtn.setAttribute('style', `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
-        height:${(picker.offsetHeight/2)-1}px !important; position:absolute; top: ${(picker.offsetHeight/2)-1}px;`);
+      scrollDownBtn.setAttribute(
+        'style',
+        `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
+        height:${
+          picker.offsetHeight / 2 - 1
+        }px !important; position:absolute; top: ${
+          picker.offsetHeight / 2 - 1
+        }px;`,
+      );
       scrollDownBtn.classList.add('scroll-down');
 
       // Create the carets in the buttons. These can be replaced by images, font icons, or text.
       const caretUp = document.createElement('div');
       const caretDown = document.createElement('div');
-      caretUp.setAttribute('style', `width:0;height:0;
-        border-style:solid;border-width:0 4px 5px 4px; border-color:transparent transparent #000 transparent`);
-      caretDown.setAttribute('style', `width:0;height:0;
-        border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`);
+      caretUp.setAttribute(
+        'style',
+        `width:0;height:0;
+        border-style:solid;border-width:0 4px 5px 4px; border-color:transparent transparent #000 transparent`,
+      );
+      caretDown.setAttribute(
+        'style',
+        `width:0;height:0;
+        border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`,
+      );
       // Insert the carets into the up and down buttons
       scrollDownBtn.appendChild(caretDown);
       scrollUpBtn.appendChild(caretUp);
@@ -423,8 +477,13 @@ export default (function() {
 
       // this div houses the increase/decrease buttons
       const controlsDiv = document.createElement('div');
-      controlsDiv.setAttribute('style', `display:inline-block; position: absolute;top:1px;left: ${parseFloat(totalPickerWidth) - 20}px;
-        height:${picker.offsetHeight}px; padding:2px 0`);
+      controlsDiv.setAttribute(
+        'style',
+        `display:inline-block; position: absolute;top:1px;left: ${
+          parseFloat(totalPickerWidth) - 20
+        }px;
+        height:${picker.offsetHeight}px; padding:2px 0`,
+      );
       controlsDiv.classList.add('controls');
 
       // Add buttons to controls div
@@ -433,8 +492,11 @@ export default (function() {
 
       // this div wraps around existing input, then appends control div
       const controlWrapper = document.createElement('div');
-      controlWrapper.setAttribute('style', `display: inline-block; position: relative; background: transparent;
-        padding: 0px; width: ${totalPickerWidth}; margin-left: ${pickerLeftMargin}; margin-right: ${pickerRightMargin};`);
+      controlWrapper.setAttribute(
+        'style',
+        `display: inline-block; position: relative; background: transparent;
+        padding: 0px; width: ${totalPickerWidth}; margin-left: ${pickerLeftMargin}; margin-right: ${pickerRightMargin};`,
+      );
       controlWrapper.classList.add('html-duration-picker-wrapper');
 
       picker.parentNode.insertBefore(controlWrapper, picker);
