@@ -1,0 +1,47 @@
+.pickerStyles {
+  text-align: right;
+  padding-right: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  cursor: text;
+}
+
+.scrollStyle {
+  text-align: center;
+  width: 16px;
+  padding: 0px 4px;
+  border: none;
+  cursor: default;
+  position: absolute;
+}
+
+.caretStyle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.caretUpStyle {
+  border-width: 0 4px 5px 4px;
+  border-color: transparent transparent #000 transparent;
+}
+
+.caretDownStyle {
+  border-width: 5px 4px 0 4px;
+  border-color: #000 transparent transparent transparent;
+}
+
+.controlsDivStyle {
+  display: inline-block;
+  position: absolute;
+  top: 1px;
+  padding: 2px 0;
+}
+
+.controlWrapperStyle {
+  display: inline-block;
+  position: relative;
+  background: transparent;
+  padding: 0px;
+}
