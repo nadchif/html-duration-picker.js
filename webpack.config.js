@@ -1,7 +1,11 @@
 // webpack.config.js
+const webpack = require('webpack');
 const WebpackAutoInject = require('webpack-auto-inject-version');
 const path = require('path');
+const fs = require('fs');
 const CreateFileWebpack = require('create-file-webpack');
+
+const pickerStyles =  fs.readFileSync(path.join(__dirname, 'src', 'style.css')).toString().replace(/\n/gi,''); // load styles.css
 
 module.exports = (env, args) => {
   console.log(args.mode);
@@ -17,8 +21,16 @@ module.exports = (env, args) => {
       // umdNamedDefine: true,
       globalObject: 'this',
     },
+    devServer: {
+      contentBase: path.join(__dirname, 'src'),
+      compress: true,
+      port: 3000,
+      open:true,
+      watchContentBase: true,
+    },
     module: {
-      rules: [{
+      rules: [
+        {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -30,6 +42,9 @@ module.exports = (env, args) => {
       }, ],
     },
     plugins: [
+      new webpack.DefinePlugin({
+        PICKER_STYLES_CSS_CONTENTS: JSON.stringify(pickerStyles),
+      }),
       new WebpackAutoInject({
         components: {
           AutoIncreaseVersion: true,

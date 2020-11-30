@@ -10,9 +10,17 @@
  */
 
 export default (function () {
+  /*
+  DO NOT CHANGE THE LINE BELOW. IT IS REQUIRED TO INSERT STYLES FROM 'style.css'
+  */
+  const pickerStyles = PICKER_STYLES_CSS_CONTENTS; 
+  /*
+  DO NOT CHANGE THE LINE ABOVE. IT IS REQUIRED TO INSERT STYLES FROM 'style.css'
+  */
+
   // Gets the cursor selection
   const getCursorSelection = (
-    {target: {selectionStart, value}},
+    { target: { selectionStart, value } },
     hideSeconds,
   ) => {
     const hourMarker = value.indexOf(':');
@@ -30,13 +38,13 @@ export default (function () {
       cursorSelection = 'seconds';
     }
 
-    return {cursorSelection, hideSeconds, hourMarker, minuteMarker};
+    return { cursorSelection, hideSeconds, hourMarker, minuteMarker };
   };
   // Gets the time interval (hh or mm or ss) and selects the entire block
   const selectFocus = (event) => {
     const hideSeconds = shouldHideSeconds(event.target);
     // Gets the cursor position and select the nearest time interval
-    const {cursorSelection, hourMarker, minuteMarker} = getCursorSelection(
+    const { cursorSelection, hourMarker, minuteMarker } = getCursorSelection(
       event,
       hideSeconds,
     );
@@ -77,7 +85,7 @@ export default (function () {
     );
   };
 
-  const createEvent = (type, option = {bubbles: false, cancelable: false}) => {
+  const createEvent = (type, option = { bubbles: false, cancelable: false }) => {
     if (typeof Event === 'function') {
       return new Event(type);
     } else {
@@ -183,7 +191,7 @@ export default (function () {
   };
 
   const matchConstraints = (picker, duration) => {
-    const {maxDuration, minDuration} = getConstraints(picker);
+    const { maxDuration, minDuration } = getConstraints(picker);
     return Math.min(Math.max(duration, minDuration), maxDuration);
   };
   const durationToSeconds = (value) => {
@@ -202,7 +210,7 @@ export default (function () {
   // validate any input in the box;
   const validateInput = (event) => {
     const hideSeconds = shouldHideSeconds(event.target);
-    const {cursorSelection} = getCursorSelection(event, hideSeconds);
+    const { cursorSelection } = getCursorSelection(event, hideSeconds);
     const sectioned = event.target.value.split(':');
 
     if (
@@ -336,6 +344,15 @@ export default (function () {
     return matchConstraints(picker, duration);
   };
   const _init = () => {
+    // append styles to DOM
+    const head = document.head || document.getElementsByTagName('head')[0];
+    const style = document.createElement('style');
+    head.appendChild(style);
+    style.styleSheet
+      ? style.styleSheet.cssText = pickerStyles //IE8 and below.
+      : style.appendChild(document.createTextNode(pickerStyles));
+
+
     // Select all of the input fields with the attribute "html-duration-picker"
     const getInputFields = document.querySelectorAll(
       'input.html-duration-picker',
@@ -385,8 +402,7 @@ export default (function () {
       scrollDownBtn.setAttribute('class', 'scrollStyle');
       scrollDownBtn.setAttribute(
         'style',
-        `height:${picker.offsetHeight / 2 - 1}px !important; top: ${
-          picker.offsetHeight / 2 - 1
+        `height:${picker.offsetHeight / 2 - 1}px !important; top: ${picker.offsetHeight / 2 - 1
         }px;`,
       );
       scrollDownBtn.classList.add('scroll-down');
