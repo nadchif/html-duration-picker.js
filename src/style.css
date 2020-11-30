@@ -10,7 +10,7 @@
 .scrollStyle {
   text-align: center;
   width: 16px;
-  padding: 0px 4px;
+  padding: 0 4px;
   border: none;
   cursor: default;
   position: absolute;
@@ -43,5 +43,5 @@
   display: inline-block;
   position: relative;
   background: transparent;
-  padding: 0px;
+  padding: 0;
 }
