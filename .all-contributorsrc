@@ -200,6 +200,15 @@
       "contributions": [
         "infra"
       ]
+    },
+    {
+      "login": "aravindsakthivel",
+      "name": "Aravindan S",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/59511858?v=4",
+      "profile": "http://www.linkedin.com/in/aravindansakthivel",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
