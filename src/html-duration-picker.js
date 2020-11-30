@@ -357,12 +357,7 @@ export default (function () {
       ) {
         insertFormatted(picker, getInitialDuration(picker));
       }
-      picker.style.textAlign = 'right';
-      picker.style.paddingRight = '20px';
-      picker.style.boxSizing = 'border-box';
-      picker.style.width = '100%';
-      picker.style.margin = 0;
-      picker.style.cursor = 'text';
+      picker.setAttribute('class', 'pickerStyles');
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
       picker.addEventListener('focus', selectFocus); // selects a block of hours, minutes etc
@@ -379,22 +374,18 @@ export default (function () {
 
       scrollUpBtn.setAttribute('type', 'button');
       scrollUpBtn.setAttribute('aria-label', 'Increase duration');
+      scrollUpBtn.setAttribute('class', 'scrollStyle');
       scrollUpBtn.setAttribute(
         'style',
-        `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
-        height:${
-          picker.offsetHeight / 2 - 1
-        }px !important; position:absolute; top: 1px;`,
+        `height:${picker.offsetHeight / 2 - 1}px !important; top: 1px;`,
       );
       scrollUpBtn.classList.add('scroll-up');
       scrollDownBtn.setAttribute('type', 'button');
       scrollDownBtn.setAttribute('aria-label', 'Decrease duration');
+      scrollDownBtn.setAttribute('class', 'scrollStyle');
       scrollDownBtn.setAttribute(
         'style',
-        `text-align:center; width: 16px;padding: 0px 4px; border:none; cursor:default;
-        height:${
-          picker.offsetHeight / 2 - 1
-        }px !important; position:absolute; top: ${
+        `height:${picker.offsetHeight / 2 - 1}px !important; top: ${
           picker.offsetHeight / 2 - 1
         }px;`,
       );
@@ -403,16 +394,8 @@ export default (function () {
       // Create the carets in the buttons. These can be replaced by images, font icons, or text.
       const caretUp = document.createElement('div');
       const caretDown = document.createElement('div');
-      caretUp.setAttribute(
-        'style',
-        `width:0;height:0;
-        border-style:solid;border-width:0 4px 5px 4px; border-color:transparent transparent #000 transparent`,
-      );
-      caretDown.setAttribute(
-        'style',
-        `width:0;height:0;
-        border-style:solid;border-width:5px 4px 0 4px; border-color:#000 transparent transparent transparent`,
-      );
+      caretUp.setAttribute('class', 'caretStyle caretUpStyle');
+      caretDown.setAttribute('class', 'caretStyle caretDownStyle');
       // Insert the carets into the up and down buttons
       scrollDownBtn.appendChild(caretDown);
       scrollUpBtn.appendChild(caretUp);
@@ -477,12 +460,11 @@ export default (function () {
 
       // this div houses the increase/decrease buttons
       const controlsDiv = document.createElement('div');
+      controlsDiv.setAttribute('class', 'controlsDivStyle');
       controlsDiv.setAttribute(
         'style',
-        `display:inline-block; position: absolute;top:1px;left: ${
-          parseFloat(totalPickerWidth) - 20
-        }px;
-        height:${picker.offsetHeight}px; padding:2px 0`,
+        `left: ${parseFloat(totalPickerWidth) - 20}px;
+        height:${picker.offsetHeight}px;`,
       );
       controlsDiv.classList.add('controls');
 
@@ -492,10 +474,10 @@ export default (function () {
 
       // this div wraps around existing input, then appends control div
       const controlWrapper = document.createElement('div');
+      controlWrapper.setAttribute('class', 'controlWrapperStyle');
       controlWrapper.setAttribute(
         'style',
-        `display: inline-block; position: relative; background: transparent;
-        padding: 0px; width: ${totalPickerWidth}; margin-left: ${pickerLeftMargin}; margin-right: ${pickerRightMargin};`,
+        `width: ${totalPickerWidth}; margin-left: ${pickerLeftMargin}; margin-right: ${pickerRightMargin};`,
       );
       controlWrapper.classList.add('html-duration-picker-wrapper');
 
