@@ -29,6 +29,8 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-shorthand-properties": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
     "babel-loader": "^8.1.0",
     "babel-minify-webpack-plugin": "^0.3.1",
     "babel-plugin-remove-template-literals-whitespace": "^1.0.2",

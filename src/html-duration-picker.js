@@ -10,10 +10,15 @@
  */
 
 export default (function () {
+  // Function to make IE9+ support forEach:
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
+
   /*
   DO NOT CHANGE THE LINE BELOW. IT IS REQUIRED TO INSERT STYLES FROM 'style.css'
   */
-  const pickerStyles = PICKER_STYLES_CSS_CONTENTS; 
+  const pickerStyles = PICKER_STYLES_CSS_CONTENTS;
   /*
   DO NOT CHANGE THE LINE ABOVE. IT IS REQUIRED TO INSERT STYLES FROM 'style.css'
   */
@@ -343,15 +348,16 @@ export default (function () {
     const duration = getDurationValue(picker, 'duration', 0);
     return matchConstraints(picker, duration);
   };
-  const _init = () => {
+  const _init = (setStyles) => {
     // append styles to DOM
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const style = document.createElement('style');
-    head.appendChild(style);
-    style.styleSheet
-      ? style.styleSheet.cssText = pickerStyles //IE8 and below.
-      : style.appendChild(document.createTextNode(pickerStyles));
-
+    if (setStyles) {
+      const head = document.head || document.getElementsByTagName('head')[0];
+      const style = document.createElement('style');
+      head.appendChild(style);
+      style.styleSheet
+        ? style.styleSheet.cssText = pickerStyles //IE8 and below.
+        : style.appendChild(document.createTextNode(pickerStyles));
+    }
 
     // Select all of the input fields with the attribute "html-duration-picker"
     const getInputFields = document.querySelectorAll(
@@ -505,9 +511,9 @@ export default (function () {
     return true;
   };
 
-  window.addEventListener('DOMContentLoaded', () => _init());
+  window.addEventListener('DOMContentLoaded', () => _init(true));
   return {
-    init: _init,
-    refresh: _init,
+    init: () => _init(true),
+    refresh: () => _init(false),
   };
 })();
