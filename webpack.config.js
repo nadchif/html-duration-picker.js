@@ -8,13 +8,12 @@ const CreateFileWebpack = require('create-file-webpack');
 const pickerStyles = fs.readFileSync(path.join(__dirname, 'src', 'style.css')).toString().replace(/\n/gi, ''); // load styles.css
 
 module.exports = (env, args) => {
-
-  const browserTarget = args.target == 'ie' ? {
-    "targets": {
-      "chrome": "58",
-      "ie": "9"
+  const browserTarget = env && env.target == 'ie' ? {
+    'targets': {
+      'chrome': '58',
+      'ie': '9',
     },
-    "useBuiltIns": "usage"
+    'useBuiltIns': 'usage',
   } : {};
 
   return {
@@ -47,13 +46,13 @@ module.exports = (env, args) => {
               plugins: ['babel-plugin-remove-template-literals-whitespace'],
               presets: [
                 [
-                  "@babel/preset-env",
-                  browserTarget
-                ]
-              ]
-            }
-          }
-        },],
+                  '@babel/preset-env',
+                  browserTarget,
+                ],
+              ],
+            },
+          },
+        }],
     },
     plugins: [
       new webpack.DefinePlugin({

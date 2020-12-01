@@ -6,12 +6,13 @@
   "types": "dist/html-duration-picker.min.d.ts",
   "scripts": {
     "build": "./node_modules/.bin/webpack --mode=production --progress --colors",
-    "buildfast": "./node_modules/.bin/webpack --mode=development --progress --colors",
-    "buildpatch": "npm version patch && ./node_modules/.bin/eslint src/html-duration-picker.js && webpack --mode=production --progress --colors",
+    "build:dev": "./node_modules/.bin/webpack --mode=development --progress --colors",
+    "build:full": "./node_modules/.bin/webpack --mode=production  --env.target='ie' --progress --colors",
     "dev": "./node_modules/.bin/webpack-dev-server --mode development --config webpack.config.js",
-    "test": "./node_modules/.bin/eslint src/html-duration-picker.js && npm run-script buildfast && ./node_modules/.bin/jasmine",
-    "test-eslint": "./node_modules/.bin/eslint src/html-duration-picker.js",
-    "test-jasmine": "./node_modules/.bin/jasmine",
+    "dev:full": "./node_modules/.bin/webpack-dev-server --mode development --env.target='ie' --config webpack.config.js",
+    "test": "npm run-script test:eslint && npm run-script build:dev && npm run-script test:jasmine",
+    "test:eslint": "./node_modules/.bin/eslint ./src/html-duration-picker.js",
+    "test:jasmine": "./node_modules/.bin/jasmine",
     "deploy": "npm run-script build && npm publish"
   },
   "keywords": [

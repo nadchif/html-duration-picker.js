@@ -1,3 +1,5 @@
+/* global PICKER_STYLES_CSS_CONTENTS */
+
 /**
  * @preserve
  * html-duration-picker.js
@@ -10,8 +12,8 @@
  */
 
 export default (function () {
-  // Function to make IE9+ support forEach:
-  if (window.NodeList && !NodeList.prototype.forEach) {
+  // IE9+ support forEach:
+  if (window.NodeList && !window.NodeList.prototype.forEach) {
     NodeList.prototype.forEach = Array.prototype.forEach;
   }
 
@@ -25,7 +27,7 @@ export default (function () {
 
   // Gets the cursor selection
   const getCursorSelection = (
-    { target: { selectionStart, value } },
+    {target: {selectionStart, value}},
     hideSeconds,
   ) => {
     const hourMarker = value.indexOf(':');
@@ -43,13 +45,13 @@ export default (function () {
       cursorSelection = 'seconds';
     }
 
-    return { cursorSelection, hideSeconds, hourMarker, minuteMarker };
+    return {cursorSelection, hideSeconds, hourMarker, minuteMarker};
   };
   // Gets the time interval (hh or mm or ss) and selects the entire block
   const selectFocus = (event) => {
     const hideSeconds = shouldHideSeconds(event.target);
     // Gets the cursor position and select the nearest time interval
-    const { cursorSelection, hourMarker, minuteMarker } = getCursorSelection(
+    const {cursorSelection, hourMarker, minuteMarker} = getCursorSelection(
       event,
       hideSeconds,
     );
@@ -90,7 +92,7 @@ export default (function () {
     );
   };
 
-  const createEvent = (type, option = { bubbles: false, cancelable: false }) => {
+  const createEvent = (type, option = {bubbles: false, cancelable: false}) => {
     if (typeof Event === 'function') {
       return new Event(type);
     } else {
@@ -196,7 +198,7 @@ export default (function () {
   };
 
   const matchConstraints = (picker, duration) => {
-    const { maxDuration, minDuration } = getConstraints(picker);
+    const {maxDuration, minDuration} = getConstraints(picker);
     return Math.min(Math.max(duration, minDuration), maxDuration);
   };
   const durationToSeconds = (value) => {
@@ -215,7 +217,7 @@ export default (function () {
   // validate any input in the box;
   const validateInput = (event) => {
     const hideSeconds = shouldHideSeconds(event.target);
-    const { cursorSelection } = getCursorSelection(event, hideSeconds);
+    const {cursorSelection} = getCursorSelection(event, hideSeconds);
     const sectioned = event.target.value.split(':');
 
     if (
@@ -355,7 +357,7 @@ export default (function () {
       const style = document.createElement('style');
       head.appendChild(style);
       style.styleSheet
-        ? style.styleSheet.cssText = pickerStyles //IE8 and below.
+        ? style.styleSheet.cssText = pickerStyles // IE8 and below.
         : style.appendChild(document.createTextNode(pickerStyles));
     }
 
