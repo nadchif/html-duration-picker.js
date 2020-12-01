@@ -24,7 +24,7 @@ html-duration-picker.js is a very tiny JS library used for transforming a native
 
 Why use html-duration-picker? 
 
-* Tiny (~7kb)
+* Tiny (< 10 kb)
 * No additional dependencies (CSS, jQuery, etc)
 * Bootstrap 3 and Bootstrap 4 Compatible
 * Angular Compatible

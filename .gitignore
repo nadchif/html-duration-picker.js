@@ -3,3 +3,4 @@ node_modules
 bootstrap.css
 html-duration-picker.min.d.ts
 /src/compiled
+.vscode

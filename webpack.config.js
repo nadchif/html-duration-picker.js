@@ -5,10 +5,17 @@ const path = require('path');
 const fs = require('fs');
 const CreateFileWebpack = require('create-file-webpack');
 
-const pickerStyles =  fs.readFileSync(path.join(__dirname, 'src', 'style.css')).toString().replace(/\n/gi,''); // load styles.css
+const pickerStyles = fs.readFileSync(path.join(__dirname, 'src', 'style.css')).toString().replace(/\n/gi, ''); // load styles.css
 
 module.exports = (env, args) => {
-  console.log(args.mode);
+  const browserTarget = env && env.target == 'ie' ? {
+    'targets': {
+      'chrome': '58',
+      'ie': '9',
+    },
+    'useBuiltIns': 'usage',
+  } : {};
+
   return {
     context: __dirname,
     entry: './src/html-duration-picker.js',
@@ -24,22 +31,28 @@ module.exports = (env, args) => {
     devServer: {
       contentBase: path.join(__dirname, 'src'),
       compress: true,
-      port: 3000,
-      open:true,
+      port: 9000,
+      open: true,
       watchContentBase: true,
     },
     module: {
       rules: [
         {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: ['babel-plugin-remove-template-literals-whitespace'],
-          }
-        }
-      }, ],
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              plugins: ['babel-plugin-remove-template-literals-whitespace'],
+              presets: [
+                [
+                  '@babel/preset-env',
+                  browserTarget,
+                ],
+              ],
+            },
+          },
+        }],
     },
     plugins: [
       new webpack.DefinePlugin({
