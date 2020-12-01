@@ -11,3 +11,6 @@ DOCUMENTATION.md
 screenshots/*
 .github
 _config.yml
+.all-contributorsrc
+.gitattributes
+.prettierrc.yaml
