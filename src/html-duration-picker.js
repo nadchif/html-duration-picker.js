@@ -382,7 +382,7 @@ export default (function () {
       ) {
         insertFormatted(picker, getInitialDuration(picker));
       }
-      picker.setAttribute('class', 'pickerStyles');
+      picker.classList.add('pickerStyles');
       picker.setAttribute('aria-label', 'Duration Picker');
       picker.addEventListener('keydown', handleKeydown);
       picker.addEventListener('focus', selectFocus); // selects a block of hours, minutes etc

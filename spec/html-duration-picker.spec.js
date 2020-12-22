@@ -1,7 +1,7 @@
 const {JSDOM} = require('jsdom');
 
 const dom = new JSDOM(`
-<html><body><input type="text"><input type="text" class="html-duration-picker" data-duration="00:90:00"></body></html>
+<html><body><input type="text"><input type="text" class="html-duration-picker other-class" data-duration="00:90:00"></body></html>
 `);
 global.window = dom.window;
 global.document = dom.window.document;
@@ -17,6 +17,11 @@ describe('Duration Picker', () => {
     });
     it('should upgrade set a start value in xx:xx:xx format', () => {
       expect(testPicker.value).toMatch('^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$');
+    });
+    it('should not override other existing classes', () => {
+      const classList = Array.from(testPicker.classList);
+      expect(classList).toContain('html-duration-picker');
+      expect(classList).toContain('other-class');
     });
   });
 
@@ -61,7 +66,7 @@ describe('Duration Picker', () => {
     beforeEach(() => {
       const dom = new JSDOM(`
       <html><body><input type="text">
-        <input type="text" class="html-duration-picker" data-duration="00:29:00" data-duration-min="00:30:00" />
+        <input type="text" class="html-duration-picker other-class" data-duration="00:29:00" data-duration-min="00:30:00" />
         </body></html>
       `);
       global.document = dom.window.document;
@@ -80,7 +85,7 @@ describe('Duration Picker', () => {
     beforeEach(() => {
       const dom = new JSDOM(`
       <html><body><input type="text">
-      <input type="text" class="html-duration-picker" data-duration-max="00:31:00" data-duration-min="00:30:00" />
+      <input type="text" class="html-duration-picker other-class" data-duration-max="00:31:00" data-duration-min="00:30:00" />
       </body></html>`);
       global.document = dom.window.document;
       testPicker = document.querySelector('.html-duration-picker');
@@ -110,7 +115,7 @@ describe('Duration Picker', () => {
     let testPicker;
     beforeEach(() => {
       const dom = new JSDOM(
-        `<html><body><input type="text"><input type="text" class="html-duration-picker" value="abcd"></body></html>`,
+        `<html><body><input type="text"><input type="text" class="html-duration-picker other-class" value="abcd"></body></html>`,
       );
       global.document = dom.window.document;
       testPicker = document.querySelector('.html-duration-picker');
