@@ -21,7 +21,7 @@ describe('Duration Picker', () => {
     it('should not override other existing classes', () => {
       const classList = Array.from(testPicker.classList);
       expect(classList).toContain('html-duration-picker');
-      expect(classList).toContain('other-styles');
+      expect(classList).toContain('other-class');
     });
   });
 
