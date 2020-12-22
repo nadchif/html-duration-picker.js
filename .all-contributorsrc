@@ -1,6 +1,6 @@
 {
   "files": [
-    "README.md"
+    "CONTRIBUTORS.md"
   ],
   "imageSize": 80,
   "commit": false,
@@ -9,7 +9,7 @@
       "login": "nadchif",
       "name": "Dan Chif",
       "avatar_url": "https://avatars0.githubusercontent.com/u/47924887?v=4",
-      "profile": "http://aboutchif.com",
+      "profile": "http://danielchif.dev",
       "contributions": [
         "code",
         "maintenance",
