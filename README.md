@@ -2,6 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/html-duration-picker?color=f00)
 ![Push Basic Tests](https://github.com/nadchif/html-duration-picker.js/workflows/Push%20Basic%20Tests/badge.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0985f9e73d5b488a9f55401e471170ec)](https://www.codacy.com/gh/nadchif/html-duration-picker.js/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nadchif/html-duration-picker.js&amp;utm_campaign=Badge_Grade)
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/)
 [<img src="https://img.shields.io/badge/slack-ossenthusiasts-maroon.svg?logo=slack">](https://join.slack.com/t/ossenthusiasts/shared_invite/zt-kfefjyas-uQyS65QWQV5IAjT86vr8Tg)
 
