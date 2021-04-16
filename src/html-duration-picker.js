@@ -365,7 +365,7 @@ export default (function () {
       const style = document.createElement('style');
       head.appendChild(style);
       style.styleSheet
-        ? style.styleSheet.cssText = pickerStyles // IE8 and below.
+        ? (style.styleSheet.cssText = pickerStyles) // IE8 and below.
         : style.appendChild(document.createTextNode(pickerStyles));
     }
 
@@ -418,7 +418,8 @@ export default (function () {
       scrollDownBtn.setAttribute('class', 'scrollStyle');
       scrollDownBtn.setAttribute(
         'style',
-        `height:${picker.offsetHeight / 2 - 1}px !important; top: ${picker.offsetHeight / 2 - 1
+        `height:${picker.offsetHeight / 2 - 1}px !important; top: ${
+          picker.offsetHeight / 2 - 1
         }px;`,
       );
       scrollDownBtn.classList.add('scroll-down');
