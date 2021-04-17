@@ -115,6 +115,8 @@ export default (function () {
 
     const value = `${formattedHours}:${formattedMinutes}`;
 
+    // Don't use setValue method here because
+    // it breaks the arrow keys and arrow buttons control over the input
     inputBox.value = !shouldHideSeconds(inputBox)
       ? `${value}:${formattedSeconds}`
       : value;
@@ -152,6 +154,12 @@ export default (function () {
       adjustmentFactor = Number(picker.getAttribute('data-adjustment-mode'));
     }
     return adjustmentFactor;
+  };
+
+  const setValue = (inputBox, value) => {
+    // This is a "cross-browser" way to set the input value
+    // that doesn't cause the cursor jumping to the end of the input on Safari
+    inputBox.setAttribute('value', value);
   };
 
   // Change the time value;
@@ -226,14 +234,14 @@ export default (function () {
       ((hideSeconds && sectioned.length !== 2) ||
         (!hideSeconds && sectioned.length !== 3))
     ) {
-      event.target.value = event.target.dataset.duration; // fallback to data-duration value
+      setValue(event.target, event.target.dataset.duration); // fallback to data-duration value
       return;
     }
     if (!hideSeconds && sectioned.length !== 3) {
-      event.target.value = '00:00:00'; // fallback to default
+      setValue(event.target, '00:00:00'); // fallback to default
       return;
     } else if (hideSeconds && sectioned.length !== 2) {
-      event.target.value = '00:00'; // fallback to default
+      setValue(event.target, '00:00'); // fallback to default
       return;
     }
     if (isNaN(sectioned[0])) {
@@ -262,7 +270,7 @@ export default (function () {
       }
     }
 
-    event.target.value = sectioned.join(':');
+    setValue(event.target, sectioned.join(':'));
   };
 
   const insertWithConstraints = (event) => {
@@ -357,7 +365,7 @@ export default (function () {
       const style = document.createElement('style');
       head.appendChild(style);
       style.styleSheet
-        ? style.styleSheet.cssText = pickerStyles // IE8 and below.
+        ? (style.styleSheet.cssText = pickerStyles) // IE8 and below.
         : style.appendChild(document.createTextNode(pickerStyles));
     }
 
@@ -410,7 +418,8 @@ export default (function () {
       scrollDownBtn.setAttribute('class', 'scrollStyle');
       scrollDownBtn.setAttribute(
         'style',
-        `height:${picker.offsetHeight / 2 - 1}px !important; top: ${picker.offsetHeight / 2 - 1
+        `height:${picker.offsetHeight / 2 - 1}px !important; top: ${
+          picker.offsetHeight / 2 - 1
         }px;`,
       );
       scrollDownBtn.classList.add('scroll-down');
