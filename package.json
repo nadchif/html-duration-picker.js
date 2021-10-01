@@ -5,11 +5,11 @@
   "main": "dist/html-duration-picker.min.js",
   "types": "dist/html-duration-picker.min.d.ts",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --mode=production --progress --colors",
-    "build:dev": "./node_modules/.bin/webpack --mode=development --progress --colors",
-    "build:full": "./node_modules/.bin/webpack --mode=production  --env.target='ie' --progress --colors",
-    "dev": "./node_modules/.bin/webpack-dev-server --mode development --config webpack.config.js",
-    "dev:full": "./node_modules/.bin/webpack-dev-server --mode development --env.target='ie' --config webpack.config.js",
+    "build": "./node_modules/.bin/webpack --mode=production --progress",
+    "build:dev": "./node_modules/.bin/webpack --mode=development --progress",
+    "build:full": "./node_modules/.bin/webpack --mode=production  --env.target='ie' --progress",
+    "dev": "./node_modules/.bin/webpack serve --mode development --config webpack.config.js",
+    "dev:full": "./node_modules/.bin/webpack serve --mode development --env.target='ie' --config webpack.config.js",
     "test": "npm run-script test:eslint && npm run-script build:dev && npm run-script test:jasmine",
     "test:eslint": "./node_modules/.bin/eslint ./src/html-duration-picker.js",
     "test:jasmine": "./node_modules/.bin/jasmine",
@@ -45,7 +45,7 @@
     "path": "^0.12.7",
     "webpack": "^4.43.0",
     "webpack-auto-inject-version": "^1.2.2",
-    "webpack-cli": "^3.3.10",
+    "webpack-cli": "^4.0.1",
     "webpack-dev-server": "^3.11.0"
   }
 }
