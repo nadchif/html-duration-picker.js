@@ -265,7 +265,6 @@ export default (function () {
    */
   const durationToSeconds = (value) => {
     if (!isValidDurationFormat(value)) {
-      console.warn(`value '${value} is not a valid duration value`);
       return 0;
     }
     const sectioned = value.split(':');
