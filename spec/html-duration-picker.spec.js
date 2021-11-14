@@ -30,7 +30,7 @@ describe('Duration Picker', () => {
     it('should be less than 60', () => {
       expect(Number(sectioned[1])).toBeLessThan(60);
     });
-    it('should be more than 0', () => {
+    it('should be more than -1', () => {
       expect(Number(sectioned[1])).toBeGreaterThan(-1);
     });
   });
@@ -58,6 +58,70 @@ describe('Duration Picker', () => {
       testPicker.value = '00:90:00';
       testPicker.blur();
       expect(testPicker.value).toMatch('^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]$');
+    });
+  });
+
+  describe('default mode arrow buttons are clicked 2x', () => {
+    let testPicker;
+    beforeEach(() => {
+      const dom = new JSDOM(`
+      <html><body><input type="text">
+        <input type="text" class="html-duration-picker other-class" />
+        </body></html>
+      `);
+      global.document = dom.window.document;
+      global.window = dom.window;
+
+      testPicker = document.querySelector('.html-duration-picker');
+      HtmlDurationPicker.init();
+    });
+    const simulateEvent = (event, node) => {
+      const evt = document.createEvent('HTMLEvents');
+      evt.initEvent(event, false, true);
+      node.dispatchEvent(evt);
+    };
+    it('should increase hh to 2', () => {
+      testPicker.focus();
+      const controls = testPicker.nextSibling;
+      // 1
+      simulateEvent('mousedown', controls.childNodes[0]);
+      simulateEvent('mouseup', controls.childNodes[0]);
+      // 2
+      simulateEvent('mousedown', controls.childNodes[0]);
+      simulateEvent('mouseup', controls.childNodes[0]);
+      expect(testPicker.value).toEqual('02:00:00');
+    });
+  });
+
+  describe('data-hide-seconds mode arrow buttons are clicked 2x', () => {
+    let testPicker;
+    beforeEach(() => {
+      const dom = new JSDOM(`
+      <html><body><input type="text">
+        <input type="text" class="html-duration-picker other-class" data-hide-seconds="true" />
+        </body></html>
+      `);
+      global.document = dom.window.document;
+      global.window = dom.window;
+
+      testPicker = document.querySelector('.html-duration-picker');
+      HtmlDurationPicker.init();
+    });
+    const simulateEvent = (event, node) => {
+      const evt = document.createEvent('HTMLEvents');
+      evt.initEvent(event, false, true);
+      node.dispatchEvent(evt);
+    };
+    it('should increase hh to 2', () => {
+      testPicker.focus();
+      const controls = testPicker.nextSibling;
+      // 1
+      simulateEvent('mousedown', controls.childNodes[0]);
+      simulateEvent('mouseup', controls.childNodes[0]);
+      // 2
+      simulateEvent('mousedown', controls.childNodes[0]);
+      simulateEvent('mouseup', controls.childNodes[0]);
+      expect(testPicker.value).toEqual('02:00');
     });
   });
 

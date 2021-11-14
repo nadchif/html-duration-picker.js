@@ -264,7 +264,7 @@ export default (function () {
    * @return {Number}
    */
   const durationToSeconds = (value) => {
-    if (!isValidDurationFormat(value)) {
+    if (!(isValidDurationFormat(value) || isValidDurationFormat(value, true))) {
       return 0;
     }
     const sectioned = value.split(':');
