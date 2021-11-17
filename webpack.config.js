@@ -5,23 +5,34 @@ const path = require('path');
 const fs = require('fs');
 const CreateFileWebpack = require('create-file-webpack');
 
-const pickerStyles = fs.readFileSync(path.join(__dirname, 'src', 'style.css')).toString().replace(/\n/gi, ''); // load styles.css
+const pickerStyles = fs
+  .readFileSync(path.join(__dirname, 'src', 'style.css'))
+  .toString()
+  .replace(/\n/gi, ''); // load styles.css
 
 module.exports = (env, args) => {
-  const browserTarget = env && env.target == 'ie' ? {
-    'targets': {
-      'chrome': '58',
-      'ie': '9',
-    },
-    'useBuiltIns': 'usage',
-  } : {};
+  const browserTarget =
+    env && env.target == 'ie'
+      ? {
+          targets: {
+            chrome: '58',
+            ie: '9',
+          },
+          useBuiltIns: 'usage',
+        }
+      : {};
 
   return {
     context: __dirname,
+
     entry: './src/html-duration-picker.js',
     output: {
-      path: args.mode == 'development' ? path.resolve(__dirname, 'src/compiled') : path.resolve(__dirname, 'dist'),
-      filename: args.mode == 'development' ? 'html-duration-picker.js' : 'html-duration-picker.min.js',
+      path:
+        args.mode == 'development'
+          ? path.resolve(__dirname, 'src/compiled')
+          : path.resolve(__dirname, 'dist'),
+      filename:
+        args.mode == 'development' ? 'html-duration-picker.js' : 'html-duration-picker.min.js',
       library: 'HtmlDurationPicker',
       libraryTarget: 'umd',
       libraryExport: 'default',
@@ -34,6 +45,9 @@ module.exports = (env, args) => {
       port: 9000,
       open: true,
       watchContentBase: true,
+      // public: require('os').hostname().toLowerCase() + ':9000',
+      disableHostCheck: true,
+      host: '127.0.0.1',
     },
     module: {
       rules: [
@@ -44,15 +58,11 @@ module.exports = (env, args) => {
             loader: 'babel-loader',
             options: {
               plugins: ['babel-plugin-remove-template-literals-whitespace'],
-              presets: [
-                [
-                  '@babel/preset-env',
-                  browserTarget,
-                ],
-              ],
+              presets: [['@babel/preset-env', browserTarget]],
             },
           },
-        }],
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({

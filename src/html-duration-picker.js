@@ -29,17 +29,17 @@ export default (function () {
    * Get current cursor selection
    * @param {Event} event
    * @param {Boolean} hideSeconds - should this picker show seconds or not
-   * @return {{cursorSelection: 'hours' | 'minutes' | 'seconds', hideSeconds: Boolean, hourMarker: Number, minuteMarker: Number}}
+   * @return {{cursorSelection: 'hours' | 'minutes' | 'seconds',
+   *  hideSeconds: Boolean, hourMarker: Number, minuteMarker: Number, content: String}}
    */
 
   const getCursorSelection = (event, hideSeconds) => {
     const {
-      target: {selectionStart, value},
+      target: {selectionStart, selectionEnd, value},
     } = event;
     const hourMarker = value.indexOf(':');
     const minuteMarker = value.lastIndexOf(':');
     let cursorSelection;
-
     // The cursor selection is: hours
     if (selectionStart <= hourMarker) {
       cursorSelection = 'hours';
@@ -50,7 +50,8 @@ export default (function () {
       // The cursor selection is: seconds
       cursorSelection = 'seconds';
     }
-    return {cursorSelection, hideSeconds, hourMarker, minuteMarker};
+    const content = value.slice(selectionStart, selectionEnd);
+    return {cursorSelection, hideSeconds, hourMarker, minuteMarker, content};
   };
 
   /**
@@ -62,13 +63,36 @@ export default (function () {
     inputBox.setAttribute('data-adjustment-factor', adjustmentFactor);
   };
 
+  const handleInputFocus = (event) => {
+    // get input selection
+    const inputBox = event.target;
+    const {maxDuration} = getMinMaxConstraints(inputBox);
+    const maxHourInput = Math.floor(maxDuration / 3600);
+    const charsForHours = maxHourInput < 1 ? 0 : maxHourInput.toString().length;
+
+    /* this is for firefox and safari, when you focus using tab key, both selectionStart
+    and selectionEnd are 0, so manually trigger hour seleciton. */
+    if (
+      (event.target.selectionEnd == 0 && event.target.selectionStart == 0) ||
+      event.target.selectionEnd - event.target.selectionStart > charsForHours ||
+      charsForHours == 0
+    ) {
+      setTimeout(() => {
+        console.log('set selection');
+        inputBox.focus();
+        inputBox.select();
+        highlightTimeUnitArea(inputBox, 3600);
+      }, 1);
+    }
+  };
   /**
    * Gets the position of the cursor after a click event, then matches to
    * time interval (hh or mm or ss) and selects (highlights) the entire block
    * @param {Event} event - focus/click event
    * @return {void}
    */
-  const focusFullTimeUnitArea = (event) => {
+  const handleClickFocus = (event) => {
+    console.log('focued...');
     const inputBox = event.target;
     const hideSeconds = shouldHideSeconds(inputBox);
     // Gets the cursor position and select the nearest time interval
@@ -78,10 +102,12 @@ export default (function () {
     if (!cursorSelection) {
       return;
     }
+
     const cursorAdjustmentFactor = hideSeconds ? 3 : 0;
     switch (cursorSelection) {
       case 'hours':
         updateActiveAdjustmentFactor(inputBox, 3600);
+        console.log('update', hourMarker);
         event.target.setSelectionRange(0, hourMarker);
         return;
       case 'minutes':
@@ -125,7 +151,7 @@ export default (function () {
   };
 
   // Inserts a formatted value into the input box
-  const insertFormatted = (inputBox, secondsValue) => {
+  const insertFormatted = (inputBox, secondsValue, dispatchSyntheticEvents) => {
     const hours = Math.floor(secondsValue / 3600);
     secondsValue %= 3600;
     const minutes = Math.floor(secondsValue / 60);
@@ -133,14 +159,23 @@ export default (function () {
     const formattedHours = String(hours).padStart(2, '0');
     const formattedMinutes = String(minutes).padStart(2, '0');
     const formattedSeconds = String(seconds).padStart(2, '0');
+
     const value = `${formattedHours}:${formattedMinutes}`;
+    const existingValue = inputBox.value;
+    const formattedValue = !shouldHideSeconds(inputBox) ? `${value}:${formattedSeconds}` : value;
 
     // Don't use setValue method here because
     // it breaks the arrow keys and arrow buttons control over the input
-    inputBox.value = !shouldHideSeconds(inputBox) ? `${value}:${formattedSeconds}` : value;
+    inputBox.value = formattedValue;
 
     // manually trigger an "input" event for other event listeners
-    inputBox.dispatchEvent(createEvent('input'));
+    if (dispatchSyntheticEvents !== false) {
+      if (existingValue != formattedValue) {
+        console.log('fire change');
+        inputBox.dispatchEvent(createEvent('change', {bubbles: true, cancelable: true}));
+      }
+      inputBox.dispatchEvent(createEvent('input'));
+    }
   };
 
   /**
@@ -149,24 +184,23 @@ export default (function () {
    * @param {3600 |60 | 1} adjustmentFactor
    * @param {Boolean} forceInputFocus
    */
-  const highlightTimeUnitArea = (inputBox, adjustmentFactor, forceInputFocus = true) => {
+  const highlightTimeUnitArea = (inputBox, adjustmentFactor) => {
+    console.log('highlight...', adjustmentFactor);
     const hourMarker = inputBox.value.indexOf(':');
     const minuteMarker = inputBox.value.lastIndexOf(':');
     const hideSeconds = shouldHideSeconds(inputBox);
-    if (forceInputFocus) {
-      inputBox.focus();
-      inputBox.select();
-    }
-
+    const sectioned = inputBox.value.split(':');
     if (adjustmentFactor >= 60 * 60) {
       inputBox.selectionStart = 0; // hours mode
       inputBox.selectionEnd = hourMarker;
     } else if (!hideSeconds && adjustmentFactor < 60) {
       inputBox.selectionStart = minuteMarker + 1; // seconds mode
-      inputBox.selectionEnd = minuteMarker + 3;
+      inputBox.selectionEnd = minuteMarker + 1 + sectioned[2].length;
+      // inputBox.selectionEnd = minuteMarker + 3;
     } else {
       inputBox.selectionStart = hourMarker + 1; // minutes mode
-      inputBox.selectionEnd = hourMarker + 3;
+      inputBox.selectionEnd = hourMarker + 1 + sectioned[1].length;
+      // inputBox.selectionEnd = hourMarker + 3;
       adjustmentFactor = 60;
     }
 
@@ -191,6 +225,8 @@ export default (function () {
   const setValue = (inputBox, value) => {
     // This is a "cross-browser" way to set the input value
     // that doesn't cause the cursor jumping to the end of the input on Safari
+    console.log('setting...', value);
+    // inputBox.value = value;
     inputBox.setAttribute('value', value);
   };
 
@@ -202,6 +238,7 @@ export default (function () {
   const changeValueByArrowKeys = (inputBox, direction) => {
     const adjustmentFactor = getAdjustmentFactor(inputBox);
     let secondsValue = durationToSeconds(inputBox.value);
+
     switch (direction) {
       case 'up':
         secondsValue += adjustmentFactor;
@@ -214,7 +251,7 @@ export default (function () {
         break;
     }
     const constrainedValue = applyMinMaxConstraints(inputBox, secondsValue);
-    insertFormatted(inputBox, constrainedValue);
+    insertFormatted(inputBox, constrainedValue, false);
   };
 
   /**
@@ -226,10 +263,10 @@ export default (function () {
     const adjustmentFactor = getAdjustmentFactor(inputBox);
     switch (direction) {
       case 'left':
-        highlightTimeUnitArea(inputBox, adjustmentFactor * 60);
+        highlightTimeUnitArea(inputBox, adjustmentFactor < 3600 ? adjustmentFactor * 60 : 3600);
         break;
       case 'right':
-        highlightTimeUnitArea(inputBox, adjustmentFactor / 60);
+        highlightTimeUnitArea(inputBox, adjustmentFactor > 60 ? adjustmentFactor / 60 : 1);
         break;
       default:
     }
@@ -239,10 +276,18 @@ export default (function () {
    * Checks if a given string value is in valid duration format
    * @param {String} value
    * @param {Boolean} hideSeconds
+   * @param {Boolean} strictMode if set to false, time like 3:3:59 will be considered valid
    * @return {Boolean}
    */
-  const isValidDurationFormat = (value, hideSeconds) => {
-    const pattern = hideSeconds ? '^[0-9]{2,3}:[0-5][0-9]$' : '^[0-9]{2,3}:[0-5][0-9]:[0-5][0-9]$';
+  const isValidDurationFormat = (value, hideSeconds, strictMode) => {
+    let pattern;
+    if (strictMode === false) {
+      pattern = hideSeconds
+        ? '^[0-9]{1,9}:(([0-5][0-9]|[0-5]))$'
+        : '^[0-9]{1,9}:(([0-5][0-9]|[0-5])):(([0-5][0-9]|[0-5]))$';
+    } else {
+      pattern = hideSeconds ? '^[0-9]{1,9}:[0-5][0-9]$' : '^[0-9]{1,9}:[0-5][0-9]:[0-5][0-9]$';
+    }
     const regex = RegExp(pattern);
     return regex.test(value);
   };
@@ -264,14 +309,19 @@ export default (function () {
    * @return {Number}
    */
   const durationToSeconds = (value) => {
-    if (!(isValidDurationFormat(value) || isValidDurationFormat(value, true))) {
+    if (!/:/.test(value)) {
+      console.warn(`valid duration format? ${value}`);
       return 0;
     }
     const sectioned = value.split(':');
     if (sectioned.length < 2) {
       return 0;
     } else {
-      return Number(sectioned[2] || 0) + Number(sectioned[1] * 60) + Number(sectioned[0] * 60 * 60);
+      return (
+        Number(sectioned[2] ? (sectioned[2] > 59 ? 59 : sectioned[2]) : 0) +
+        Number((sectioned[1] > 59 ? 59 : sectioned[1]) * 60) +
+        Number(sectioned[0] * 60 * 60)
+      );
     }
   };
 
@@ -280,59 +330,123 @@ export default (function () {
    * @param {*} event
    * @return {void}
    */
+
   const handleUserInput = (event) => {
     const inputBox = event.target;
+    const sectioned = inputBox.value.split(':');
     const hideSeconds = shouldHideSeconds(inputBox);
     const {cursorSelection} = getCursorSelection(event, hideSeconds);
-    const sectioned = inputBox.value.split(':');
+    console.log('inpt');
+    if (sectioned.length < 2) {
+      const constrainedValue = applyMinMaxConstraints(inputBox, getInitialDuration(inputBox));
+      insertFormatted(inputBox, constrainedValue, false);
+      return;
+    }
 
-    if (
-      inputBox.dataset.duration &&
-      isValidDurationFormat(inputBox.dataset.duration, hideSeconds) &&
-      ((hideSeconds && sectioned.length !== 2) || (!hideSeconds && sectioned.length !== 3))
-    ) {
-      setValue(inputBox, inputBox.dataset.duration); // fallback to data-duration value
-      return;
-    }
-    if (!hideSeconds && sectioned.length !== 3) {
-      setValue(inputBox, '00:00:00'); // fallback to default
-      return;
-    } else if (hideSeconds && sectioned.length !== 2) {
-      setValue(inputBox, '00:00'); // fallback to default
-      return;
-    }
-    if (isNaN(sectioned[0])) {
-      sectioned[0] = '00';
-    }
-    if (isNaN(sectioned[1]) || sectioned[1] < 0) {
-      sectioned[1] = '00';
-    }
-    if (sectioned[1] > 59 || sectioned[1].length > 2) {
-      sectioned[1] = '59';
-    }
-    if (
-      !hideSeconds &&
-      sectioned[1].length === 2 &&
-      sectioned[1].slice(-1) === event.key &&
-      cursorSelection === 'minutes'
-    ) {
-      shiftTimeUnitAreaFocus(inputBox, 'right');
-    }
-    if (!hideSeconds) {
+    const {maxDuration} = getMinMaxConstraints(inputBox);
+    const maxHourInput = Math.floor(maxDuration / 3600);
+    const charsForHours = maxHourInput < 1 ? 0 : maxHourInput.toString().length;
+
+    let mustUpdateValue = false; // mark as true if any validations fail, then update once at the end
+    // MODE :  seconds hidden
+    if (hideSeconds) {
+      // if the input does not have a single ":" or is like "01:02:03:04:05", then reset the input
+      if (!hideSeconds && sectioned.length !== 2) {
+        setValue(inputBox, '00:00'); // fallback to default
+        return;
+      }
+      // if hour (hh) input is not a number or negative set it to 0
+      if (isNaN(sectioned[0])) {
+        sectioned[0] = '00';
+        mustUpdateValue = true;
+      }
+      // if hour (mm) input is not a number or negative set it to 0
+      if (isNaN(sectioned[1]) || sectioned[1] < 0) {
+        sectioned[1] = '00';
+        mustUpdateValue = true;
+      }
+      // if minutes (mm) more than 59, set it to 59
+      if (sectioned[1] > 59 || sectioned[1].length > 2) {
+        sectioned[1] = '59';
+        mustUpdateValue = true;
+      }
+      if (mustUpdateValue) {
+        inputBox.value = sectioned.join(':');
+      }
+
+      // done entering hours, so shift highlight to minutes
+      if (
+        (charsForHours < 1 && cursorSelection === 'hours') ||
+        (sectioned[0].length >= charsForHours && cursorSelection === 'hours')
+      ) {
+        if (charsForHours < 1) {
+          sectioned[0] = '00';
+        }
+        shiftTimeUnitAreaFocus(inputBox, 'right');
+      }
+      // done entering minutes, so just highlight minutes
+      if (sectioned[1].length >= 2 && cursorSelection === 'minutes') {
+        highlightTimeUnitArea(inputBox, 60);
+      }
+
+      // MODE :  Default (seconds not hidden)
+    } else {
+      // if the input does not have 2 ":" or is like "01:02:03:04:05", then reset the input
+      if (!hideSeconds && sectioned.length !== 3) {
+        setValue(inputBox, '00:00:00'); // fallback to default
+        return;
+      }
+      // if hour (hh) input is not a number or negative set it to 0
+      if (isNaN(sectioned[0])) {
+        sectioned[0] = '00';
+        mustUpdateValue = true;
+      }
+      // if minutes (mm) input is not a number or negative set it to 0
+      if (isNaN(sectioned[1]) || sectioned[1] < 0) {
+        sectioned[1] = '00';
+        mustUpdateValue = true;
+      }
+      // if minutes (mm) more than 59, set it to 59
+      if (sectioned[1] > 59 || sectioned[1].length > 2) {
+        sectioned[1] = '59';
+        mustUpdateValue = true;
+      }
+      // if seconds(ss) input is not a number or negative set it to 0
       if (isNaN(sectioned[2]) || sectioned[2] < 0) {
         sectioned[2] = '00';
+        mustUpdateValue = true;
       }
+      // if seconds (ss) more than 59, set it to 59
       if (sectioned[2] > 59 || sectioned[2].length > 2) {
         sectioned[2] = '59';
+        mustUpdateValue = true;
+      }
+      if (mustUpdateValue) {
+        inputBox.value = sectioned.join(':');
+      }
+      // done entering hours, so shift highlight to minutes
+      if (
+        (charsForHours < 1 && cursorSelection === 'hours') ||
+        (sectioned[0].length >= charsForHours && cursorSelection === 'hours')
+      ) {
+        if (charsForHours < 1) {
+          sectioned[0] = '00';
+        }
+        shiftTimeUnitAreaFocus(inputBox, 'right');
+      }
+
+      // done entering minutes, so shift highlight to seconds
+      if (sectioned[1].length >= 2 && cursorSelection === 'minutes') {
+        shiftTimeUnitAreaFocus(inputBox, 'right');
+      }
+      // done entering seconds, just highlight seconds
+      if (sectioned[2].length >= 2 && cursorSelection === 'seconds') {
+        highlightTimeUnitArea(inputBox, 1);
       }
     }
-
-    setValue(inputBox, sectioned.join(':'));
-    const adjustmentFactor = getAdjustmentFactor(inputBox);
-    highlightTimeUnitArea(inputBox, adjustmentFactor);
   };
 
-  const insertWithConstraints = (event) => {
+  const insertAndApplyValidations = (event) => {
     const inputBox = event.target;
     const duration = inputBox.value || inputBox.dataset.duration;
     const secondsValue = durationToSeconds(duration);
@@ -347,14 +461,18 @@ export default (function () {
    */
   const handleKeydown = (event) => {
     const changeValueKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter'];
+    const adjustmentFactor = getAdjustmentFactor(event.target);
+
     if (changeValueKeys.includes(event.key)) {
       switch (event.key) {
         // use up and down arrow keys to increase value;
         case 'ArrowDown':
           changeValueByArrowKeys(event.target, 'down');
+          highlightTimeUnitArea(event.target, adjustmentFactor);
           break;
         case 'ArrowUp':
           changeValueByArrowKeys(event.target, 'up');
+          highlightTimeUnitArea(event.target, adjustmentFactor);
           break;
         // use left and right arrow keys to shift focus;
         case 'ArrowLeft':
@@ -364,7 +482,7 @@ export default (function () {
           shiftTimeUnitAreaFocus(event.target, 'right');
           break;
         case 'Enter':
-          insertWithConstraints(event);
+          insertAndApplyValidations(event);
           event.target.blur();
           break;
         default:
@@ -374,15 +492,17 @@ export default (function () {
 
     // Allow tab to change selection and escape the input
     if (event.key === 'Tab') {
-      const preAdjustmentFactor = getAdjustmentFactor(event.target);
-      const rightAdjustValue = shouldHideSeconds(event.target) ? 3600 : 60;
+      const adjustmentFactor = getAdjustmentFactor(event.target);
+      const rightAdjustValue = shouldHideSeconds(event.target) ? 60 : 1;
       const direction = event.shiftKey ? 'left' : 'right';
-      shiftTimeUnitAreaFocus(event.target, direction);
       if (
-        (direction === 'left' && preAdjustmentFactor < 3600) ||
-        (direction === 'right' && preAdjustmentFactor >= rightAdjustValue)
+        (direction === 'left' && adjustmentFactor < 3600) ||
+        (direction === 'right' && adjustmentFactor > rightAdjustValue)
       ) {
+        /* while the adjustment factor is less than 3600, prevent default shift+tab behavior,
+        and move within the inputbox from mm to hh */
         event.preventDefault();
+        shiftTimeUnitAreaFocus(event.target, direction);
       }
     }
 
@@ -392,16 +512,46 @@ export default (function () {
       event.preventDefault();
       return false;
     }
+    console.log('yy');
+    // additional validations:
+    const inputBox = event.target;
+    const hideSeconds = shouldHideSeconds(inputBox);
+    // Gets the cursor position and select the nearest time interval
+    const {cursorSelection, content} = getCursorSelection(event, hideSeconds);
+    const sectioned = event.target.value.split(':');
+    const {maxDuration} = getMinMaxConstraints(inputBox);
+    const maxHourInput = Math.floor(maxDuration / 3600);
+    const charsForHours = maxHourInput < 1 ? 0 : maxHourInput.toString().length;
+    if (
+      (cursorSelection === 'hours' && content.length >= charsForHours) ||
+      sectioned[0].length < charsForHours
+    ) {
+      if (content.length > charsForHours && charsForHours > 0) {
+        event.preventDefault();
+      }
+    } else if ((cursorSelection === 'minutes' && content.length === 2) || sectioned[1].length < 2) {
+      if (content.length >= 2 && ['6', '7', '8', '9'].includes(event.key)) {
+        event.preventDefault();
+      }
+    } else if ((cursorSelection === 'seconds' && content.length === 2) || sectioned[2].length < 2) {
+      if (content.length >= 2 && ['6', '7', '8', '9'].includes(event.key)) {
+        event.preventDefault();
+      }
+    } else {
+      event.preventDefault();
+    }
   };
 
   const getDurationAttributeValue = (inputBox, name, defaultValue) => {
     const value = inputBox.dataset[name];
-    if (isValidDurationFormat(value, shouldHideSeconds(inputBox))) {
+    if (value && isValidDurationFormat(value, shouldHideSeconds(inputBox))) {
       return durationToSeconds(value);
     } else {
       return defaultValue;
     }
   };
+
+  const cancelDefaultEvent = (event) => event.preventDefault();
 
   /**
    * Gets the min and max constraints of a picker
@@ -410,7 +560,11 @@ export default (function () {
    */
   const getMinMaxConstraints = (inputBox) => {
     const minDuration = getDurationAttributeValue(inputBox, 'durationMin', 0);
-    const maxDuration = getDurationAttributeValue(inputBox, 'durationMax', Infinity);
+    const maxDuration = getDurationAttributeValue(
+      inputBox,
+      'durationMax',
+      99 * 3600 + 59 * 60 + 59,
+    ); // by default 99:99:99 is now new max
     return {
       minDuration,
       maxDuration,
@@ -463,6 +617,12 @@ export default (function () {
           totalInputBoxWidth = currentInputBoxWidth;
         }
         inputBox.setAttribute('data-upgraded', true);
+        inputBox.setAttribute('data-adjustment-factor', 3600);
+        const hideSeconds = shouldHideSeconds(inputBox);
+        inputBox.setAttribute(
+          'pattern',
+          hideSeconds ? '^[0-9]{1,9}:[0-5][0-9]$' : '^[0-9]{1,9}:[0-5][0-9]:[0-5][0-9]$',
+        );
         if (
           !inputBox.value ||
           !isValidDurationFormat(inputBox.value, shouldHideSeconds(inputBox))
@@ -472,12 +632,16 @@ export default (function () {
 
         inputBox.setAttribute('aria-label', 'Duration Picker');
         inputBox.addEventListener('keydown', handleKeydown);
-        inputBox.addEventListener('focus', focusFullTimeUnitArea); // selects a block of hours, minutes etc
-        inputBox.addEventListener('mouseup', focusFullTimeUnitArea); // selects a block of hours, minutes etc
-        inputBox.addEventListener('change', handleUserInput);
-        inputBox.addEventListener('blur', insertWithConstraints);
-        inputBox.addEventListener('keyup', handleUserInput);
-        inputBox.addEventListener('drop', (event) => event.preventDefault());
+        // selects a block of hours, minutes etc (useful when focused by keyboard: Tab)
+        inputBox.addEventListener('focus', handleInputFocus);
+        // selects a block of hours, minutes etc (useful when clicked on PC or tapped on mobile)
+        inputBox.addEventListener('mouseup', handleClickFocus);
+        inputBox.addEventListener('change', insertAndApplyValidations);
+        // prefer 'input' event over 'keyup' for soft keyboards on mobile
+        inputBox.addEventListener('input', handleUserInput);
+        // inputBox.addEventListener('blur', (e) => console.log('blured'));
+
+        inputBox.addEventListener('drop', cancelDefaultEvent);
 
         // Create the up and down buttons
         const scrollUpBtn = document.createElement('button');
@@ -520,7 +684,6 @@ export default (function () {
         scrollDownBtn.appendChild(caretDown);
         scrollUpBtn.appendChild(caretUp);
 
-        // Add event listeners to buttons
         scrollButtons.forEach((btn) => {
           let intervalId;
           btn.addEventListener('mousedown', (event) => {
@@ -550,6 +713,8 @@ export default (function () {
           if (btn === scrollUpBtn) {
             btn.addEventListener('keydown', (event) => {
               if (event.key === 'Tab' && event.shiftKey) {
+                inputBox.focus();
+                inputBox.select();
                 highlightTimeUnitArea(inputBox, 1);
                 event.preventDefault();
               }
