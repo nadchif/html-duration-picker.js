@@ -12,33 +12,60 @@
     <title>DEV - html-duration-picker.js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"
+        crossorigin="anonymous">
+    <script>
+        const fakeSubmit = form => {
+            const formData = new FormData(document.querySelector('form'))
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            return false;
+        }
+    </script>
 
 <body style="padding:20px">
     <h2>Development Live Preview MODE</h2>
-    <hr>
-    Regular Input box <br><code>&#x3C;input type=&#x22;text&#x22;&#x3E;</code><br>
-    <input type="text">
-    <br><br>
-    Duration Input box <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
-    <input type="text" class="html-duration-picker">
+    <form onsubmit="return fakeSubmit(this)">
+        <hr>
+        Regular Input box <br><code>&#x3C;input type=&#x22;text&#x22;&#x3E;</code><br>
+        <input type="text" name="input1">
+        <br><br>
+        Duration Input box
+        <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
+        <input type="text" id="first_picker" name="picker1" class="html-duration-picker">
+        <br> <br><button type="submit">Test Submit</button>
+    </form>
+
+    <br>
+    Duration Input box with constraints. Max 200:00:00<br>
+    <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;html-duration-picker&#x22;  data-duration-max=&#x22;200:00:00&#x22; &#x3E;</code>
+    <br> <input type="text" class="html-duration-picker" data-duration-max="200:00:00">
     <br>
     <br>
     Duration Input box with constraints. Max 00:31:05, min 00:30:00<br>
     <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;html-duration-picker&#x22; data-duration=&#x22;00:29:50&#x22; data-duration-min=&#x22;00:30:10&#x22; data-duration-max=&#x22;00:31:05&#x22; &#x3E;</code>
+
     <br>
-    <input type="text" class="html-duration-picker" data-duration="00:29:50" data-duration-min="00:30:10" data-duration-max="00:31:05">
-    <br>  <br>
+
+
+    <input type="text" class="html-duration-picker" data-duration="00:29:50" data-duration-min="00:30:10"
+        data-duration-max="00:31:05">
+    <br>
+    <br>
+
     <div class="row">
         <div class="col-12">
-                Bootstrap Input box <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;form-control&#x22;&#x3E;</code><br>
+            Bootstrap Input box
+            <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;form-control&#x22;&#x3E;</code><br>
         </div>
         <div class="col-md-2">
-                <input type="text" class="form-control"><br>
+            <input type="text" class="form-control"><br>
         </div>
 
         <div class="col-12">
-                Bootstrap Duration Input box <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;form-control  html-duration-picker&#x22; &#x3E;</code><br>
+            Bootstrap Duration Input box
+            <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;form-control  html-duration-picker&#x22; &#x3E;</code><br>
         </div>
         <div class="col-md-2">
             <input type="text" class="form-control html-duration-picker">
@@ -49,29 +76,40 @@
 
     Sized Input box <br><code>&#x3C;input type=&#x22;text&#x22;  size=&#x22;12&#x22; &#x3E;</code><br>
     <input type="text" size="12"><br>
-    Sized Duration Input box  <br><code>&#x3C;input type=&#x22;text&#x22;  size=&#x22;12&#x22; html-duration-picker&#x3E;</code><br>
+    Sized Duration Input box
+    <br><code>&#x3C;input type=&#x22;text&#x22;  size=&#x22;12&#x22; html-duration-picker&#x3E;</code><br>
     <input type="text" class="html-duration-picker" size="12">
     <br>
 
-    Sized Duration Input box  <br><code>&#x3C;input type=&#x22;text&#x22; data-hide-seconds size=&#x22;12&#x22; html-duration-picker&#x3E;</code><br>
+    Sized Duration Input box
+    <br><code>&#x3C;input type=&#x22;text&#x22; data-hide-seconds size=&#x22;12&#x22; html-duration-picker&#x3E;</code><br>
     <input type="text" class="html-duration-picker" data-hide-seconds size="12">
     <br>
 
 
     <br><br>
-    Duration Input with Invalid Value <br><code>&#x3C;input type=&#x22;text&#x22;  value=&#x22;abcd&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
+    Duration Input with Invalid Value
+    <br><code>&#x3C;input type=&#x22;text&#x22;  value=&#x22;abcd&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
     <input type="text" value="abcd" class="html-duration-picker">
 
 
     <br><br>
-    Duration Input with valid Value <br><code>&#x3C;input type=&#x22;text&#x22;  value=&#x22;00:12:34&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
+    Duration Input with valid Value
+    <br><code>&#x3C;input type=&#x22;text&#x22;  value=&#x22;00:12:34&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
     <input type="text" value="00:12:34" class="html-duration-picker">
 
     <br><br>
-    Duration Input with valid Value and data duration <br><code>&#x3C;input type=&#x22;text&#x22;  data-duration=&#x22;56:43:21&#x22;  value=&#x22;00:12:34&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
-    <input type="text" value="00:12:34" data-duration="56:43:21"  class="html-duration-picker">
+    Duration Input with valid Value and data duration
+    <br><code>&#x3C;input type=&#x22;text&#x22;  data-duration=&#x22;56:43:21&#x22;  value=&#x22;00:12:34&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
+    <input type="text" value="00:12:34" data-duration="56:43:21" class="html-duration-picker">
+    <script>
 
-  <script src="html-duration-picker.js"></script>
+        const demoBox = document.getElementById('first_picker');
+        demoBox.addEventListener('change', e => console.log('changed', e))
+        demoBox.addEventListener('input', e => console.log('input', e))
+    </script>
+    <script src="html-duration-picker.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/html-duration-picker@2.2.13/dist/html-duration-picker.min.js"></script> -->
 </body>
 
 </html>
