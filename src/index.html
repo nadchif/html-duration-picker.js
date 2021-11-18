@@ -14,17 +14,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"
         crossorigin="anonymous">
+    <script>
+        const fakeSubmit = form => {
+            const formData = new FormData(document.querySelector('form'))
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            return false;
+        }
+    </script>
 
 <body style="padding:20px">
     <h2>Development Live Preview MODE</h2>
-    <form>
+    <form onsubmit="return fakeSubmit(this)">
         <hr>
         Regular Input box <br><code>&#x3C;input type=&#x22;text&#x22;&#x3E;</code><br>
-        <input type="text">
+        <input type="text" name="input1">
         <br><br>
         Duration Input box
         <br><code>&#x3C;input type=&#x22;text&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
-        <input type="text" id="first_picker" class="html-duration-picker">
+        <input type="text" id="first_picker" name="picker1" class="html-duration-picker">
         <br> <br><button type="submit">Test Submit</button>
     </form>
 
@@ -94,6 +103,7 @@
     <br><code>&#x3C;input type=&#x22;text&#x22;  data-duration=&#x22;56:43:21&#x22;  value=&#x22;00:12:34&#x22; class=&#x22;html-duration-picker&#x22; &#x3E;</code><br>
     <input type="text" value="00:12:34" data-duration="56:43:21" class="html-duration-picker">
     <script>
+
         const demoBox = document.getElementById('first_picker');
         demoBox.addEventListener('change', e => console.log('changed', e))
         demoBox.addEventListener('input', e => console.log('input', e))

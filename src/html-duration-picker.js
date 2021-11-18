@@ -78,7 +78,6 @@ export default (function () {
       charsForHours == 0
     ) {
       setTimeout(() => {
-        console.log('set selection');
         inputBox.focus();
         inputBox.select();
         highlightTimeUnitArea(inputBox, 3600);
@@ -92,7 +91,6 @@ export default (function () {
    * @return {void}
    */
   const handleClickFocus = (event) => {
-    console.log('focued...');
     const inputBox = event.target;
     const hideSeconds = shouldHideSeconds(inputBox);
     // Gets the cursor position and select the nearest time interval
@@ -107,7 +105,6 @@ export default (function () {
     switch (cursorSelection) {
       case 'hours':
         updateActiveAdjustmentFactor(inputBox, 3600);
-        console.log('update', hourMarker);
         event.target.setSelectionRange(0, hourMarker);
         return;
       case 'minutes':
@@ -150,20 +147,16 @@ export default (function () {
     }
   };
 
-  // Inserts a formatted value into the input box
+  /**
+   *
+   * @param {*} inputBox
+   * @param {Number} secondsValue value in seconds
+   * @param {Boolean} dispatchSyntheticEvents whether to manually fire 'input' and 'change' event for other event listeners to get it
+   */
   const insertFormatted = (inputBox, secondsValue, dispatchSyntheticEvents) => {
-    const hours = Math.floor(secondsValue / 3600);
-    secondsValue %= 3600;
-    const minutes = Math.floor(secondsValue / 60);
-    const seconds = secondsValue % 60;
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
-
-    const value = `${formattedHours}:${formattedMinutes}`;
+    const hideSeconds = shouldHideSeconds(inputBox);
+    const formattedValue = secondsToDuration(secondsValue, hideSeconds);
     const existingValue = inputBox.value;
-    const formattedValue = !shouldHideSeconds(inputBox) ? `${value}:${formattedSeconds}` : value;
-
     // Don't use setValue method here because
     // it breaks the arrow keys and arrow buttons control over the input
     inputBox.value = formattedValue;
@@ -171,7 +164,6 @@ export default (function () {
     // manually trigger an "input" event for other event listeners
     if (dispatchSyntheticEvents !== false) {
       if (existingValue != formattedValue) {
-        console.log('fire change');
         inputBox.dispatchEvent(createEvent('change', {bubbles: true, cancelable: true}));
       }
       inputBox.dispatchEvent(createEvent('input'));
@@ -185,7 +177,6 @@ export default (function () {
    * @param {Boolean} forceInputFocus
    */
   const highlightTimeUnitArea = (inputBox, adjustmentFactor) => {
-    console.log('highlight...', adjustmentFactor);
     const hourMarker = inputBox.value.indexOf(':');
     const minuteMarker = inputBox.value.lastIndexOf(':');
     const hideSeconds = shouldHideSeconds(inputBox);
@@ -222,10 +213,10 @@ export default (function () {
    * @param {*} inputBox
    * @param {*} value
    */
+  // eslint-disable-next-line no-unused-vars
   const setValue = (inputBox, value) => {
     // This is a "cross-browser" way to set the input value
     // that doesn't cause the cursor jumping to the end of the input on Safari
-    console.log('setting...', value);
     // inputBox.value = value;
     inputBox.setAttribute('value', value);
   };
@@ -296,7 +287,8 @@ export default (function () {
    *  Applies a picker's min and max duration constraints to a given value
    * @param {*} inputBox
    * @param {Number} value in seconds
-   * @return {void}
+   * @param {{minDuration: string, maxDuration: string}} constraints
+   * @return {Number} number withing the min and max data attributes
    */
   const applyMinMaxConstraints = (inputBox, value) => {
     const {maxDuration, minDuration} = getMinMaxConstraints(inputBox);
@@ -304,13 +296,31 @@ export default (function () {
   };
 
   /**
+   * Converts seconds to a duration string
+   * @param {value} value
+   * @param {Boolean} hideSeconds
+   * @return {String}
+   */
+  const secondsToDuration = (value, hideSeconds) => {
+    let secondsValue = value;
+    const hours = Math.floor(secondsValue / 3600);
+    secondsValue %= 3600;
+    const minutes = Math.floor(secondsValue / 60);
+    const seconds = secondsValue % 60;
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+    return hideSeconds
+      ? `${formattedHours}:${formattedMinutes}`
+      : `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+  /**
    * Converts a given duration string to seconds
    * @param {String} value
    * @return {Number}
    */
   const durationToSeconds = (value) => {
     if (!/:/.test(value)) {
-      console.warn(`valid duration format? ${value}`);
       return 0;
     }
     const sectioned = value.split(':');
@@ -326,34 +336,22 @@ export default (function () {
   };
 
   /**
-   * Handles any user input attempts into a picker
-   * @param {*} event
-   * @return {void}
+   *
+   * @param {String} value
+   * @param {Boolean} hideSeconds
+   * @param {{minDuration: string, maxDuration: string}} constraints
+   * @return {false | String} return false if theres no need to validate, and a string of a modified value if the string neeeded validation
    */
-
-  const handleUserInput = (event) => {
-    const inputBox = event.target;
-    const sectioned = inputBox.value.split(':');
-    const hideSeconds = shouldHideSeconds(inputBox);
-    const {cursorSelection} = getCursorSelection(event, hideSeconds);
-    console.log('inpt');
+  const validateValue = (value, hideSeconds, constraints) => {
+    const sectioned = value.split(':');
     if (sectioned.length < 2) {
-      const constrainedValue = applyMinMaxConstraints(inputBox, getInitialDuration(inputBox));
-      insertFormatted(inputBox, constrainedValue, false);
-      return;
+      return hideSeconds ? '00:00' : '00:00:00';
     }
-
-    const {maxDuration} = getMinMaxConstraints(inputBox);
-    const maxHourInput = Math.floor(maxDuration / 3600);
-    const charsForHours = maxHourInput < 1 ? 0 : maxHourInput.toString().length;
-
-    let mustUpdateValue = false; // mark as true if any validations fail, then update once at the end
-    // MODE :  seconds hidden
+    let mustUpdateValue;
     if (hideSeconds) {
       // if the input does not have a single ":" or is like "01:02:03:04:05", then reset the input
       if (!hideSeconds && sectioned.length !== 2) {
-        setValue(inputBox, '00:00'); // fallback to default
-        return;
+        return '00:00'; // fallback to default
       }
       // if hour (hh) input is not a number or negative set it to 0
       if (isNaN(sectioned[0])) {
@@ -371,30 +369,12 @@ export default (function () {
         mustUpdateValue = true;
       }
       if (mustUpdateValue) {
-        inputBox.value = sectioned.join(':');
+        return sectioned.join(':');
       }
-
-      // done entering hours, so shift highlight to minutes
-      if (
-        (charsForHours < 1 && cursorSelection === 'hours') ||
-        (sectioned[0].length >= charsForHours && cursorSelection === 'hours')
-      ) {
-        if (charsForHours < 1) {
-          sectioned[0] = '00';
-        }
-        shiftTimeUnitAreaFocus(inputBox, 'right');
-      }
-      // done entering minutes, so just highlight minutes
-      if (sectioned[1].length >= 2 && cursorSelection === 'minutes') {
-        highlightTimeUnitArea(inputBox, 60);
-      }
-
-      // MODE :  Default (seconds not hidden)
     } else {
       // if the input does not have 2 ":" or is like "01:02:03:04:05", then reset the input
       if (!hideSeconds && sectioned.length !== 3) {
-        setValue(inputBox, '00:00:00'); // fallback to default
-        return;
+        return '00:00:00'; // fallback to default
       }
       // if hour (hh) input is not a number or negative set it to 0
       if (isNaN(sectioned[0])) {
@@ -422,7 +402,92 @@ export default (function () {
         mustUpdateValue = true;
       }
       if (mustUpdateValue) {
-        inputBox.value = sectioned.join(':');
+        return sectioned.join(':');
+      }
+    }
+    return false;
+  };
+  /**
+   * Handles blur events on pickers, and applies validation only if necessary.
+   * @param {Event} event
+   * @return {void}
+   */
+  const handleInputBlur = (event) => {
+    const hideSeconds = shouldHideSeconds(event.target);
+    const mustUpdateValue = validateValue(event.target.value, hideSeconds);
+    if (mustUpdateValue !== false) {
+      const constrainedValue = applyMinMaxConstraints(
+        event.target,
+        durationToSeconds(mustUpdateValue),
+      );
+      event.target.value = secondsToDuration(constrainedValue);
+      return;
+    }
+    const constrainedValue = applyMinMaxConstraints(
+      event.target,
+      durationToSeconds(event.target.value),
+    );
+    if (event.target.value != secondsToDuration(constrainedValue)) {
+      event.target.value = secondsToDuration(constrainedValue);
+    }
+  };
+
+  /**
+   * Handles any user input attempts into a picker
+   * @param {Event} event
+   * @return {void}
+   */
+
+  const handleUserInput = (event) => {
+    const inputBox = event.target;
+    const sectioned = inputBox.value.split(':');
+    const hideSeconds = shouldHideSeconds(inputBox);
+    const {cursorSelection} = getCursorSelection(event, hideSeconds);
+    if (sectioned.length < 2) {
+      const constrainedValue = applyMinMaxConstraints(inputBox, getInitialDuration(inputBox));
+      insertFormatted(inputBox, constrainedValue, false);
+      return;
+    }
+
+    const {maxDuration} = getMinMaxConstraints(inputBox);
+    const maxHourInput = Math.floor(maxDuration / 3600);
+    const charsForHours = maxHourInput < 1 ? 0 : maxHourInput.toString().length;
+
+    // MODE :  seconds hidden
+    if (hideSeconds) {
+      const mustUpdateValue = validateValue(event.target.value, true);
+      if (mustUpdateValue !== false) {
+        const constrainedValue = applyMinMaxConstraints(
+          event.target,
+          durationToSeconds(mustUpdateValue),
+        );
+        insertFormatted(event.target, constrainedValue, false);
+      }
+      // done entering hours, so shift highlight to minutes
+      if (
+        (charsForHours < 1 && cursorSelection === 'hours') ||
+        (sectioned[0].length >= charsForHours && cursorSelection === 'hours')
+      ) {
+        if (charsForHours < 1) {
+          sectioned[0] = '00';
+        }
+        shiftTimeUnitAreaFocus(inputBox, 'right');
+      }
+      // done entering minutes, so just highlight minutes
+      if (sectioned[1].length >= 2 && cursorSelection === 'minutes') {
+        highlightTimeUnitArea(inputBox, 60);
+      }
+
+      // MODE :  Default (seconds not hidden)
+    } else {
+      const mustUpdateValue = validateValue(event.target.value, false);
+
+      if (mustUpdateValue !== false) {
+        const constrainedValue = applyMinMaxConstraints(
+          event.target,
+          durationToSeconds(mustUpdateValue),
+        );
+        insertFormatted(event.target, constrainedValue, false);
       }
       // done entering hours, so shift highlight to minutes
       if (
@@ -512,7 +577,6 @@ export default (function () {
       event.preventDefault();
       return false;
     }
-    console.log('yy');
     // additional validations:
     const inputBox = event.target;
     const hideSeconds = shouldHideSeconds(inputBox);
@@ -639,8 +703,7 @@ export default (function () {
         inputBox.addEventListener('change', insertAndApplyValidations);
         // prefer 'input' event over 'keyup' for soft keyboards on mobile
         inputBox.addEventListener('input', handleUserInput);
-        // inputBox.addEventListener('blur', (e) => console.log('blured'));
-
+        inputBox.addEventListener('blur', handleInputBlur);
         inputBox.addEventListener('drop', cancelDefaultEvent);
 
         // Create the up and down buttons
