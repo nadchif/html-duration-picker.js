@@ -13,6 +13,8 @@
     "test": "npm run-script test:eslint && npm run-script build:dev && npm run-script test:jasmine",
     "test:eslint": "./node_modules/.bin/eslint ./src/html-duration-picker.js",
     "test:jasmine": "./node_modules/.bin/jasmine",
+    "version:prerelease": "npm version --prerelease",
+    "version:release": "npm version --release-as patch",
     "deploy": "npm run-script build && npm publish"
   },
   "keywords": [
