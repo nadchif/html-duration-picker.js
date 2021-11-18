@@ -73,9 +73,9 @@ export default (function () {
     /* this is for firefox and safari, when you focus using tab key, both selectionStart
     and selectionEnd are 0, so manually trigger hour seleciton. */
     if (
-      (event.target.selectionEnd == 0 && event.target.selectionStart == 0) ||
+      (event.target.selectionEnd === 0 && event.target.selectionStart === 0) ||
       event.target.selectionEnd - event.target.selectionStart > charsForHours ||
-      charsForHours == 0
+      charsForHours === 0
     ) {
       setTimeout(() => {
         inputBox.focus();
