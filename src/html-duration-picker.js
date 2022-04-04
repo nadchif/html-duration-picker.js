@@ -427,8 +427,8 @@ export default (function () {
       event.target,
       durationToSeconds(event.target.value),
     );
-    if (event.target.value != secondsToDuration(constrainedValue)) {
-      event.target.value = secondsToDuration(constrainedValue);
+    if (event.target.value != secondsToDuration(constrainedValue, hideSeconds)) {
+      event.target.value = secondsToDuration(constrainedValue, hideSeconds);
     }
   };
 
