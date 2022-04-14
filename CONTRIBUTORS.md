@@ -1,7 +1,7 @@
 # Contributing - html-duration-picker
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Contributors ✨
@@ -43,6 +43,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://www.linkedin.com/in/aravindansakthivel"><img src="https://avatars1.githubusercontent.com/u/59511858?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Aravindan S</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=aravindsakthivel" title="Code">💻</a></td>
     <td align="center"><a href="https://twitter.com/vittoriuz/"><img src="https://avatars.githubusercontent.com/u/3304167?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Victor Zagorodny</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=vittorius" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/longtongj28"><img src="https://avatars.githubusercontent.com/u/42697600?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Johnson Tong</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=longtongj28" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/cmcgee0308"><img src="https://avatars.githubusercontent.com/u/99448395?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Chanel McGee</b></sub></a><br /><a href="https://github.com/nadchif/html-duration-picker.js/commits?author=cmcgee0308" title="Code">💻</a></td>
   </tr>
 </table>
 
