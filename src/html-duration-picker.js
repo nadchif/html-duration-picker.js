@@ -753,12 +753,15 @@ export default (function () {
           btn.addEventListener('mousedown', (event) => {
             event.target.style.transform = 'translateY(1px)';
             event.preventDefault();
+            const adjustmentFactor = getAdjustmentFactor(inputBox);
             if (btn == scrollUpBtn) {
               changeValueByArrowKeys(inputBox, 'up');
-              intervalId = setInterval(changeValueByArrowKeys, 200, inputBox, 'up');
+              highlightTimeUnitArea(inputBox, adjustmentFactor);
+              // intervalId = setInterval(changeValueByArrowKeys, 200, inputBox, 'up');
             } else {
               changeValueByArrowKeys(inputBox, 'down');
-              intervalId = setInterval(changeValueByArrowKeys, 200, inputBox, 'down');
+              highlightTimeUnitArea(inputBox, adjustmentFactor);
+              // intervalId = setInterval(changeValueByArrowKeys, 200, inputBox, 'down');
             }
           });
           // handle enter key to increase value, for better accessibility ux
