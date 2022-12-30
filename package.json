@@ -48,6 +48,6 @@
     "webpack": "^4.43.0",
     "webpack-auto-inject-version": "^1.2.2",
     "webpack-cli": "^4.0.1",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^4.11.1"
   }
 }
