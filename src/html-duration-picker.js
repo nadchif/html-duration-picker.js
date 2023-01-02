@@ -34,25 +34,21 @@ export default (function () {
    */
 
   const getCursorSelection = (event, hideSeconds) => {
-    const {
-      target: {selectionStart, selectionEnd, value},
-    } = event;
-    const hourMarker = value.indexOf(':');
-    const minuteMarker = value.lastIndexOf(':');
-    let cursorSelection;
-    // The cursor selection is: hours
-    if (selectionStart <= hourMarker) {
-      cursorSelection = 'hours';
-    } else if (hideSeconds || selectionStart <= minuteMarker) {
-      // The cursor selection is: minutes
-      cursorSelection = 'minutes';
-    } else if (!hideSeconds && selectionStart > minuteMarker) {
-      // The cursor selection is: seconds
-      cursorSelection = 'seconds';
-    }
-    const content = value.slice(selectionStart, selectionEnd);
-    return {cursorSelection, hideSeconds, hourMarker, minuteMarker, content};
-  };
+  const { selectionStart, selectionEnd, value } = event.target;
+  const hourMarker = value.indexOf(':');
+  const minuteMarker = value.lastIndexOf(':');
+  let cursorSelection;
+  if (selectionStart <= hourMarker) {
+    cursorSelection = 'hours';
+  } else if (hideSeconds || selectionStart <= minuteMarker) {
+    cursorSelection = 'minutes';
+  } else {
+    cursorSelection = 'seconds';
+  }
+  const content = value.slice(selectionStart, selectionEnd);
+  return { cursorSelection, hideSeconds, hourMarker, minuteMarker, content };
+};
+
 
   /**
    * Set the 'data-adjustment-factor' attribute for a picker
