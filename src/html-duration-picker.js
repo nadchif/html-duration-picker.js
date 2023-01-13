@@ -242,7 +242,7 @@ export default (function () {
         break;
     }
     const constrainedValue = applyMinMaxConstraints(inputBox, secondsValue);
-    insertFormatted(inputBox, constrainedValue, false);
+    insertFormatted(inputBox, constrainedValue);
   };
 
   /**
