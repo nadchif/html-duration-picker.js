@@ -1,9 +1,9 @@
 // webpack.config.js
 const webpack = require('webpack');
-const WebpackAutoInject = require('webpack-auto-inject-version');
 const path = require('path');
 const fs = require('fs');
 const CreateFileWebpack = require('create-file-webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const pickerStyles = fs
   .readFileSync(path.join(__dirname, 'src', 'style.css'))
@@ -24,8 +24,15 @@ module.exports = (env, args) => {
 
   return {
     context: __dirname,
-
     entry: './src/html-duration-picker.js',
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          extractComments: false,
+        }),
+      ],
+    },
     output: {
       path:
         args.mode == 'development'
@@ -36,17 +43,15 @@ module.exports = (env, args) => {
       library: 'HtmlDurationPicker',
       libraryTarget: 'umd',
       libraryExport: 'default',
-      // umdNamedDefine: true,
       globalObject: 'this',
     },
     devServer: {
-      contentBase: path.join(__dirname, 'src'),
+      static: path.join(__dirname, 'src'),
       compress: true,
       port: 9000,
       open: true,
-      watchContentBase: true,
-      // public: require('os').hostname().toLowerCase() + ':9000',
-      disableHostCheck: true,
+      hot: true,
+      allowedHosts: 'all',
       host: '127.0.0.1',
     },
     module: {
@@ -62,18 +67,21 @@ module.exports = (env, args) => {
             },
           },
         },
+        {
+          test: /\.js$/,
+          loader: 'string-replace-loader',
+          options: {
+            search: '__RELEASE_VERSION__',
+            replace: process.env.npm_package_version,
+            flags: 'g',
+          },
+        },
       ],
     },
     plugins: [
       new webpack.DefinePlugin({
         PICKER_STYLES_CSS_CONTENTS: JSON.stringify(pickerStyles),
-      }),
-      new WebpackAutoInject({
-        components: {
-          AutoIncreaseVersion: true,
-          InjectAsComment: false,
-          InjectByTag: true,
-        },
+        PICKER_RELEASE_VERSION: 'test ver',
       }),
       new CreateFileWebpack({
         path: './dist',
