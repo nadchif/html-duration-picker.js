@@ -236,6 +236,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "lukeshafer",
+      "name": "Luke Shafer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35978568?v=4",
+      "profile": "https://www.lukeshafer.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -243,5 +252,6 @@
   "projectOwner": "nadchif",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
