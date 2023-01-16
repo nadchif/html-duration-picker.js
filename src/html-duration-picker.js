@@ -242,7 +242,8 @@ export default (function () {
         break;
     }
     const constrainedValue = applyMinMaxConstraints(inputBox, secondsValue);
-    insertFormatted(inputBox, constrainedValue, false);
+    // Updating with arrow keys does not fire the change event, so we must fire it synthetically
+    insertFormatted(inputBox, constrainedValue, true);
   };
 
   /**
