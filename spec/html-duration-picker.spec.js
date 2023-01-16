@@ -80,7 +80,7 @@ describe('Duration Picker', () => {
       evt.initEvent(event, false, true);
       node.dispatchEvent(evt);
     };
-    it('should increase hh to 2', () => {
+    it('should increase ss to 2', () => {
       testPicker.focus();
       const controls = testPicker.nextSibling;
       // 1
@@ -89,7 +89,7 @@ describe('Duration Picker', () => {
       // 2
       simulateEvent('mousedown', controls.childNodes[0]);
       simulateEvent('mouseup', controls.childNodes[0]);
-      expect(testPicker.value).toEqual('02:00:00');
+      expect(testPicker.value).toEqual('00:00:02');
     });
   });
 
@@ -112,7 +112,7 @@ describe('Duration Picker', () => {
       evt.initEvent(event, false, true);
       node.dispatchEvent(evt);
     };
-    it('should increase hh to 2', () => {
+    it('should increase ss to 2', () => {
       testPicker.focus();
       const controls = testPicker.nextSibling;
       // 1
@@ -121,7 +121,7 @@ describe('Duration Picker', () => {
       // 2
       simulateEvent('mousedown', controls.childNodes[0]);
       simulateEvent('mouseup', controls.childNodes[0]);
-      expect(testPicker.value).toEqual('02:00');
+      expect(testPicker.value).toEqual('00:02');
     });
   });
 

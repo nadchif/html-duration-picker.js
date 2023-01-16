@@ -5,13 +5,13 @@
  * html-duration-picker.js
  *
  * @description Turn an html input box to a duration picker, without jQuery
- * @version [AIV]{version}[/AIV]
+ * @version __RELEASE_VERSION__
  * @author Chif <nadchif@gmail.com>
  * @license Apache-2.0
  *
  */
 
-export default (function () {
+ export default (function () {
   // IE9+ support forEach:
   if (window.NodeList && !window.NodeList.prototype.forEach) {
     NodeList.prototype.forEach = Array.prototype.forEach;
@@ -138,13 +138,13 @@ export default (function () {
    * @return {Event}
    */
   const createEvent = (type, option = {bubbles: false, cancelable: false}) => {
-    if (typeof Event === 'function') {
-      return new Event(type);
-    } else {
+    // if (typeof Event === 'function') {
+    //   return new Event(type, option);
+    // } else {
       const event = document.createEvent('Event');
       event.initEvent(type, option.bubbles, option.cancelable);
       return event;
-    }
+    // }
   };
 
   /**
@@ -152,14 +152,16 @@ export default (function () {
    * @param {*} inputBox
    * @param {Number} secondsValue value in seconds
    * @param {Boolean} dispatchSyntheticEvents whether to manually fire 'input' and 'change' event for other event listeners to get it
+   * @param {Number} adjustmentFactor the adjustment factor in seconds
    */
-  const insertFormatted = (inputBox, secondsValue, dispatchSyntheticEvents) => {
+  const insertFormatted = (inputBox, secondsValue, dispatchSyntheticEvents, adjustmentFactor = 1) => {
     const hideSeconds = shouldHideSeconds(inputBox);
     const formattedValue = secondsToDuration(secondsValue, hideSeconds);
     const existingValue = inputBox.value;
     // Don't use setValue method here because
     // it breaks the arrow keys and arrow buttons control over the input
     inputBox.value = formattedValue;
+    // save current cursor location for automatic increase
 
     // manually trigger an "input" event for other event listeners
     if (dispatchSyntheticEvents !== false) {
@@ -168,6 +170,9 @@ export default (function () {
       }
       inputBox.dispatchEvent(createEvent('input'));
     }
+    inputBox.setAttribute('data-adjustment-factor', adjustmentFactor);
+    console.log({adjustmentFactor});
+    highlightTimeUnitArea(inputBox, adjustmentFactor);
   };
 
   /**
@@ -242,7 +247,8 @@ export default (function () {
         break;
     }
     const constrainedValue = applyMinMaxConstraints(inputBox, secondsValue);
-    insertFormatted(inputBox, constrainedValue, false);
+    // Updating with arrow keys does not fire the change event, so we must fire it synthetically
+    insertFormatted(inputBox, constrainedValue, true, adjustmentFactor);
   };
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "html-duration-picker",
-  "version": "2.3.5",
+  "version": "2.4.0",
   "description": "Turn an html input box to a duration picker, without jQuery",
   "main": "dist/html-duration-picker.min.js",
   "types": "dist/html-duration-picker.min.d.ts",
@@ -29,13 +29,12 @@
     "type": "git",
     "url": "https://github.com/nadchif/html-duration-picker.js.git"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/plugin-transform-shorthand-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
     "babel-loader": "^8.1.0",
-    "babel-minify-webpack-plugin": "^0.3.1",
+    "babel-minify-webpack-plugin": "^0.0.0",
     "babel-plugin-remove-template-literals-whitespace": "^1.0.2",
     "create-file-webpack": "^1.0.2",
     "eslint": "^6.7.2",
@@ -45,9 +44,10 @@
     "jasmine-core": "^3.5.0",
     "jsdom": "^16.5.0",
     "path": "^0.12.7",
-    "webpack": "^4.43.0",
-    "webpack-auto-inject-version": "^1.2.2",
+    "string-replace-loader": "^3.1.0",
+    "terser-webpack-plugin": "^5.3.6",
+    "webpack": "^5.75.0",
     "webpack-cli": "^4.0.1",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^4.11.1"
   }
 }
