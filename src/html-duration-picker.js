@@ -183,6 +183,9 @@
     }
     inputBox.setAttribute('data-adjustment-factor', adjustmentFactor);
     console.log({adjustmentFactor});
+	if (inputBox.value === "") {
+		return;
+	}
     highlightTimeUnitArea(inputBox, adjustmentFactor);
   };
 
@@ -684,7 +687,6 @@
 
     // Select all of the input fields with the attribute "html-duration-picker"
     const getInputFields = document.querySelectorAll('input.html-duration-picker');
-	const clearButtons = document.querySelectorAll('.clearButton');
     getInputFields.forEach((inputBox, ix) => {
       // Set the default text and apply some basic styling to the duration picker
       if (!(inputBox.getAttribute('data-upgraded') == 'true')) {
@@ -733,7 +735,11 @@
         inputBox.addEventListener('blur', handleInputBlur);
         inputBox.addEventListener('drop', cancelDefaultEvent);
 
-		clearButtons[ix].addEventListener('click', () => handleClearInput(inputBox));
+		const clearButton = document.createElement('button');
+		clearButton.innerText = 'x';
+		clearButton.classList.add('clearButton');
+		clearButton.addEventListener('click', () => handleClearInput(inputBox));
+		inputBox.insertAdjacentElement('afterend', clearButton);
 
         // Create the up and down buttons
         const scrollUpBtn = document.createElement('button');
