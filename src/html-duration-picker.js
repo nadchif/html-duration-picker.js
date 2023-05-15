@@ -122,6 +122,11 @@
     }
   };
 
+  const handleClearInput = (inputBox) => {
+	inputBox.value = ""
+	inputBox.placeholder = shouldHideSeconds(inputBox) ? "--:--" : "--:--:--";
+  };
+
   /**
    * Get whether the picker passed must hide seconds
    * @param {*} inputBox
@@ -156,7 +161,13 @@
    */
   const insertFormatted = (inputBox, secondsValue, dispatchSyntheticEvents, adjustmentFactor = 1) => {
     const hideSeconds = shouldHideSeconds(inputBox);
-    const formattedValue = secondsToDuration(secondsValue, hideSeconds);
+
+    let formattedValue;
+	if (secondsValue === "") {
+		formattedValue = "";
+	} else {
+		formattedValue = secondsToDuration(secondsValue, hideSeconds);
+	}
     const existingValue = inputBox.value;
     // Don't use setValue method here because
     // it breaks the arrow keys and arrow buttons control over the input
@@ -182,6 +193,9 @@
    * @param {Boolean} forceInputFocus
    */
   const highlightTimeUnitArea = (inputBox, adjustmentFactor) => {
+	if (inputBox.value === "") {
+		return;
+	}
     const hourMarker = inputBox.value.indexOf(':');
     const minuteMarker = inputBox.value.lastIndexOf(':');
     const hideSeconds = shouldHideSeconds(inputBox);
@@ -426,7 +440,7 @@
         event.target,
         durationToSeconds(mustUpdateValue),
       );
-      event.target.value = secondsToDuration(constrainedValue);
+      event.target.value = secondsToDuration(constrainedValue, hideSeconds);
       return;
     }
     const constrainedValue = applyMinMaxConstraints(
@@ -531,7 +545,7 @@
    * @return {void}
    */
   const handleKeydown = (event) => {
-    const changeValueKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter'];
+    const changeValueKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter', "Backspace", "Delete"];
     const adjustmentFactor = getAdjustmentFactor(event.target);
 
     if (changeValueKeys.includes(event.key)) {
@@ -556,6 +570,9 @@
           insertAndApplyValidations(event);
           event.target.blur();
           break;
+/* 		case "Backspace":
+		case "Delete":
+			console.log(event.key) */
         default:
       }
       event.preventDefault();
@@ -642,6 +659,9 @@
   };
 
   const getInitialDuration = (inputBox) => {
+	if (inputBox.value === "") {
+		return "";
+	}
     const duration = getDurationAttributeValue(inputBox, 'duration', 0);
     const secondsValue = durationToSeconds(duration);
     return applyMinMaxConstraints(inputBox, secondsValue);
@@ -664,7 +684,8 @@
 
     // Select all of the input fields with the attribute "html-duration-picker"
     const getInputFields = document.querySelectorAll('input.html-duration-picker');
-    getInputFields.forEach((inputBox) => {
+	const clearButtons = document.querySelectorAll('.clearButton');
+    getInputFields.forEach((inputBox, ix) => {
       // Set the default text and apply some basic styling to the duration picker
       if (!(inputBox.getAttribute('data-upgraded') == 'true')) {
         const currentInputBoxStyle = inputBox.currentStyle || window.getComputedStyle(inputBox);
@@ -711,6 +732,8 @@
         inputBox.addEventListener('input', handleUserInput);
         inputBox.addEventListener('blur', handleInputBlur);
         inputBox.addEventListener('drop', cancelDefaultEvent);
+
+		clearButtons[ix].addEventListener('click', () => handleClearInput(inputBox));
 
         // Create the up and down buttons
         const scrollUpBtn = document.createElement('button');
