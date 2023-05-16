@@ -871,7 +871,7 @@
 
 		const clearButton = document.createElement('button');
 		clearButton.innerText = 'X';
-		clearButton.setAttribute('style', 'position:absolute; right:3px; border:none; top:50%; transform:translateY(-50%)');
+		clearButton.setAttribute('style', 'position:absolute; right:5px; border:none; top:50%; transform:translateY(-50%)');
 		clearButton.addEventListener('click', () => handleClearInput(inputBox));
 		controlWrapper.appendChild(clearButton);
       }
