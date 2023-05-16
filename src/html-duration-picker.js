@@ -123,7 +123,7 @@
   };
 
   const handleClearInput = (inputBox) => {
-	inputBox.value = ""
+	inputBox.value = "";
 	inputBox.placeholder = shouldHideSeconds(inputBox) ? "--:--" : "--:--:--";
   };
 
@@ -724,6 +724,7 @@
         }
 
         inputBox.setAttribute('aria-label', 'Duration Picker');
+		inputBox.setAttribute('style', 'color:#2A95D2;');
         inputBox.addEventListener('keydown', handleKeydown);
         // selects a block of hours, minutes etc (useful when focused by keyboard: Tab)
         inputBox.addEventListener('focus', handleInputFocus);
@@ -734,12 +735,6 @@
         inputBox.addEventListener('input', handleUserInput);
         inputBox.addEventListener('blur', handleInputBlur);
         inputBox.addEventListener('drop', cancelDefaultEvent);
-
-		const clearButton = document.createElement('button');
-		clearButton.innerText = 'x';
-		clearButton.classList.add('clearButton');
-		clearButton.addEventListener('click', () => handleClearInput(inputBox));
-		inputBox.insertAdjacentElement('afterend', clearButton);
 
         // Create the up and down buttons
         const scrollUpBtn = document.createElement('button');
@@ -849,7 +844,7 @@
         // set inline styles
         controlsDiv.setAttribute(
           'style',
-          `left: ${totalInputBoxWidth - 20}px;
+          `right: 45px;
         height:${inputBox.offsetHeight}px;`,
         );
 
@@ -873,6 +868,12 @@
         controlWrapper.appendChild(inputBox);
         // add the scrolling control buttons into the wrapper div
         controlWrapper.appendChild(controlsDiv);
+
+		const clearButton = document.createElement('button');
+		clearButton.innerText = 'X';
+		clearButton.setAttribute('style', 'position:absolute; right:3px; border:none; top:50%; transform:translateY(-50%)');
+		clearButton.addEventListener('click', () => handleClearInput(inputBox));
+		controlWrapper.appendChild(clearButton);
       }
     });
     return true;
