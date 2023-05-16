@@ -1,3 +1,5 @@
+
+
 .html-duration-picker-input-controls-wrapper .html-duration-picker {
   padding-right: 20px;
   box-sizing: border-box;
@@ -44,4 +46,8 @@
   background: transparent;
   padding: 0;
   box-sizing: border-box;
+}
+
+input.html-duration-picker::placeholder {
+	color: #2A95D2;
 }

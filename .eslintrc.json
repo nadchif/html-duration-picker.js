@@ -6,7 +6,9 @@
     // These rules are not compatible with Prettier.
     "indent": 0,
     "operator-linebreak": 0,
-    "space-before-function-paren": 0
+    "space-before-function-paren": 0,
+	"no-tabs": 0,
+	"quotes": "off"
   },
   "parserOptions": {
     "ecmaVersion": 2017,
