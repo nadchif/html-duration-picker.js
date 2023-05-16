@@ -1,11 +1,13 @@
-
+input {
+	font-family: monospace;
+}
 
 .html-duration-picker-input-controls-wrapper .html-duration-picker {
   padding-right: 20px;
   box-sizing: border-box;
   width: 100%;
   margin: 0;
-  cursor: text;
+  cursor: pointer;
 }
 
 .html-duration-picker-input-controls-wrapper .scroll-btn {
