@@ -165,6 +165,7 @@
     let formattedValue;
 	if (secondsValue === "") {
 		formattedValue = "";
+		inputBox.placeholder = shouldHideSeconds(inputBox) ? "--:--" : "--:--:--";
 	} else {
 		formattedValue = secondsToDuration(secondsValue, hideSeconds);
 	}
