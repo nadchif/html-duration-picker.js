@@ -643,8 +643,7 @@
 
   const getInitialDuration = (inputBox) => {
     const duration = getDurationAttributeValue(inputBox, 'duration', 0);
-    const secondsValue = durationToSeconds(duration);
-    return applyMinMaxConstraints(inputBox, secondsValue);
+    return applyMinMaxConstraints(inputBox, duration);
   };
   /**
    * Initialize all the pickers
