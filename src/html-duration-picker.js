@@ -171,7 +171,6 @@
       inputBox.dispatchEvent(createEvent('input'));
     }
     inputBox.setAttribute('data-adjustment-factor', adjustmentFactor);
-    console.log({adjustmentFactor});
     highlightTimeUnitArea(inputBox, adjustmentFactor);
   };
 
